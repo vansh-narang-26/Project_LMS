@@ -73,8 +73,8 @@ const AdminDashboard = () => {
                     },
                 }
             );
-          //  console.log([response.data]);
-            setRequests([response.data]);
+          console.log(response.data.message);
+            setRequests(response.data.message);
         } catch (error) {
             console.error("Error fetching requests:", error);
         }
@@ -90,7 +90,12 @@ const AdminDashboard = () => {
 
     const approveRequest = async (id) => {
         try {
-            await axios.post(`/api/requests/${id}/approve`);
+            await axios.put(`http://localhost:8000/api/admin/${id}/approve`,{},{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
             fetchRequests();
         } catch (error) {
             console.error("Error approving request:", error);
@@ -130,15 +135,15 @@ const AdminDashboard = () => {
             </ul>
 
             <h2>Manage Requests</h2>
-            {/* <ul>
+            <ul>
                 {requests.map((req, index) => (
                     <li key={index}>
-                        {req.user} requested {req.bookTitle}
-                        <button onClick={() => approveRequest(req.id)}>Approve</button>
-                        <button onClick={() => rejectRequest(req.id)}>Reject</button>
-                    </li>
+                        {req.reader_id} requested {req.book_id}
+                        <button onClick={() => approveRequest(req.req_id)}>Approve</button>
+                        <button onClick={() => rejectRequest(req.req_id)}>Reject</button>
+                    </li>   
                 ))}
-            </ul> */}
+            </ul>
         </div>
     );
 };

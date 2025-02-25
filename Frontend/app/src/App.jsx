@@ -6,8 +6,7 @@ import './App.css';
 import Navbar from "./Components/Navbar";
 import OwnerDashboard from "./Pages/OwnerDashboard";
 import AdminDashboard from "./Pages/AdminDashboard";
-// import AdminDashboard from './Pages/AdminDashboard';
-// import ReaderDashboard from './Pages/ReaderDashboard';
+import ReaderDashboard from './Pages/ReaderDashboard';
 
 function getRoleFromToken() {
   const token = localStorage.getItem("token");
@@ -22,7 +21,7 @@ function getRoleFromToken() {
   }
 }
 
-// 🔹 Logout Function
+//Logout Function
 function handleLogout(navigate) {
   localStorage.removeItem("token");
   navigate("/");
@@ -62,7 +61,7 @@ function App() {
           <Route path="/login" element={<Login />} />
           <Route path="/owner-dashboard" element={<OwnerDashboard />} />
           <Route path="/admin-dashboard" element={<AdminDashboard />} />
-          {/* <Route path="/reader-dashboard" element={<ReaderDashboard onLogout={handleLogout} />} /> */}
+          <Route path="/reader-dashboard" element={<ReaderDashboard />} />
 
           {/* <Route path="*" element={<Navigate to="/login" />} /> */}
         </Routes>

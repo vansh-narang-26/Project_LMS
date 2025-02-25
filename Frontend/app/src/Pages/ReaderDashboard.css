@@ -1,0 +1,32 @@
+.reader-dashboard {
+    display: flex;
+    flex-direction: column;
+}
+
+.button-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.search-container {
+    max-width: 800px;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap:12px;
+}
+
+.book-container{
+    display: flex;
+    flex-direction: column;
+}
+.book-list-container{
+    gap: 10px;
+    justify-content: start;
+    align-items: center;
+    display: flex;
+    max-width: 900px;
+}
+.issue-button{
+    max-width: 100px;
+}
