@@ -417,3 +417,49 @@ func GetAllBooks(c *gin.Context) {
 		"Books": getBooks,
 	})
 }
+func IssueInfo(c *gin.Context) {
+	readerID := c.Param("id")  //reader ke libID
+	email, _ := c.Get("email") //admin ki libId
+
+	//check all where admin Lib Id will be equal to reader LibId
+	var adminDetails models.User
+
+	if err := initializers.DB.Where("email=?", email).First(&adminDetails).Error; err != nil {
+		c.JSON(http.StatusAccepted, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	var readerDetails models.User
+	if err := initializers.DB.Where("id=?", readerID).First(&readerDetails).Error; err != nil {
+		c.JSON(http.StatusAccepted, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	adminLibId := adminDetails.LibID
+	readerLibId := readerDetails.LibID
+
+	if adminLibId != readerLibId {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Message": "Id not same so no registry to show for the reader by the admin",
+		})
+		return
+	}
+
+	var info []models.IssueRegistry
+
+	if err := initializers.DB.Where("reader_id=?", readerID).Find(&info).Error; err != nil {
+		c.JSON(http.StatusAccepted, gin.H{
+			"Message": "Coulnt find any issue registry",
+			"Error":   err.Error(),
+		})
+		return
+	}
+	c.JSON(http.StatusFound, gin.H{
+		"info": info,
+	})
+
+}
