@@ -39,8 +39,15 @@ const AdminDashboard = () => {
                 },
                 body: JSON.stringify(bookDetails)
             });
+            console.log(response.status)
+            if (response.status==400){
+                alert("failed to add book as it already exists")
+                return
+            }
             const data = await response.json();
+            console.log(data)
             alert("Book added successfully!");
+            fetchBooks()
         } catch (error) {
             console.error("Error adding book:", error);
             alert("Failed to add book");
@@ -81,7 +88,12 @@ const AdminDashboard = () => {
     };
     const removeBook = async (id) => {
         try {
-            await axios.delete(`/api/books/${id}`);
+            await axios.delete(`http://localhost:8000/api/admin/${id}`,{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
             fetchBooks();
         } catch (error) {
             console.error("Error removing book:", error);
@@ -129,7 +141,7 @@ const AdminDashboard = () => {
                 {books.map((book) => (
                     <li key={book.isbn}>
                         {book.title} by {book.authors} {book.version}
-                        {/* <button onClick={() => removeBook(book.id)}>Remove</button> */}
+                          <button onClick={() => removeBook(book.isbn)}>Remove</button>
                     </li>
                 ))}
             </ul>

@@ -131,6 +131,18 @@ func AddBook(c *gin.Context) {
 	c.JSON(http.StatusCreated, gin.H{"message": "Book added successfully", "book": newBook, "email": email})
 }
 func RemoveBook(c *gin.Context) {
+
+	// get the email of the admin logged in and check the book which needs to updated is from the same library
+	email, _ := c.Get("email")
+	var user models.User
+
+	if err := initializers.DB.Where("email=?", email).First(&user).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
 	isbn := c.Param("id")
 
 	var book models.BookInventory
@@ -138,6 +150,14 @@ func RemoveBook(c *gin.Context) {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
 		return
 	}
+	//check admin and bookid
+	if user.LibID != book.LibID {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Message": "Libraries are different",
+		})
+		return
+	}
+
 	if book.AvailableCopies <= 0 {
 		c.JSON(http.StatusBadRequest, gin.H{"error": "No available copies to remove."})
 		return
@@ -164,6 +184,19 @@ type UpdatorBook struct {
 }
 
 func UpdateBook(c *gin.Context) {
+
+	// get the email of the admin logged in and check the book which needs to updated is from the same library
+	email, _ := c.Get("email")
+	var user models.User
+
+	if err := initializers.DB.Where("email=?", email).First(&user).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+	userLibID := user.LibID
+
 	isbn := c.Param("id")
 	// fmt.Println(isbn)
 	var upBook UpdatorBook
@@ -176,6 +209,14 @@ func UpdateBook(c *gin.Context) {
 	var book models.BookInventory
 	if err := initializers.DB.Where("isbn = ?", isbn).First(&book).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{"error": "Book not found."})
+		return
+	}
+
+	//check admin and bookid
+	if userLibID != book.LibID {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Message": "Libraries are different",
+		})
 		return
 	}
 
@@ -405,7 +446,7 @@ func GetAllBooks(c *gin.Context) {
 
 	var getBooks []models.BookInventory
 
-	if err := initializers.DB.Where("lib_id=?", user.LibID).Find(&getBooks).Error; err != nil {
+	if err := initializers.DB.Where("lib_id=? AND available_copies > ?", user.LibID, 0).Find(&getBooks).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"Error":   err.Error(),
 			"Message": "Unable to fetch all books",
