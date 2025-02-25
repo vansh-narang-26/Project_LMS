@@ -12,7 +12,7 @@ const AdminDashboard = () => {
     const [version, setVersion] = useState("")
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-    const [updateisbn,setupdateisbn]=useState();
+    const [updateisbn, setupdateisbn] = useState();
     // const [newBook, setNewBook] = useState({ title: "", author: "", year: "" });
 
     const handleUpdateBook = (id) => {
@@ -188,7 +188,6 @@ const AdminDashboard = () => {
                         <h2>Update Book</h2>
                         {error && <p className="error">{error}</p>}
                         <form onSubmit={handleSubmission}>
-                            <label>Library Name:</label>
                             <input
                                 type="text"
                                 placeholder="Enter Title"
@@ -224,11 +223,15 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-            <ul>
+            <ul className="ul-list">
                 {books.map((book) => (
-                    <li key={book.isbn}>
-                        {book.title} by {book.authors} {book.version}
-                        <button onClick={()=>handleUpdateBook(book.isbn)}>Update</button>
+                    <li key={book.isbn} className="li-list">
+                        <div className="li-list-div">
+                            <p>Title {book.title} </p>
+                            <p>Author {book.authors}</p>
+                            <p>Version {book.version}</p>
+                        </div>
+                        <button onClick={() => handleUpdateBook(book.isbn)}>Update</button>
                         <button onClick={() => removeBook(book.isbn)}>Remove</button>
                     </li>
                 ))}

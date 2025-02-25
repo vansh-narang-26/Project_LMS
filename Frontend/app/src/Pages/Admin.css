@@ -69,3 +69,23 @@ button:hover {
 .request-list button:hover {
     background: #a71d2a;
 }
+
+.ul-list{
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    margin: 10px;
+    gap: 10px;
+}
+
+.li-list{
+    display: flex;
+    gap: 10px;
+    align-items: center;
+}
+
+.li-list-div{
+    gap: 10px;
+    display: flex;
+    flex-direction: row;
+}
