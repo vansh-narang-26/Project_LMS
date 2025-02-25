@@ -6,20 +6,23 @@ const AdminDashboard = () => {
     const [books, setBooks] = useState([]);
     const [requests, setRequests] = useState([]);
     const [showUpdatedModal, setShowUpdateModal] = useState(false);
-    const [title,setTitle]=useState("")
-    const [authors,setAuthors]=useState("")
-    const [publisher,setPublisher]=useState("")
-    const [version,setVersion]=useState("")
-      const [loading, setLoading] = useState(false);
-        const [error, setError] = useState("");
+    const [title, setTitle] = useState("")
+    const [authors, setAuthors] = useState("")
+    const [publisher, setPublisher] = useState("")
+    const [version, setVersion] = useState("")
+    const [loading, setLoading] = useState(false);
+    const [error, setError] = useState("");
+    const [updateisbn,setupdateisbn]=useState();
     // const [newBook, setNewBook] = useState({ title: "", author: "", year: "" });
 
-    const handleUpdateBook = () => {
+    const handleUpdateBook = (id) => {
+        setupdateisbn(id)
         setShowUpdateModal(true);
     };
     const closeUpdatedBook = () => {
         setShowUpdateModal(false);
         setError("");
+
     };
     useEffect(() => {
         fetchBooks();
@@ -142,18 +145,18 @@ const AdminDashboard = () => {
         setError("");
 
         try {
-            const response = await fetch(`http://localhost:8000/api/admin/21`, {
+            const response = await fetch(`http://localhost:8000/api/admin/${updateisbn}`, {
                 method: "PUT",
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`
                 },
                 // credentials: "include",
-                body: JSON.stringify({ title:title,authors:authors,publisher:publisher,version:Number(version) }),
+                body: JSON.stringify({ title: title, authors: authors, publisher: publisher, version: Number(version) }),
             });
 
             const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Failed to create library");
+            if (!response.ok) throw new Error(data.error || "Failed to update book");
 
             alert("Book updated successfully!");
             closeUpdatedBook();
@@ -182,7 +185,7 @@ const AdminDashboard = () => {
             {showUpdatedModal && (
                 <div className="modal">
                     <div className="modal-content">
-                        <h2>Create Library</h2>
+                        <h2>Update Book</h2>
                         {error && <p className="error">{error}</p>}
                         <form onSubmit={handleSubmission}>
                             <label>Library Name:</label>
@@ -193,14 +196,14 @@ const AdminDashboard = () => {
                                 onChange={(e) => setTitle(e.target.value)}
                                 required
                             />
-                             <input
+                            <input
                                 type="text"
                                 placeholder="Enter Author"
                                 value={authors}
                                 onChange={(e) => setAuthors(e.target.value)}
                                 required
                             />
-                             <input
+                            <input
                                 type="text"
                                 placeholder="Enter Publisher"
                                 value={publisher}
@@ -225,7 +228,7 @@ const AdminDashboard = () => {
                 {books.map((book) => (
                     <li key={book.isbn}>
                         {book.title} by {book.authors} {book.version}
-                        <button onClick={handleUpdateBook}>Update</button>
+                        <button onClick={()=>handleUpdateBook(book.isbn)}>Update</button>
                         <button onClick={() => removeBook(book.isbn)}>Remove</button>
                     </li>
                 ))}

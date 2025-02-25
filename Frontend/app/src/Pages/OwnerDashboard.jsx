@@ -1,9 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
+import {useNavigate} from "react-router-dom"
 import "./OwnerDashboard.css";
 
 const OwnerDashboard = () => {
-    // const navigate = useNavigate();
+    const navigate = useNavigate();
     const token = localStorage.getItem("token");
     // const cookie=Cookies.get("Authorization")
     // console.log(cookie)
@@ -62,6 +63,7 @@ const OwnerDashboard = () => {
 
             alert("Library created successfully!");
             closeLibraryModal();
+            navigate("/owner-dashboard")
         } catch (err) {
             setError(err.message);
         } finally {
@@ -94,6 +96,7 @@ const OwnerDashboard = () => {
 
             alert("Admin created successfully!");
             closeAdminModal();
+            
         } catch (err) {
             setError(err.message);
         } finally {
