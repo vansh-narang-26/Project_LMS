@@ -22,10 +22,10 @@ function getRoleFromToken() {
 }
 
 // 🔹 Logout Function
-// function handleLogout(navigate) {
-//   localStorage.removeItem("token"); // Remove token
-//   navigate("/login"); // Redirect to login
-// }
+function handleLogout(navigate) {
+  localStorage.removeItem("token"); 
+  navigate("/"); 
+}
 
 function AuthRedirect() {
   const navigate = useNavigate();
@@ -54,7 +54,7 @@ function App() {
   return (
     <>
     <BrowserRouter>
-    <Navbar/>
+    <Navbar onLogout={handleLogout} />
       <AuthRedirect />
       <Routes>
         <Route path="/" element={<RegisterPage/>} />

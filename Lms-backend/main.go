@@ -14,12 +14,13 @@ func main() {
 	initializers.ConnectDatabase()
 
 	router := gin.Default()
+	router.Use(cors.Default())
 	router.Use(cors.New(cors.Config{
 		AllowOrigins:     []string{"http://localhost:5173"},
 		AllowMethods:     []string{"GET", "POST", "PUT", "DELETE"},
 		AllowHeaders:     []string{"Origin", "Content-Type", "Authorization"},
 		ExposeHeaders:    []string{"Content-Length"},
-		AllowCredentials: true,
+		// AllowCredentials: true,
 		MaxAge:           12 * time.Hour,
 	}))
 
@@ -37,7 +38,7 @@ func main() {
 		{
 			library.POST("/create", controllers.CreateLibrary)
 			library.POST("/create-admin", controllers.CreateAdmin)
-			library.GET("/getlib",controllers.GetLib)
+			library.GET("/getlib", controllers.GetLib)
 		}
 
 		admin := protectedRoutes.Group("/admin")

@@ -138,6 +138,7 @@ func CreateAdmin(c *gin.Context) {
 }
 func GetLib(c *gin.Context) {
 	var libexist models.User
+	// libraries := []models.Library{}
 	email, _ := c.Get("email")
 
 	//now check for its existence of Libid of this owner
@@ -162,7 +163,6 @@ func GetLib(c *gin.Context) {
 		})
 		return
 	}
-	//lib exist
 	c.JSON(http.StatusOK, gin.H{
 		"library": library,
 	})

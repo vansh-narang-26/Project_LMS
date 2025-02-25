@@ -1,24 +1,32 @@
 import React from 'react'
 import "./Navbar.css"
-const Navbar = () => {
+import { useNavigate ,NavLink} from 'react-router-dom'
+const Navbar = ({ onLogout }) => {
+    const navigate = useNavigate()
+    const token = localStorage.getItem("token")
     return (
-            <nav className="navbar">
-                <div className="navbar-left">
-                    <a href="/" className="logo">
-                        Learning Managment System
-                    </a>
-                </div>
-                {/* <div className="navbar-center">
-                    <ul className="nav-links">
-                        <li>
-                            <a href="/login">Login</a>
-                        </li>
-                        <li>
-                            <a href="/logout">Logout</a>
-                        </li>
-                    </ul>
-                </div> */}
-            </nav>
+        <nav className="navbar">
+            <div className="navbar-left">
+                <a href="/" className="logo">
+                    Learning Managment System
+                </a>
+            </div>
+            <div className="navbar-center">
+                <ul className="nav-links">
+                    <li>
+                        {token ? (
+                            <button className="uppercase" onClick={()=>onLogout(navigate)}>
+                                Log out
+                            </button>
+                        ) : (
+                            <NavLink className="" to="/login">
+                                Log in
+                            </NavLink>
+                        )}
+                    </li>
+                </ul>
+            </div>
+        </nav>
     )
 }
 

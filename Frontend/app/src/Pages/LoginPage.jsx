@@ -1,9 +1,9 @@
-import React, { useState } from "react";
+import React, { StrictMode, useState } from "react";
 import axios from "axios";
 import "./LoginPage.css"
 import { Link, useNavigate } from "react-router-dom";
 
-const Login = ({role}) => {
+const Login = () => {
     // const navigate=useNavigate()
     // if (!role){
     //     navigate("/")
@@ -19,12 +19,14 @@ const Login = ({role}) => {
         setMessage("");
 
         try {
-            const response = await axios.post("http://localhost:8000/api/users/login", {
+            const response = await axios.post("http://localhost:8000/api/users/login", 
+            {
                 email,
-            }, { withCredentials: true });
+            },
+             );
 
             setMessage("Logged in successfully!");
-            console.log("Login response",response)
+            console.log("Login response", response)
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.role);
 

@@ -19,7 +19,7 @@ const OwnerDashboard = () => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
     const [libraryId, setLibraryId] = useState()
-    const [libraryData, setLibraryData] = useState({})
+    const [libraryData, setLibraryData] = useState([])
 
     const handleLibraryClick = () => {
         setShowLibraryModal(true);
@@ -53,8 +53,9 @@ const OwnerDashboard = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`
                 },
-                credentials: "include",
+                // credentials: "include",
                 body: JSON.stringify({ name: libraryName }),
             });
 
@@ -79,8 +80,10 @@ const OwnerDashboard = () => {
                 method: "POST",
                 headers: {
                     "Content-Type": "application/json",
+                    'Authorization': `Bearer ${token}`
+        
                 },
-                credentials: "include",
+                // credentials: "include",
                 body: JSON.stringify({
                     name: adminName,
                     email: adminEmail,
@@ -102,18 +105,23 @@ const OwnerDashboard = () => {
 
     useEffect(() => {
         fetchLibs()
-    },[])
+    }, [])
 
     async function fetchLibs() {
-         const response=await axios.get("http://localhost:8000/api/library/getlib", {
+        console.log(token)
+        const response = await axios.get("http://localhost:8000/api/library/getlib", {
             headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
             },
-            credentials: "include",
+            // credentials: "include",
         })
+     
+     
+        // console.log(response.data.library[0].id)
         console.log(response.data.library)
-            setLibraryId(response.data.library)
+        setLibraryId(response.data.library)
+        // console.log(libraryData)
         // const res=await fetch("http://localhost:8000/api/library/getlib",
         //     {
         //         method: "GET",
@@ -139,6 +147,7 @@ const OwnerDashboard = () => {
 
     return (
         <div className="owner-dashboard">
+            {/* {libraryId} */}
             <h1 className="dashboard-title">Owner Dashboard</h1>
             <div className="button-container">
                 {!libraryId && (<button className="create-library" onClick={handleLibraryClick}>Create Library</button>)}
@@ -206,13 +215,13 @@ const OwnerDashboard = () => {
             )}
             <div>
                 {/* to show library data */}
-                {/* {
-                    libraryData.map((index,lib)=>{
-                        return(
-                            <div>{lib.id}</div>
-                        )
-                    })
-                } */}
+                {
+                    libraryData.map((index, lib) => (
+                        <div key={index}>
+                            {lib.id}
+                        </div>
+                    ))
+                }
             </div>
         </div>
     );
