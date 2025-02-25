@@ -386,3 +386,34 @@ func RejectRequest(c *gin.Context) {
 	// })
 
 }
+
+func GetAllBooks(c *gin.Context) {
+	// var book models.BookInventory
+	adminID, _ := c.Get("id")
+	fmt.Println(adminID)
+
+	var user models.User
+
+	if err := initializers.DB.Where("ID=?", adminID).Find(&user).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error":   err.Error(),
+			"Message": "User not found",
+		})
+		return
+	}
+	// userLibId := user.LibID
+
+	var getBooks []models.BookInventory
+
+	if err := initializers.DB.Where("lib_id=?", user.LibID).Find(&getBooks).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error":   err.Error(),
+			"Message": "Unable to fetch all books",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"Books": getBooks,
+	})
+}

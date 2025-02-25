@@ -48,8 +48,16 @@ const AdminDashboard = () => {
     };
     const fetchBooks = async () => {
         try {
-            const response = await axios.get("/api/books");
-            setBooks(response.data);
+            const response = await axios.get("http://localhost:8000/api/admin/getBooks",
+                {
+                    headers:{
+                        "Content-Type":"application/json",
+                        "Authorization":`Beader ${token}`
+                    }
+                }
+            );
+            setBooks(response.data.Books);
+            console.log(response.data.Books)
         } catch (error) {
             console.error("Error fetching books:", error);
         }
@@ -65,7 +73,7 @@ const AdminDashboard = () => {
                     },
                 }
             );
-            console.log([response.data]);
+          //  console.log([response.data]);
             setRequests([response.data]);
         } catch (error) {
             console.error("Error fetching requests:", error);
@@ -99,7 +107,7 @@ const AdminDashboard = () => {
     };
 
     return (
-        <div>
+        <div className="admin-container">
             <h1>Admin Dashboard</h1>
 
             <h2>Admin Dashboard - Add Book</h2>
@@ -111,17 +119,18 @@ const AdminDashboard = () => {
                 <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
                 <button type="submit">Add Book</button>
             </form>
-            {/* <ul>
+            <h2>List Books</h2>
+            <ul>
                 {books.map((book) => (
-                    <li key={book.id}>
-                        {book.title} by {book.author} ({book.year})
-                        <button onClick={() => removeBook(book.id)}>Remove</button>
+                    <li key={book.isbn}>
+                        {book.title} by {book.authors} {book.version}
+                        {/* <button onClick={() => removeBook(book.id)}>Remove</button> */}
                     </li>
                 ))}
-            </ul> */}
+            </ul>
 
             <h2>Manage Requests</h2>
-            <ul>
+            {/* <ul>
                 {requests.map((req, index) => (
                     <li key={index}>
                         {req.user} requested {req.bookTitle}
@@ -129,7 +138,7 @@ const AdminDashboard = () => {
                         <button onClick={() => rejectRequest(req.id)}>Reject</button>
                     </li>
                 ))}
-            </ul>
+            </ul> */}
         </div>
     );
 };

@@ -1,8 +1,8 @@
 .admin-dashboard {
-    max-width: 800px;
-    margin: 0 auto;
+    max-width: 900px;
+    margin: auto;
     padding: 20px;
-    font-family: Arial, sans-serif;
+    text-align: center;
 }
 
 h1,

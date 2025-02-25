@@ -150,7 +150,7 @@ const OwnerDashboard = () => {
             <h1 className="dashboard-title">Owner Dashboard</h1>
             <div className="button-container">
                 {!libraryId && (<button className="create-library" onClick={handleLibraryClick}>Create Library</button>)}
-                <button className="create-admin" onClick={handleAdminClick}>Create Admin</button>
+                {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
                 {/* <button onClick={() => onLogout(navigate)}>Logout</button> */}
             </div>
 

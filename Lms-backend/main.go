@@ -49,6 +49,7 @@ func main() {
 			admin.GET("/list-requests", controllers.ListRequests)
 			admin.PUT("/:id/approve", controllers.ApproveRequest) //function to approve or reject issue request
 			admin.PUT("/:id/reject", controllers.RejectRequest)
+			admin.GET("/getBooks", controllers.GetAllBooks)
 		}
 		reader := protectedRoutes.Group("/reader")
 		reader.Use(middleware.ReaderOnly)
