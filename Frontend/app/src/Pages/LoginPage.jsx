@@ -1,4 +1,4 @@
-import React, { StrictMode, useState } from "react";
+import React, { useState } from "react";
 import axios from "axios";
 import "./LoginPage.css"
 import { Link, useNavigate } from "react-router-dom";
@@ -19,11 +19,11 @@ const Login = () => {
         setMessage("");
 
         try {
-            const response = await axios.post("http://localhost:8000/api/users/login", 
-            {
-                email,
-            },
-             );
+            const response = await axios.post("http://localhost:8000/api/users/login",
+                {
+                    email,
+                },
+            );
 
             setMessage("Logged in successfully!");
             console.log("Login response", response)

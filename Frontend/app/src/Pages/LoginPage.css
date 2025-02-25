@@ -1,0 +1,95 @@
+.login-container {
+    width: 100%;
+    max-width: 400px;
+    margin: 50px auto;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    text-align: center;
+    background-color: #fff;
+    color: black !important;
+}
+
+.input-group {
+    margin-bottom: 15px;
+    margin-right: 20px;
+    text-align: left;
+}
+
+.input-group label {
+    display: block;
+    font-weight: bold;
+    margin-bottom: 5px;
+    color: black;
+}
+
+input,
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+    background-color: #f9f9f9;
+    color: black !important;
+    transition: 0.3s ease-in-out;
+    cursor: pointer;
+}
+
+input::placeholder {
+    color: black !important;
+    opacity: 0.7;
+}
+
+input:focus,
+select:focus {
+    border-color: #28a745;
+    outline: none;
+    background-color: #fff;
+}
+
+select option {
+    background-color: #fff;
+    color: black !important;
+    font-size: 16px;
+    padding: 10px;
+}
+
+select option:hover {
+    background-color: #28a745;
+    color: white;
+}
+
+select option:disabled {
+    color: #aaa;
+    font-style: italic;
+}
+
+button {
+    width: 100%;
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: 0.3s ease-in-out;
+}
+
+button:hover {
+    background-color: #218838;
+}
+
+.error-message {
+    color: red;
+    font-size: 14px;
+    margin-top: 5px;
+}
+
+.success-message {
+    color: green;
+    font-size: 14px;
+    margin-top: 5px;
+}

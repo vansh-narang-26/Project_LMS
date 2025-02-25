@@ -5,6 +5,7 @@ import Login from './Pages/LoginPage';
 import './App.css';
 import Navbar from "./Components/Navbar";
 import OwnerDashboard from "./Pages/OwnerDashboard";
+import AdminDashboard from "./Pages/AdminDashboard";
 // import AdminDashboard from './Pages/AdminDashboard';
 // import ReaderDashboard from './Pages/ReaderDashboard';
 
@@ -23,8 +24,8 @@ function getRoleFromToken() {
 
 // 🔹 Logout Function
 function handleLogout(navigate) {
-  localStorage.removeItem("token"); 
-  navigate("/"); 
+  localStorage.removeItem("token");
+  navigate("/");
 }
 
 function AuthRedirect() {
@@ -42,7 +43,7 @@ function AuthRedirect() {
     } else if (userRole === "reader") {
       navigate("/reader-dashboard");
     }
-    else{
+    else {
       navigate("/")
     }
   }, []);
@@ -53,19 +54,19 @@ function AuthRedirect() {
 function App() {
   return (
     <>
-    <BrowserRouter>
-    <Navbar onLogout={handleLogout} />
-      <AuthRedirect />
-      <Routes>
-        <Route path="/" element={<RegisterPage/>} />
-        <Route path="/login" element={<Login/>} />
-        <Route path="/owner-dashboard" element={<OwnerDashboard/>} />
-        {/* <Route path="/admin-dashboard" element={<AdminDashboard onLogout={handleLogout} />} />
-        <Route path="/reader-dashboard" element={<ReaderDashboard onLogout={handleLogout} />} /> */}
+      <BrowserRouter>
+        <Navbar onLogout={handleLogout} />
+        <AuthRedirect />
+        <Routes>
+          <Route path="/" element={<RegisterPage />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/owner-dashboard" element={<OwnerDashboard />} />
+          <Route path="/admin-dashboard" element={<AdminDashboard />} />
+          {/* <Route path="/reader-dashboard" element={<ReaderDashboard onLogout={handleLogout} />} /> */}
 
-        {/* <Route path="*" element={<Navigate to="/login" />} /> */}
-      </Routes>
-    </BrowserRouter>
+          {/* <Route path="*" element={<Navigate to="/login" />} /> */}
+        </Routes>
+      </BrowserRouter>
     </>
   );
 }

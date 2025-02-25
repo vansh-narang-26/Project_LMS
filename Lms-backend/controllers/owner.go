@@ -159,7 +159,7 @@ func GetLib(c *gin.Context) {
 
 	if err := initializers.DB.Where("ID", libexist.LibID).First(&library).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
+			"message": "Library not found",
 		})
 		return
 	}

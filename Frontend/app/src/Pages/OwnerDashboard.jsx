@@ -1,8 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import Cookies from 'js-cookie'
-// import "./OwnerDashboard.css";
-import { useNavigate } from "react-router-dom";
+import "./OwnerDashboard.css";
 
 const OwnerDashboard = () => {
     // const navigate = useNavigate();
@@ -81,7 +79,7 @@ const OwnerDashboard = () => {
                 headers: {
                     "Content-Type": "application/json",
                     'Authorization': `Bearer ${token}`
-        
+
                 },
                 // credentials: "include",
                 body: JSON.stringify({
@@ -116,10 +114,11 @@ const OwnerDashboard = () => {
             },
             // credentials: "include",
         })
-     
-     
+
+
         // console.log(response.data.library[0].id)
-        console.log(response.data.library)
+        setLibraryData([response.data.library])
+        console.log([response.data.library])
         setLibraryId(response.data.library)
         // console.log(libraryData)
         // const res=await fetch("http://localhost:8000/api/library/getlib",
@@ -213,15 +212,13 @@ const OwnerDashboard = () => {
                     </div>
                 </div>
             )}
-            <div>
-                {/* to show library data */}
-                {
-                    libraryData.map((index, lib) => (
-                        <div key={index}>
-                            {lib.id}
-                        </div>
-                    ))
-                }
+            <div className="library-container">
+                {libraryData.map((lib, index) => (
+                    <div key={index} className="library-card">
+                        <h3>{lib.name}</h3>
+                        <p>ID: {lib.id}</p>
+                    </div>
+                ))}
             </div>
         </div>
     );
