@@ -1,26 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./RegisterPage.css";
 
 const API_URL = "http://localhost:8000/api/users/register";
+const LIBRARIES_API = "http://localhost:8000/api/getLib";
 
 const RegisterPage = () => {
     const [formData, setFormData] = useState({
         name: "",
         email: "",
         contact_no: "",
-        role: "", 
+        role: "",
+        lib_id: "",
     });
 
+    const [libraries, setLibraries] = useState([]);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
     const navigate = useNavigate();
+
+    useEffect(() => {
+        const fetchLibraries = async () => {
+            try {
+                const response = await axios.get(LIBRARIES_API);
+                console.log(response)
+                setLibraries(response.data.libraries);
+            } catch (err) {
+                console.error("Error fetching libraries:", err);
+            }
+        };
+
+        fetchLibraries();
+    }, []);
 
     const handleChange = (e) => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
+            [e.target.name]: e.target.name === 'lib_id' ?parseInt(e.target.value) : e.target.value
         });
     };
 
@@ -82,11 +100,11 @@ const RegisterPage = () => {
                         required
                     />
                 </div>
+
                 <div className="input-group">
                     <label>Role</label>
                     <select
                         name="role"
-                        placeholder="Enter your role"
                         value={formData.role}
                         onChange={handleChange}
                         required
@@ -96,8 +114,29 @@ const RegisterPage = () => {
                         <option value="reader">Reader</option>
                     </select>
                 </div>
+
+                {/* Showing Library only if role is "reader" */}
+                {formData.role === "reader" && (
+                    <div className="input-group">
+                        <label>Library</label>
+                        <select
+                            name="lib_id"
+                            value={formData.lib_id}
+                            onChange={handleChange}
+                            required
+                        >
+                            <option value="" disabled>Select a library</option>
+                            {libraries.map((library) => (
+                                <option key={library.id} value={library.id}>
+                                    {library.name}
+                                </option>
+                            ))}
+                        </select>
+                    </div>
+                )}
+
                 <button type="submit">Register</button>
-                <p>Already Have an account ? <Link to={"/login"}>Login</Link></p>
+                <p>Already have an account? <Link to={"/login"}>Login</Link></p>
             </form>
         </div>
     );

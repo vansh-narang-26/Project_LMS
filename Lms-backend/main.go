@@ -35,6 +35,7 @@ func main() {
 
 		publicRoutes.POST("/users/register", controllers.CreateUser)
 		publicRoutes.POST("/users/login", controllers.LoginUser)
+		publicRoutes.GET("/getLib", controllers.GetLibraries)
 	}
 	protectedRoutes := router.Group("/api")
 	protectedRoutes.Use(middleware.UserRetriveCookie)

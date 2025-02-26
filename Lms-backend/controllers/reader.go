@@ -87,3 +87,18 @@ func RaiseIssueRequest(c *gin.Context) {
 		"Email":   email,
 	})
 }
+
+func GetLibraries(c *gin.Context) {
+	var library []models.Library
+
+	if err := initializers.DB.Find(&library).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"libraries": library,
+	})
+}
