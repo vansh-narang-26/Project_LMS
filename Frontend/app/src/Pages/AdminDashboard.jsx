@@ -12,8 +12,21 @@ const AdminDashboard = () => {
     const [version, setVersion] = useState("")
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
+     const [showBookModal, setShowBookModal] = useState(false);
     const [updateisbn, setupdateisbn] = useState();
     // const [newBook, setNewBook] = useState({ title: "", author: "", year: "" });
+
+    const handleAddBookModal = () => {
+        setShowBookModal(true);
+    };
+
+    const closeAddBookModal = () => {
+        setShowBookModal(false);
+        // setAdminName("");
+        // setAdminEmail("");
+        // setAdminContact("");
+        // setError("");
+    };
 
     const handleUpdateBook = (id) => {
         setupdateisbn(id)
@@ -48,26 +61,35 @@ const AdminDashboard = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await fetch("http://localhost:8000/api/admin/add-book", {
-                method: "POST",
+            // const response = await fetch("http://localhost:8000/api/admin/add-book", {
+            //     method: "POST",
+            //     headers: {
+            //         "Content-Type": "application/json",
+            //         "Authorization": `Bearer ${token}`
+            //     },
+            //     body: JSON.stringify(bookDetails)
+            // });
+            const response = await axios.post("http://localhost:8000/api/admin/add-book",
+                bookDetails, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
                 },
-                body: JSON.stringify(bookDetails)
-            });
-            console.log(response.status)
-            if (response.status == 400) {
-                alert("failed to add book as it already exists")
-                return
             }
-            const data = await response.json();
-            console.log(data)
+
+            );
+            console.log(response.status)
+            // if (response.status == 400) {
+            //     alert("failed to add book as it already exists")
+            //     return
+            // }
+            console.log(response)
             alert("Book added successfully!");
+            closeAddBookModal()
             fetchBooks()
         } catch (error) {
-            console.error("Error adding book:", error);
-            alert("Failed to add book");
+            console.error("Error adding book:", error.response.data.error);
+            alert("Failed to add book", error);
         }
     };
     const fetchBooks = async () => {
@@ -113,7 +135,7 @@ const AdminDashboard = () => {
             });
             fetchBooks();
         } catch (error) {
-            console.error("Error removing book:", error);
+            console.error("Error removing book:", error.response.data.error);
         }
     };
 
@@ -170,17 +192,35 @@ const AdminDashboard = () => {
 
     return (
         <div className="admin-container">
-            <h1>Admin Dashboard</h1>
+            <h1>Welcome Admin</h1>
+            <button className="" onClick={handleAddBookModal}>Add Book</button>
+            {showBookModal && (
+                <div className="modal">
+                    <div className="modal-content">
+                        <h2>Create Library</h2>
+                        {error && <p className="error">{error}</p>}
+                        <form onSubmit={handleSubmit}>
+                            <input type="text" name="isbn" placeholder="ISBN" onChange={handleChange} required />
+                            <input type="text" name="title" placeholder="Title" onChange={handleChange} required />
+                            <input type="text" name="authors" placeholder="Authors" onChange={handleChange} required />
+                            <input type="text" name="publisher" placeholder="Publisher" onChange={handleChange} required />
+                            <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
+                            <button type="submit">Add Book</button>
+                            <button type="submit" onClick={closeAddBookModal}>Close</button>
+                        </form>
+                    </div>
+                </div>
+            )}
 
-            <h2>Admin Dashboard - Add Book</h2>
-            <form onSubmit={handleSubmit}>
+           
+            {/* <form onSubmit={handleSubmit}>
                 <input type="text" name="isbn" placeholder="ISBN" onChange={handleChange} required />
                 <input type="text" name="title" placeholder="Title" onChange={handleChange} required />
                 <input type="text" name="authors" placeholder="Authors" onChange={handleChange} required />
                 <input type="text" name="publisher" placeholder="Publisher" onChange={handleChange} required />
                 <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
                 <button type="submit">Add Book</button>
-            </form>
+            </form> */}
             <h2>List Books</h2>
             {showUpdatedModal && (
                 <div className="modal">
@@ -227,6 +267,7 @@ const AdminDashboard = () => {
                 {books.map((book) => (
                     <li key={book.isbn} className="li-list">
                         <div className="li-list-div">
+                            <p>Copies {book.total_copies}</p>
                             <p>Title {book.title} </p>
                             <p>Author {book.authors}</p>
                             <p>Version {book.version}</p>

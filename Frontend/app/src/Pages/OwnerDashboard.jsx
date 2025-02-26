@@ -1,7 +1,16 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
 import {redirect, useNavigate} from "react-router-dom"
+import toast, { Toaster } from 'react-hot-toast';
 import "./OwnerDashboard.css";
+
+// const notify = () => toast("Welcome to GeeksforGeeks");
+
+// const success = () =>
+//     toast.success("Successfully registered");
+
+// const error = () => toast.error("Oops! An error occurred.");
+
 
 const OwnerDashboard = () => {
   // const navigate = useNavigate();
@@ -62,11 +71,13 @@ const OwnerDashboard = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || "Failed to create library");
 
-            alert("Library created successfully!");
+            // alert("Library created successfully!");
+            toast.success("Library created successfully!");
             closeLibraryModal();
          //   navigate("/owner-dashboard")
          fetchLibs()
         } catch (err) {
+            toast.error(err.message)
             setError(err.message);
         } finally {
             setLoading(false);
@@ -89,18 +100,21 @@ const OwnerDashboard = () => {
                 body: JSON.stringify({
                     name: adminName,
                     email: adminEmail,
-                    contactNumber: adminContact,
+                    contact_no: adminContact,
                 }),
             });
 
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || "Failed to create admin");
 
-            alert("Admin created successfully!");
+            toast.success('Admin created Successfully!');
+          //  alert("Admin created successfully!");
             closeAdminModal();
+          
             // window.location.reload();
             getAdmins()
         } catch (err) {
+            toast.error(err.message)
             setError(err.message);
         } finally {
             setLoading(false);
@@ -165,7 +179,7 @@ const OwnerDashboard = () => {
             {/* {libraryId} */}
             <h1 className="dashboard-title1">Welcome Owner</h1>
             <h1 className="dashboard-title">Your Libraries</h1>
-            <div className="button-container">
+            <div className="button-container1">
                 {!libraryId && (<button className="create-library" onClick={handleLibraryClick}>Create Library</button>)}
                 {/* <button onClick={() => onLogout(navigate)}>Logout</button> */}
             </div>
@@ -233,21 +247,25 @@ const OwnerDashboard = () => {
                     <div key={index} className="library-card">
                         <p>Name: {lib.name}</p>
                         <p>ID: {lib.id}</p>
-                        <p>Has {admins.length} admins</p>
+                        <p>Has {admins.length} admin</p>
                         {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
                     </div>
                 ))}
             </div>     
             <h1 className="dashboard-title">Library Admins</h1>
-            <div className="admin-container">
+            <div className="admin-container1">
                 {admins.map((admin, index) => (
                     <div key={index} className="admin-card">
-                        <p>{admin.name}</p>
-                        <p>ID: {admin.id}</p>
-                        <p>Contact: {admin.id}</p>
+                        <p>Name: {admin.name}</p>
+                        <p>Email: {admin.email}</p>
+                        <p>Contact: {admin.contact_no}</p>
                     </div>
                 ))}
             </div>
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+            />
         </div>
     );
 };

@@ -2,7 +2,7 @@
     /* background-color: red; */
     max-width: 100%;
     margin: auto;
-    padding: 20px;
+    padding: 0px 20px;
     /* text-align: center; */
     display: flex;
     flex-direction: column;
@@ -18,7 +18,7 @@
     font-size:30px;
 }
 
-.button-container {
+.button-container1 {
     display: flex;
     justify-content: center;
     gap: 20px;
@@ -97,8 +97,8 @@ button:hover {
 }
 
 .library-card {
-    display: flex;
-    flex-direction: column;
+    /* display: flex;
+    flex-direction: column; */
     align-items: start;
     background: white;
     padding: 15px;
@@ -115,22 +115,34 @@ button:hover {
 } */
 
 .library-card p {
-    color: #555;
+    color: black;
 }
-.admin-container{
+.admin-container1{
+    margin: auto;
+    max-width: 100%;
     display: flex;
     flex-wrap:wrap;
     gap: 50px;
+    justify-content: start;
 }
+
 
 .admin-card{
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     gap: 10px;
     padding: 15px;
     background: white;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 250px;
-    text-align: center;
+    align-items: start;
+}
+.admin-card p{
+    font-weight: bold;
+    color: black;
+}
+
+.library-card p{
+    font-weight: bold;
 }

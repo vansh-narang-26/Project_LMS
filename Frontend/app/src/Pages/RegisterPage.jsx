@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
+import toast, { Toaster } from 'react-hot-toast';
 import "./RegisterPage.css";
 
 const API_URL = "http://localhost:8000/api/users/register";
@@ -50,6 +51,7 @@ const RegisterPage = () => {
         try {
             const response = await axios.post(API_URL, formData);
             console.log("Registration Success:", response.data);
+            toast.success("Registration Successful")
             setSuccess(true);
             setTimeout(() => navigate("/login"), 2000); // Redirect after 2 sec
         } catch (err) {
@@ -138,6 +140,10 @@ const RegisterPage = () => {
                 <button type="submit">Register</button>
                 <p>Already have an account? <Link to={"/login"}>Login</Link></p>
             </form>
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+            />
         </div>
     );
 };

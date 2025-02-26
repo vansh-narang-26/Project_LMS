@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import axios from "axios";
 import "./LoginPage.css"
+import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const navigate=useNavigate()
+    const navigate = useNavigate()
     // if (!role){
     //     navigate("/")
     // }
@@ -28,6 +29,7 @@ const Login = () => {
             );
 
             setMessage("Logged in successfully!");
+            toast.success("Logged in successfully")
             console.log("Login response", response)
             setSuccess(true);
             localStorage.setItem("token", response.data.token);
@@ -35,14 +37,17 @@ const Login = () => {
 
             // Redirect based on role (optional)
             if (response.data.role === "admin") {
-            setTimeout(() => navigate("/admin-dashboard"), 2000);
-              //  window.location.href = "/admin-dashboard";
+                setTimeout(() => navigate("/admin-dashboard"), 2000);
+                //  window.location.href = "/admin-dashboard";
             } else if (response.data.role === "owner") {
-                window.location.href = "/owner-dashboard";
+                setTimeout(() => navigate("/owner-dashboard"), 2000);
+               // window.location.href = "/owner-dashboard";
             } else {
-                window.location.href = "/dashboard";
+                setTimeout(() => navigate("/reader-dashboard"), 2000);
+              //  window.location.href = "/dashboard";
             }
         } catch (error) {
+            console.log(error.response)
             setError(error.response?.data?.Error || "Login failed. Try again.");
         }
     };
@@ -68,6 +73,10 @@ const Login = () => {
                 <p>Don't have an account ? <Link to={"/"}>Register</Link></p>
                 <button type="submit">Login</button>
             </form>
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+            />
         </div>
     );
 };

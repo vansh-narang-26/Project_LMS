@@ -62,7 +62,7 @@ func LoginUser(c *gin.Context) {
 
 	if userFound.ID == 0 {
 		c.JSON(http.StatusBadGateway, gin.H{
-			"Error": "No user found",
+			"Error": "No user exists",
 		})
 		return
 	}

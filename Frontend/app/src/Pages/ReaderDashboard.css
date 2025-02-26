@@ -1,11 +1,16 @@
 .reader-dashboard {
+    width: 100%;
+    align-items: start;
     display: flex;
     flex-direction: column;
 }
 
 .button-container {
+    /* align-items: center; */
+    background-color: red;
     display: flex;
     flex-direction: column;
+    width: 100%;
 }
 
 .search-container {
@@ -17,8 +22,9 @@
 }
 
 .book-container{
+    align-items: start;
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
 }
 .book-list-container{
     gap: 10px;
