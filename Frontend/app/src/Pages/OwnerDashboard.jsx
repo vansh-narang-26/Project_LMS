@@ -1,10 +1,10 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {useNavigate} from "react-router-dom"
+import {redirect, useNavigate} from "react-router-dom"
 import "./OwnerDashboard.css";
 
 const OwnerDashboard = () => {
-    const navigate = useNavigate();
+  // const navigate = useNavigate();
     const token = localStorage.getItem("token");
     // const cookie=Cookies.get("Authorization")
     // console.log(cookie)
@@ -19,6 +19,7 @@ const OwnerDashboard = () => {
     const [error, setError] = useState("");
     const [libraryId, setLibraryId] = useState()
     const [libraryData, setLibraryData] = useState([])
+    const [admins,setAdmins]=useState([])
 
     const handleLibraryClick = () => {
         setShowLibraryModal(true);
@@ -63,7 +64,8 @@ const OwnerDashboard = () => {
 
             alert("Library created successfully!");
             closeLibraryModal();
-            navigate("/owner-dashboard")
+         //   navigate("/owner-dashboard")
+         fetchLibs()
         } catch (err) {
             setError(err.message);
         } finally {
@@ -96,17 +98,14 @@ const OwnerDashboard = () => {
 
             alert("Admin created successfully!");
             closeAdminModal();
-            
+            // window.location.reload();
+            getAdmins()
         } catch (err) {
             setError(err.message);
         } finally {
             setLoading(false);
         }
     };
-
-    useEffect(() => {
-        fetchLibs()
-    }, [])
 
     async function fetchLibs() {
         console.log(token)
@@ -145,15 +144,29 @@ const OwnerDashboard = () => {
         // setLibrary(getLibraries)
     }
 
-
+    async function getAdmins() {
+        // console.log(token)
+        const res=await axios.get("http://localhost:8000/api/library/getAdmins",{
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        })
+        console.log(res.data.admins)
+        setAdmins(res.data.admins)
+    }
+    useEffect(() => {
+        fetchLibs()
+        getAdmins()
+    }, [])
 
     return (
         <div className="owner-dashboard">
             {/* {libraryId} */}
-            <h1 className="dashboard-title">Owner Dashboard</h1>
+            <h1 className="dashboard-title1">Welcome Owner</h1>
+            <h1 className="dashboard-title">Your Libraries</h1>
             <div className="button-container">
                 {!libraryId && (<button className="create-library" onClick={handleLibraryClick}>Create Library</button>)}
-                {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
                 {/* <button onClick={() => onLogout(navigate)}>Logout</button> */}
             </div>
 
@@ -218,8 +231,20 @@ const OwnerDashboard = () => {
             <div className="library-container">
                 {libraryData.map((lib, index) => (
                     <div key={index} className="library-card">
-                        <h3>{lib.name}</h3>
+                        <p>Name: {lib.name}</p>
                         <p>ID: {lib.id}</p>
+                        <p>Has {admins.length} admins</p>
+                        {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
+                    </div>
+                ))}
+            </div>     
+            <h1 className="dashboard-title">Library Admins</h1>
+            <div className="admin-container">
+                {admins.map((admin, index) => (
+                    <div key={index} className="admin-card">
+                        <p>{admin.name}</p>
+                        <p>ID: {admin.id}</p>
+                        <p>Contact: {admin.id}</p>
                     </div>
                 ))}
             </div>

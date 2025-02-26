@@ -167,3 +167,29 @@ func GetLib(c *gin.Context) {
 		"library": library,
 	})
 }
+func GetAdmins(c *gin.Context) {
+	//get owner (logged in id) from email and fetch the adminId library Id which will be equal to owner Id (library)
+	email, _ := c.Get("email")
+	var owner models.User
+
+	if err := initializers.DB.Where("email=?", email).First(&owner).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnt find logged in user",
+		})
+		return
+	}
+
+	var admins []models.User
+	if err := initializers.DB.Where("lib_id=? AND role=?", owner.LibID, "admin").Not("lib_id=?", 0).Find(&admins).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnot find the admins",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"admins": admins,
+	})
+}

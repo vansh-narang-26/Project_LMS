@@ -46,6 +46,7 @@ func main() {
 			library.POST("/create", controllers.CreateLibrary)
 			library.POST("/create-admin", controllers.CreateAdmin)
 			library.GET("/getlib", controllers.GetLib)
+			library.GET("/getAdmins",controllers.GetAdmins)
 		}
 
 		admin := protectedRoutes.Group("/admin")

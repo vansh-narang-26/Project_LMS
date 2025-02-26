@@ -12,7 +12,7 @@ const RegisterPage = () => {
         email: "",
         contact_no: "",
         role: "",
-        lib_id: "",
+        lib_id: "" || 0,
     });
 
     const [libraries, setLibraries] = useState([]);
@@ -38,7 +38,7 @@ const RegisterPage = () => {
         setFormData({
             ...formData,
             [e.target.name]: e.target.value,
-            [e.target.name]: e.target.name === 'lib_id' ?parseInt(e.target.value) : e.target.value
+            [e.target.name]: e.target.name === 'lib_id' ? parseInt(e.target.value) : e.target.value
         });
     };
 

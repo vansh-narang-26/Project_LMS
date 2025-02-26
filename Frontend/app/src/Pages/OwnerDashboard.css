@@ -1,13 +1,21 @@
 .owner-dashboard {
-    max-width: 900px;
+    /* background-color: red; */
+    max-width: 100%;
     margin: auto;
     padding: 20px;
-    text-align: center;
+    /* text-align: center; */
+    display: flex;
+    flex-direction: column;
+    align-items: start;
 }
-
-.dashboard-title {
+.dashboard-title1 {
+    color: black;
     font-size: 2rem;
-    margin-bottom: 20px;
+    align-self: center;
+}
+.dashboard-title {
+    color: black;
+    font-size:30px;
 }
 
 .button-container {
@@ -51,8 +59,11 @@ button:hover {
     align-items: center;
     justify-content: center;
 }
-
+.modal-content form{
+    background: white;
+}
 .modal-content {
+    border: 5px solid black;
     background: white;
     padding-right: 15px;
     padding: 20px;
@@ -82,25 +93,44 @@ button:hover {
     display: flex;
     flex-wrap: wrap;
     gap: 20px;
-    justify-content: center;
-    margin-top: 20px;
+    justify-content: start;
 }
 
 .library-card {
+    display: flex;
+    flex-direction: column;
+    align-items: start;
     background: white;
     padding: 15px;
     border-radius: 10px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
     width: 250px;
-    text-align: center;
+    /* text-align: center; */
 }
 
-.library-card h3 {
+/* .library-card h3 {
     margin: 10px 0;
     font-size: 1.2rem;
     color: #333;
-}
+} */
 
 .library-card p {
     color: #555;
+}
+.admin-container{
+    display: flex;
+    flex-wrap:wrap;
+    gap: 50px;
+}
+
+.admin-card{
+    display: flex;
+    flex-direction: row;
+    gap: 10px;
+    padding: 15px;
+    background: white;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    text-align: center;
 }
