@@ -1,7 +1,6 @@
 package controllers
 
 import (
-	"fmt"
 	"lms/backend/initializers"
 	"lms/backend/models"
 	"net/http"
@@ -47,8 +46,8 @@ func RaiseIssueRequest(c *gin.Context) {
 	// }
 	isbn := c.Param("id")
 	email, _ := c.Get("email")
-	fmt.Println("Book id ", isbn)
-	fmt.Println("Email id", email)
+	// fmt.Println("Book id ", isbn)
+	// fmt.Println("Email id", email)
 
 	//finding the id for the person who has logged in
 	var user models.User
@@ -74,9 +73,16 @@ func RaiseIssueRequest(c *gin.Context) {
 		return
 	}
 	var request models.RequestEvent //Checking already request in the request events
-	if err := initializers.DB.Where("book_id=? AND request_type=? AND reader_id=?", book.ISBN, "Requested", user.ID).Find(&request).Error; err == nil {
+	if err := initializers.DB.Where("book_id=? AND request_type=? AND reader_id=?", book.ISBN, "Requested", user.ID).Find(&request).Error; err != nil {
 		//means it got found so err would be nil
 		c.JSON(http.StatusBadGateway, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	if request.ReaderID == user.ID {
+		c.JSON(http.StatusBadRequest, gin.H{
 			"message": "The book has been already requested by you",
 		})
 		return

@@ -321,7 +321,13 @@ func ApproveRequest(c *gin.Context) {
 	bookexists.ApprovalDate = &now
 	bookexists.ApproverID = &adminUser.ID
 
-	initializers.DB.Save(&bookexists)
+	if err := initializers.DB.Save(&bookexists).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnt update book in request events",
+		})
+		return
+	}
 	// c.JSON(http.StatusOK, bookexists)
 	c.JSON(http.StatusAccepted, gin.H{
 		"message":      "updation successfully done",
@@ -332,7 +338,8 @@ func ApproveRequest(c *gin.Context) {
 
 	if err := initializers.DB.Where("isbn=?", bookId).Find(&bookCopies).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
+			"Error":   err.Error(),
+			"Message": "Coudlnt find the book",
 		})
 		return
 	}
@@ -346,7 +353,8 @@ func ApproveRequest(c *gin.Context) {
 		return
 	}
 
-	if err := initializers.DB.Where("isbn=?", bookId).Update("available_copies=?", bookCopies.AvailableCopies-1).Error; err != nil {
+	updateCopies := bookCopies.AvailableCopies - 1
+	if err := initializers.DB.Where("isbn=?", bookId).Update("available_copies=?", updateCopies).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error": err.Error(),
 		})
