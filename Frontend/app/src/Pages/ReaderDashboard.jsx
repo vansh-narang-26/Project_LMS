@@ -2,6 +2,7 @@ import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import { BsSearch } from 'react-icons/bs';
 import "./ReaderDashboard.css"
+import toast, { Toaster } from 'react-hot-toast';
 const ReaderDashboard = () => {
     const token = localStorage.getItem("token")
     // console.log(token)
@@ -36,13 +37,19 @@ const ReaderDashboard = () => {
 
     async function raiseRequest(e, book) {
         console.log(book.isbn);
-        const res = await axios.get(`http://localhost:8000/api/reader/raise-request/${book.isbn}`, {
-            headers: {
-                "Content-Type": "application/json",
-                "Authorization": `Bearer ${token}`
-            },
-        })
-        console.log(res)
+        try {
+            const res = await axios.get(`http://localhost:8000/api/reader/raise-request/${book.isbn}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            })
+            console.log(res.data)
+        } catch (error) {
+            toast.error(error.response.data.message)
+            console.log(error.response.data.message)
+        }
+      
     }
     useEffect(() => {
         getAllBooks()
@@ -76,6 +83,10 @@ const ReaderDashboard = () => {
                     }
                 </div>
             </div>
+            <Toaster
+                position="top-center"
+                reverseOrder={true}
+            />
         </div>
     )
 }

@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"lms/backend/initializers"
 	"lms/backend/models"
 	"net/http"
@@ -39,19 +40,20 @@ func SearchBooks(c *gin.Context) {
 // }
 
 func RaiseIssueRequest(c *gin.Context) {
-	userId, exists := c.Get("id")
-	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
-		return
-	}
+	//userId, exists := c.Get("id")
+	// if !exists {
+	// 	c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+	// 	return
+	// }
 	isbn := c.Param("id")
 	email, _ := c.Get("email")
-	// fmt.Println("Book id ", isbn)
+	fmt.Println("Book id ", isbn)
+	fmt.Println("Email id", email)
 
 	//finding the id for the person who has logged in
 	var user models.User
-	if err := initializers.DB.Where("id = ? AND role = ?", userId, "reader").First(&user).Error; err != nil {
-		c.JSON(http.StatusForbidden, gin.H{"error": "Admin access required"})
+	if err := initializers.DB.Where("email = ? AND role = ?", email, "reader").First(&user).Error; err != nil {
+		c.JSON(http.StatusForbidden, gin.H{"error": "User not required"})
 		return
 	}
 
@@ -71,7 +73,15 @@ func RaiseIssueRequest(c *gin.Context) {
 		})
 		return
 	}
-	// var request models.RequestEvent
+	var request models.RequestEvent //Checking already request in the request events
+	if err := initializers.DB.Where("book_id=? AND request_type=? AND reader_id=?", book.ISBN, "Requested", user.ID).Find(&request).Error; err == nil {
+		//means it got found so err would be nil
+		c.JSON(http.StatusBadGateway, gin.H{
+			"message": "The book has been already requested by you",
+		})
+		return
+	}
+
 	// t:=time.Now
 	crequest := models.RequestEvent{
 		BookID:      isbn,

@@ -328,9 +328,32 @@ func ApproveRequest(c *gin.Context) {
 		"updated book": bookexists,
 	})
 
-	//now setup the issue registry accordingly
-	// var IssueReg models.IssueRegistry
+	var bookCopies models.BookInventory
 
+	if err := initializers.DB.Where("isbn=?", bookId).Find(&bookCopies).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	fmt.Println("Book copies are", bookCopies.AvailableCopies)
+
+	if bookCopies.AvailableCopies < 1 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Message": "No copies available",
+		})
+		return
+	}
+
+	if err := initializers.DB.Where("isbn=?", bookId).Update("available_copies=?", bookCopies.AvailableCopies-1).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error": err.Error(),
+		})
+		return
+	}
+
+	//now setup the issue registry accordingly
 	issueReg := models.IssueRegistry{
 		ISBN:               bookId,
 		ReaderID:           request.ReaderID,

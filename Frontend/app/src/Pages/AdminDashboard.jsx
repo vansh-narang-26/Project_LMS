@@ -158,6 +158,7 @@ const AdminDashboard = () => {
                 },
             });
             fetchRequests();
+            fetchBooks();
         } catch (error) {
             console.error("Error approving request:", error);
         }
