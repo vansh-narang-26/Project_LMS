@@ -131,3 +131,20 @@ func GetLibraries(c *gin.Context) {
 		"libraries": library,
 	})
 }
+
+func GetReturnDate(c *gin.Context) {
+	var book models.IssueRegistry
+	id := c.Param("id")
+
+	if err := initializers.DB.Where("isbn=? AND issue_status=?", id, "Issued").Find(&book).Error; err != nil {
+		c.JSON(http.StatusNotFound, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnt find book with this isbn",
+		})
+		return
+	}
+
+	c.JSON(http.StatusOK, gin.H{
+		"return_date": book.ExpectedReturnDate,
+	})
+}

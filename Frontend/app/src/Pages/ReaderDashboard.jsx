@@ -11,6 +11,22 @@ const ReaderDashboard = () => {
     const [searchVal, setSearchVal] = useState("");
 
 
+    async function getReturnDate(e,book){
+        console.log(book.isbn)
+        try {
+            const res = await axios.get(`http://localhost:8000/api/reader/return-date/${book.isbn}`, {
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            })
+            const expectedDate=new Date(res.data.return_date).toLocaleDateString()
+           // console.log(res.data.return_date)
+            toast.success(expectedDate)
+        } catch (error) {
+            console.log(error)
+        }
+    }
 
     async function handleSearchClick() {
         if (searchVal === "") { setBooks([]); return; }
@@ -97,6 +113,7 @@ const ReaderDashboard = () => {
                             <p>Author {book.authors}</p>
                             <p>Version {book.version}</p>
                         </div>
+                        {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>):""}
                         <button className='' onClick={(e) => raiseRequest(e, book)}>Request Book</button>
                     </li>
                 ))}

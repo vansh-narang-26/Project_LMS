@@ -67,6 +67,7 @@ func main() {
 			reader.GET("/getBooks", controllers.GetAllBooks)
 			reader.GET("/search-books", controllers.SearchBooks)
 			reader.GET("/raise-request/:id", controllers.RaiseIssueRequest)
+			reader.GET("/return-date/:id",controllers.GetReturnDate)
 		}
 	}
 
