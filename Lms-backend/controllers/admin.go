@@ -295,16 +295,46 @@ func ApproveRequest(c *gin.Context) {
 	//fmt.Println(bookId)
 
 	var bookexists models.RequestEvent
-	if err := initializers.DB.Where("book_id=?", bookId).Find(&bookexists).Error; err != nil {
+	if err := initializers.DB.Where("book_id=?", bookId).First(&bookexists).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error":   err.Error(),
 			"Message": "Couldnt find the book id with this isbn",
 		})
 		return
 	}
+	var bookCopies models.BookInventory
+
+	if err := initializers.DB.Where("isbn=?", bookexists.BookID).Find(&bookCopies).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error":   err.Error(),
+			"Message": "Coudlnt find the book",
+		})
+		return
+	}
+
+	fmt.Println("Book copies are", bookCopies.AvailableCopies)
+
+	if bookCopies.AvailableCopies < 1 {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Message": "No copies available",
+		})
+		return
+	}
+
+	updateCopies := bookCopies.AvailableCopies - 1
+	if err := initializers.DB.Model(&bookCopies).Where("isbn=?", bookId).Update("available_copies", updateCopies).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnot update copies",
+		})
+		return
+	}
 
 	// readerID := request.ReaderID
 	// fmt.Println(readerID)
+
+
+	// to do jo request id aai hai 10 usko update kr de requested to issued
 
 	var handlereq UpdateRequest
 
@@ -333,33 +363,6 @@ func ApproveRequest(c *gin.Context) {
 		"message":      "updation successfully done",
 		"updated book": bookexists,
 	})
-
-	var bookCopies models.BookInventory
-
-	if err := initializers.DB.Where("isbn=?", bookId).Find(&bookCopies).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error":   err.Error(),
-			"Message": "Coudlnt find the book",
-		})
-		return
-	}
-
-	fmt.Println("Book copies are", bookCopies.AvailableCopies)
-
-	if bookCopies.AvailableCopies < 1 {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Message": "No copies available",
-		})
-		return
-	}
-
-	updateCopies := bookCopies.AvailableCopies - 1
-	if err := initializers.DB.Where("isbn=?", bookId).Update("available_copies=?", updateCopies).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": err.Error(),
-		})
-		return
-	}
 
 	//now setup the issue registry accordingly
 	issueReg := models.IssueRegistry{

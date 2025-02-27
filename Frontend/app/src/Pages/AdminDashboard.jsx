@@ -157,10 +157,12 @@ const AdminDashboard = () => {
                     "Authorization": `Bearer ${token}`
                 },
             });
+            toast.success("Book approved")
             fetchRequests();
             fetchBooks();
         } catch (error) {
-            console.error("Error approving request:", error);
+            toast.error(error.response.data.Message)
+            console.error("Error approving request:", error.response.data.Message);
         }
     };
 
@@ -280,7 +282,7 @@ const AdminDashboard = () => {
                 {books.map((book) => (
                     <li key={book.isbn} className="li-list">
                         <div className="li-list-div">
-                            <p>Copies {book.total_copies}</p>
+                            <p>Copies {book.available_copies}</p>
                             <p>Title {book.title} </p>
                             <p>Author {book.authors}</p>
                             <p>Version {book.version}</p>
