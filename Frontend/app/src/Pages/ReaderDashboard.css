@@ -7,7 +7,7 @@
 
 .button-container {
     /* align-items: center; */
-    background-color: red;
+    /* background-color: red; */
     display: flex;
     flex-direction: column;
     width: 100%;
@@ -18,21 +18,23 @@
     display: flex;
     flex-direction: row;
     align-items: center;
-    gap:12px;
+    gap: 12px;
 }
 
-.book-container{
+.book-container {
     align-items: start;
     display: flex;
     /* flex-direction: column; */
 }
-.book-list-container{
+
+.book-list-container {
     gap: 10px;
     justify-content: start;
     align-items: center;
     display: flex;
     max-width: 900px;
 }
-.issue-button{
+
+.issue-button {
     max-width: 100px;
 }

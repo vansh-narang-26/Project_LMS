@@ -4,7 +4,7 @@ import { BsSearch } from 'react-icons/bs';
 import "./ReaderDashboard.css"
 const ReaderDashboard = () => {
     const token = localStorage.getItem("token")
-   // console.log(token)
+    // console.log(token)
     const [books, setBooks] = useState([]);
     const [searchVal, setSearchVal] = useState("");
 
@@ -34,21 +34,21 @@ const ReaderDashboard = () => {
         // console.log(books)
     }
 
-    async function raiseRequest(e,book) {
-       console.log(book.isbn);
-        const res = await axios.get(`http://localhost:8000/api/reader/raise-request/${book.isbn}`,{
-                headers: {
-                    "Content-Type": "application/json",
-                    "Authorization": `Bearer ${token}`
-                },
-            }
-        
+    async function raiseRequest(e, book) {
+        console.log(book.isbn);
+        const res = await axios.get(`http://localhost:8000/api/reader/raise-request/${book.isbn}`, {
+            headers: {
+                "Content-Type": "application/json",
+                "Authorization": `Bearer ${token}`
+            },
+        }
+
         )
         console.log(res)
     }
     useEffect(() => {
         getAllBooks()
-       // raiseRequest()
+        // raiseRequest()
     }, [])
     // const mystyle = {
     //     marginLeft: "600px",
@@ -71,7 +71,7 @@ const ReaderDashboard = () => {
                         return (
                             <div key={product.isbn} className='book-list-container'>
                                 {product.title} by {product.authors} published by {product.publisher}
-                                    <button className ='issue-button' onClick={(e)=>raiseRequest(e,product)}>Issue</button>
+                                <button className='issue-button' onClick={(e) => raiseRequest(e, product)}>Issue</button>
                             </div>
                         )
                     })

@@ -1,54 +1,75 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import axios from "axios";
-import "./LoginPage.css"
+import "./LoginPage.css";
 import toast, { Toaster } from 'react-hot-toast';
 import { Link, useNavigate } from "react-router-dom";
 
 const Login = () => {
-    const navigate = useNavigate()
-    // if (!role){
-    //     navigate("/")
-    // }
+    const navigate = useNavigate();
     const [email, setEmail] = useState("");
-    //   const [password, setPassword] = useState("");
+    const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState("");
-    const [message, setMessage] = useState("");
-    const [success, setSuccess] = useState(false);
+
+    // Check if user is already logged in
+    useEffect(() => {
+        const token = localStorage.getItem("token");
+        if (token) {
+            const role = localStorage.getItem("role");
+            redirectBasedOnRole(role);
+        }
+    }, []);
+
+    const redirectBasedOnRole = (role) => {
+        switch (role) {
+            case "admin":
+                navigate("/admin-dashboard");
+                break;
+            case "owner":
+                navigate("/owner-dashboard");
+                break;
+            default:
+                navigate("/reader-dashboard");
+        }
+    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         setError("");
-        setMessage("");
-        setSuccess(false);
+        setIsLoading(true);
 
         try {
-            const response = await axios.post("http://localhost:8000/api/users/login",
+            const response = await axios.post(
+                "http://localhost:8000/api/users/login",
+                { email },
                 {
-                    email,
-                },
+                    headers: {
+                        "Content-Type": "application/json"
+                    }
+                }
             );
 
-            setMessage("Logged in successfully!");
-            toast.success("Logged in successfully")
-            console.log("Login response", response)
-            setSuccess(true);
+            // Show success message
+            toast.success("Logged in successfully");
+
+            // Store auth data
             localStorage.setItem("token", response.data.token);
             localStorage.setItem("role", response.data.role);
 
-            // Redirect based on role (optional)
-            if (response.data.role === "admin") {
-                setTimeout(() => navigate("/admin-dashboard"), 2000);
-                //  window.location.href = "/admin-dashboard";
-            } else if (response.data.role === "owner") {
-                setTimeout(() => navigate("/owner-dashboard"), 2000);
-               // window.location.href = "/owner-dashboard";
-            } else {
-                setTimeout(() => navigate("/reader-dashboard"), 2000);
-              //  window.location.href = "/dashboard";
-            }
+            // Redirect based on role
+            setTimeout(() => redirectBasedOnRole(response.data.role), 1000);
+
         } catch (error) {
-            console.log(error.response)
-            setError(error.response?.data?.Error || "Login failed. Try again.");
+            console.error("Login error:", error);
+
+            if (error.response?.data?.Error) {
+                setError(error.response.data.Error);
+            } else {
+                setError("Unable to connect to the server. Please try again later.");
+            }
+
+            toast.error("Login failed");
+        } finally {
+            setIsLoading(false);
         }
     };
 
@@ -57,22 +78,34 @@ const Login = () => {
             <form className="login-form" onSubmit={handleSubmit}>
                 <h2>Login</h2>
 
-                {error && <p className="error">{error}</p>}
-                {success && <p className="success-message">Login Successful! Redirecting...</p>}
+                {error && <p className="error" role="alert">{error}</p>}
 
                 <div className="input-group">
-                    <label>Email</label>
+                    <label htmlFor="email">Email</label>
                     <input
+                        id="email"
                         type="email"
                         placeholder="Enter your email"
                         value={email}
                         onChange={(e) => setEmail(e.target.value)}
                         required
+                        aria-required="true"
                     />
                 </div>
-                <p>Don't have an account ? <Link to={"/"}>Register</Link></p>
-                <button type="submit">Login</button>
+
+                <div className="links">
+                    <p>Don't have an account? <Link to="/">Register</Link></p>
+                </div>
+
+                <button
+                    type="submit"
+                    disabled={isLoading}
+                    className={isLoading ? "loading" : ""}
+                >
+                    {isLoading ? "Logging in..." : "Login"}
+                </button>
             </form>
+
             <Toaster
                 position="top-center"
                 reverseOrder={true}

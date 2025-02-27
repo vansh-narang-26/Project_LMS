@@ -13,7 +13,7 @@ const AdminDashboard = () => {
     const [version, setVersion] = useState("")
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState("");
-     const [showBookModal, setShowBookModal] = useState(false);
+    const [showBookModal, setShowBookModal] = useState(false);
     const [updateisbn, setupdateisbn] = useState();
     // const [newBook, setNewBook] = useState({ title: "", author: "", year: "" });
 
@@ -90,14 +90,14 @@ const AdminDashboard = () => {
             //     return
             // }
             console.log(response)
-          //  alert("Book added successfully!");
+            //  alert("Book added successfully!");
             toast.success("Book added successfully!")
             closeAddBookModal()
             fetchBooks()
         } catch (error) {
             toast.error("Book was not able to add!")
             console.error("Error adding book:", error.response.data.error);
-          //  alert("Failed to add book", error);
+            //  alert("Failed to add book", error);
         }
     };
     const fetchBooks = async () => {
@@ -106,7 +106,7 @@ const AdminDashboard = () => {
                 {
                     headers: {
                         "Content-Type": "application/json",
-                        "Authorization": `Beader ${token}`
+                        "Authorization": `Bearer ${token}`
                     }
                 }
             );
@@ -190,7 +190,7 @@ const AdminDashboard = () => {
             const data = await response.json();
             if (!response.ok) throw new Error(data.error || "Failed to update book");
 
-        //  alert("Book updated successfully!");
+            //  alert("Book updated successfully!");
             toast.success("Book updated successfully!")
             closeUpdatedBook();
             fetchBooks()
@@ -224,7 +224,7 @@ const AdminDashboard = () => {
                 </div>
             )}
 
-           
+
             {/* <form onSubmit={handleSubmit}>
                 <input type="text" name="isbn" placeholder="ISBN" onChange={handleChange} required />
                 <input type="text" name="title" placeholder="Title" onChange={handleChange} required />

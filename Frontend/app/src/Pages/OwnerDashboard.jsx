@@ -1,6 +1,6 @@
 import axios from "axios";
 import React, { useEffect, useState } from "react";
-import {redirect, useNavigate} from "react-router-dom"
+import { redirect, useNavigate } from "react-router-dom"
 import toast, { Toaster } from 'react-hot-toast';
 import "./OwnerDashboard.css";
 
@@ -13,7 +13,7 @@ import "./OwnerDashboard.css";
 
 
 const OwnerDashboard = () => {
-  // const navigate = useNavigate();
+    // const navigate = useNavigate();
     const token = localStorage.getItem("token");
     // const cookie=Cookies.get("Authorization")
     // console.log(cookie)
@@ -28,7 +28,7 @@ const OwnerDashboard = () => {
     const [error, setError] = useState("");
     const [libraryId, setLibraryId] = useState()
     const [libraryData, setLibraryData] = useState([])
-    const [admins,setAdmins]=useState([])
+    const [admins, setAdmins] = useState([])
 
     const handleLibraryClick = () => {
         setShowLibraryModal(true);
@@ -74,8 +74,8 @@ const OwnerDashboard = () => {
             // alert("Library created successfully!");
             toast.success("Library created successfully!");
             closeLibraryModal();
-         //   navigate("/owner-dashboard")
-         fetchLibs()
+            //   navigate("/owner-dashboard")
+            fetchLibs()
         } catch (err) {
             toast.error(err.message)
             setError(err.message);
@@ -108,9 +108,9 @@ const OwnerDashboard = () => {
             if (!response.ok) throw new Error(data.error || "Failed to create admin");
 
             toast.success('Admin created Successfully!');
-          //  alert("Admin created successfully!");
+            //  alert("Admin created successfully!");
             closeAdminModal();
-          
+
             // window.location.reload();
             getAdmins()
         } catch (err) {
@@ -160,7 +160,7 @@ const OwnerDashboard = () => {
 
     async function getAdmins() {
         // console.log(token)
-        const res=await axios.get("http://localhost:8000/api/library/getAdmins",{
+        const res = await axios.get("http://localhost:8000/api/library/getAdmins", {
             headers: {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
@@ -251,7 +251,7 @@ const OwnerDashboard = () => {
                         {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
                     </div>
                 ))}
-            </div>     
+            </div>
             <h1 className="dashboard-title">Library Admins</h1>
             <div className="admin-container1">
                 {admins.map((admin, index) => (

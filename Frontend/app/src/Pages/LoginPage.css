@@ -1,14 +1,13 @@
 .login-container {
     width: 100%;
-    max-width: 400px;
+    max-width: 450px;
     margin: 50px auto;
-    padding: 5px;
-    border: 1px solid #ccc;
-    border-radius: 10px;
-    box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 0;
+    border-radius: 8px;
+    box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15);
     text-align: center;
-    background-color: black;
-    color: black !important;
+    overflow: hidden;
+    background-color: white;
 }
 
 .input-group {
@@ -22,6 +21,10 @@
     font-weight: bold;
     margin-bottom: 5px;
     color: black;
+}
+
+.links {
+    color: black !important;
 }
 
 input,
@@ -93,6 +96,7 @@ button:hover {
     font-size: 14px;
     margin-top: 5px;
 }
-.login-form{
+
+.login-form {
     background-color: rgb(255, 255, 255);
 }

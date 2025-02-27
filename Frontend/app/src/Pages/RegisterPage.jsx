@@ -19,16 +19,17 @@ const RegisterPage = () => {
     const [libraries, setLibraries] = useState([]);
     const [error, setError] = useState("");
     const [success, setSuccess] = useState(false);
+    const [isLoading, setIsLoading] = useState(false);
     const navigate = useNavigate();
 
     useEffect(() => {
         const fetchLibraries = async () => {
             try {
                 const response = await axios.get(LIBRARIES_API);
-                console.log(response)
                 setLibraries(response.data.libraries);
             } catch (err) {
                 console.error("Error fetching libraries:", err);
+                toast.error("Could not fetch libraries");
             }
         };
 
@@ -36,10 +37,10 @@ const RegisterPage = () => {
     }, []);
 
     const handleChange = (e) => {
+        const { name, value } = e.target;
         setFormData({
             ...formData,
-            [e.target.name]: e.target.value,
-            [e.target.name]: e.target.name === 'lib_id' ? parseInt(e.target.value) : e.target.value
+            [name]: name === 'lib_id' ? parseInt(value) : value
         });
     };
 
@@ -47,32 +48,38 @@ const RegisterPage = () => {
         e.preventDefault();
         setError("");
         setSuccess(false);
+        setIsLoading(true);
 
         try {
             const response = await axios.post(API_URL, formData);
             console.log("Registration Success:", response.data);
-            toast.success("Registration Successful")
+            toast.success("Registration Successful");
             setSuccess(true);
             setTimeout(() => navigate("/login"), 2000); // Redirect after 2 sec
         } catch (err) {
-            setError(err.response?.data?.message || "Registration failed");
+            const errorMessage = err.response?.data?.message || "Registration failed";
+            setError(errorMessage);
+            toast.error(errorMessage);
+        } finally {
+            setIsLoading(false);
         }
     };
 
     return (
         <div className="register-container">
             <form className="register-form" onSubmit={handleSubmit}>
-                <h2>Register</h2>
+                <h2>Create Your Account</h2>
 
                 {error && <p className="error-message">{error}</p>}
                 {success && <p className="success-message">Registration Successful! Redirecting...</p>}
 
                 <div className="input-group">
-                    <label>Name</label>
+                    <label htmlFor="name">Full Name</label>
                     <input
+                        id="name"
                         type="text"
                         name="name"
-                        placeholder="Enter your name"
+                        placeholder="Enter your full name"
                         value={formData.name}
                         onChange={handleChange}
                         required
@@ -80,11 +87,12 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="input-group">
-                    <label>Email</label>
+                    <label htmlFor="email">Email Address</label>
                     <input
+                        id="email"
                         type="email"
                         name="email"
-                        placeholder="Enter your email"
+                        placeholder="Enter your email address"
                         value={formData.email}
                         onChange={handleChange}
                         required
@@ -92,8 +100,9 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="input-group">
-                    <label>Contact No.</label>
+                    <label htmlFor="contact_no">Contact Number</label>
                     <input
+                        id="contact_no"
                         type="text"
                         name="contact_no"
                         placeholder="Enter your contact number"
@@ -104,8 +113,9 @@ const RegisterPage = () => {
                 </div>
 
                 <div className="input-group">
-                    <label>Role</label>
+                    <label htmlFor="role">Select Role</label>
                     <select
+                        id="role"
                         name="role"
                         value={formData.role}
                         onChange={handleChange}
@@ -120,8 +130,9 @@ const RegisterPage = () => {
                 {/* Showing Library only if role is "reader" */}
                 {formData.role === "reader" && (
                     <div className="input-group">
-                        <label>Library</label>
+                        <label htmlFor="lib_id">Select Library</label>
                         <select
+                            id="lib_id"
                             name="lib_id"
                             value={formData.lib_id}
                             onChange={handleChange}
@@ -137,12 +148,22 @@ const RegisterPage = () => {
                     </div>
                 )}
 
-                <button type="submit">Register</button>
-                <p>Already have an account? <Link to={"/login"}>Login</Link></p>
+                <button type="submit" disabled={isLoading}>
+                    {isLoading ? "Processing..." : "Register"}
+                </button>
+
+                <p>Already have an account? <Link to="/login">Sign in</Link></p>
             </form>
             <Toaster
                 position="top-center"
-                reverseOrder={true}
+                reverseOrder={false}
+                toastOptions={{
+                    duration: 3000,
+                    style: {
+                        background: '#333',
+                        color: '#fff',
+                    },
+                }}
             />
         </div>
     );

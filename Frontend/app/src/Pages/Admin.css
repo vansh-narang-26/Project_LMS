@@ -1,134 +1,354 @@
+/* Admin Dashboard - Improved Styles */
+
+/* Color Variables */
+:root {
+    --primary: #3a6ea5;
+    --primary-hover: #2a5a8f;
+    --secondary: #f8f9fa;
+    --danger: #dc3545;
+    --danger-hover: #bb2d3b;
+    --success: #28a745;
+    --success-hover: #218838;
+    --text-dark: #343a40;
+    --text-light: #6c757d;
+    --border-color: #dee2e6;
+    --shadow: rgba(0, 0, 0, 0.1);
+    --modal-overlay: rgba(0, 0, 0, 0.5);
+}
+
+/* General Layout */
 .admin-container {
-    display: flex;
-    flex-direction: column;
-    max-width: 100%;
-    margin: auto;
-    padding: 20px;
-    text-align: center;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: var(--text-dark);
 }
 
-h1,
+h1 {
+    font-size: 2.5rem;
+    margin-bottom: 2rem;
+    color: var(--primary);
+    border-bottom: 2px solid var(--border-color);
+    padding-bottom: 1rem;
+}
+
 h2 {
-    text-align: center;
-    color: #333;
+    font-size: 1.8rem;
+    margin: 2rem 0 1rem;
+    color: var(--text-dark);
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
 }
 
+h2::before {
+    content: '';
+    display: inline-block;
+    width: 8px;
+    height: 1.8rem;
+    background-color: var(--primary);
+    border-radius: 4px;
+}
+
+/* Action Button */
+.action-btn {
+    align-self: flex-end;
+    background-color: var(--primary);
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.2s, transform 0.1s;
+    margin-bottom: 1rem;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.action-btn:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+}
+
+.action-btn:active {
+    transform: translateY(0);
+}
+
+/* Form Elements */
 form {
     display: flex;
     flex-direction: column;
-    gap: 10px;
-    background: #f8f8f8;
-    padding: 20px;
+    gap: 1rem;
+    background: white;
+    padding: 1.5rem;
     border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 12px var(--shadow);
 }
 
 input {
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
-    font-size: 16px;
-}
-/* 
-button {
-    padding: 10px;
-    background: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    font-size: 16px;
-} */
-
-button:hover {
-    background: #0056b3;
+    padding: 0.75rem 1rem;
+    border: 1px solid var(--border-color);
+    border-radius: 6px;
+    font-size: 1rem;
+    transition: border-color 0.2s, box-shadow 0.2s;
 }
 
-.book-list,
-.request-list {
-    list-style-type: none;
+input:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(58, 110, 165, 0.2);
+}
+
+input::placeholder {
+    color: var(--text-light);
+}
+
+input[type="number"] {
+    width: auto;
+}
+
+/* Book List */
+.ul-list {
+    list-style: none;
     padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem 0;
 }
 
-.book-list li,
-.request-list li {
-    display: flex;
-    justify-content: space-between;
-    padding: 10px;
-    background: #fff;
-    border: 1px solid #ddd;
-    margin-top: 5px;
-    border-radius: 5px;
-}
-
-.book-list button,
-.request-list button {
-    margin-left: 10px;
-    background: #dc3545;
-}
-
-.book-list button:hover,
-.request-list button:hover {
-    background: #a71d2a;
-}
-
-.ul-list{
-    max-width: 800px;
+.li-list {
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
     display: flex;
     flex-direction: column;
-    margin: 10px;
-    gap: 10px;
+    gap: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
 }
 
-.li-list{
+.li-list:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow);
+}
+
+.li-list-div {
     display: flex;
-    gap: 10px;
+    flex-direction: column;
+    padding: 1.25rem;
+    flex-grow: 1;
+    gap: 0.5rem;
+}
+
+.li-list-div p {
+    margin: 0;
+    display: flex;
     align-items: center;
 }
 
-.li-list-div{
-    gap: 10px;
-    display: flex;
-    flex-direction: row;
+.li-list-div p:first-child {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 1.1rem;
 }
 
+.li-list-div p::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+.li-list .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0 1rem 1rem;
+}
+
+.li-list button {
+    flex: 1;
+    padding: 0.6rem 0;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.li-list button:nth-child(1) {
+    background-color: var(--primary);
+}
+
+.li-list button:nth-child(1):hover {
+    background-color: var(--primary-hover);
+}
+
+.li-list button:nth-child(2) {
+    background-color: var(--danger);
+}
+
+.li-list button:nth-child(2):hover {
+    background-color: var(--danger-hover);
+}
+
+/* Request List */
+.request-list {
+    list-style: none;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.request-list li {
+    background-color: white;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px var(--shadow);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.request-list .request-info {
+    font-weight: 500;
+}
+
+.request-list .request-actions {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.request-list button.approve {
+    background-color: var(--success);
+}
+
+.request-list button.approve:hover {
+    background-color: var(--success-hover);
+}
+
+.request-list button.reject {
+    background-color: var(--danger);
+}
+
+.request-list button.reject:hover {
+    background-color: var(--danger-hover);
+}
+
+/* Modal */
 .modal {
     position: fixed;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background: rgba(0, 0, 0, 0.5);
+    background: var(--modal-overlay);
     display: flex;
     align-items: center;
     justify-content: center;
+    z-index: 1000;
+    animation: fadeIn 0.2s ease-out;
 }
-.modal-content form{
-    background: white;
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
 }
+
 .modal-content {
-    border: 5px solid black;
     background: white;
-    padding-right: 15px;
-    padding: 20px;
-    border-radius: 10px;
-    width: 400px;
+    padding: 2rem;
+    border-radius: 12px;
+    width: 500px;
+    max-width: 90%;
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    position: relative;
+    animation: slideUp 0.3s ease-out;
+}
+
+@keyframes slideUp {
+    from {
+        transform: translateY(50px);
+        opacity: 0;
+    }
+
+    to {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.modal-content h2 {
+    margin-top: 0;
+    color: var(--primary);
     text-align: center;
 }
 
-.modal-content input {
-    width: 100%;
-    padding: 10px 4px;
-    margin: 10px 2px;
-    border: 1px solid #ccc;
-    border-radius: 5px;
+.modal-content form {
+    box-shadow: none;
+    padding: 0;
 }
 
-.modal-content button {
-    margin: 10px 5px;
+.modal-actions {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1rem;
+    margin-top: 1.5rem;
 }
 
+.modal-actions button[type="submit"] {
+    background-color: var(--primary);
+    grid-column: 1;
+}
+
+.modal-actions button[type="button"] {
+    background-color: var(--text-light);
+    grid-column: 2;
+}
+
+/* Error Message */
 .error {
-    color: red;
-    margin-bottom: 10px;
+    color: var(--danger);
+    background-color: rgba(220, 53, 69, 0.1);
+    padding: 0.75rem;
+    border-radius: 6px;
+    margin-bottom: 1rem;
+    font-weight: 500;
+}
+
+/* Toast Notifications */
+.toast-container {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 1100;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .admin-container {
+        padding: 1rem;
+    }
+
+    .ul-list {
+        grid-template-columns: 1fr;
+    }
+
+    .li-list-div {
+        padding: 1rem;
+    }
+
+    .modal-content {
+        width: 90%;
+        padding: 1.5rem;
+    }
 }

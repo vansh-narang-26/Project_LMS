@@ -1,42 +1,265 @@
 .navbar {
-    width: 100vw;
+    width: 100%;
     display: flex;
-    justify-content: space-evenly;
+    justify-content: space-between;
     align-items: center;
-    background-color: black;
+    background: linear-gradient(90deg, #2c3e50, #1a2a38);
     color: #fff;
-    padding: 20px 0px;
+    padding: 16px 24px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.2);
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+}
+
+.navbar-left {
+    display: flex;
+    align-items: center;
 }
 
 .navbar-left .logo {
     font-size: 1.5rem;
-    font-weight: bold;
+    font-weight: 700;
     color: #fff;
     text-decoration: none;
+    letter-spacing: 0.5px;
+    transition: color 0.3s ease;
 }
 
-.navbar-center .nav-links {
+.navbar-left .logo:hover {
+    color: #4db6ac;
+}
+
+.navbar-center {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.menu-button {
+    display: none;
+    background: transparent;
+    border: none;
+    color: white;
+    cursor: pointer;
+    padding: 8px;
+    margin-right: 10px;
+}
+
+.menu-button svg {
+    width: 24px;
+    height: 24px;
+}
+
+.nav-links {
     list-style-type: none;
     display: flex;
     margin: 0;
     padding: 0;
 }
 
-.navbar-center .nav-links li {
-    margin-right: 1rem;
+.nav-links li {
+    margin: 0 10px;
 }
 
-.navbar-center .nav-links a {
+.nav-links a {
     color: #fff;
     text-decoration: none;
+    font-weight: 500;
+    padding: 8px 16px;
+    border-radius: 4px;
+    transition: all 0.3s ease;
 }
-@media (max-width: 768px) {
-    .navbar-center .nav-links {
-      display: none;
+
+.nav-links a:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.nav-links a.active {
+    background-color: #4db6ac;
+    color: #fff;
+}
+
+.navbar-right {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.logout-button,
+.login-button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #4db6ac;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.register-button,
+.register-button {
+    background-color: transparent;
+    color: #fff;
+    border: 1px solid #4db6ac;
+    padding: 8px 16px;
+    font-weight: 500;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: all 0.3s ease;
+    text-decoration: none;
+}
+
+.logout-button:hover,
+.login-button:hover {
+    background-color: #4db6ac;
+    color: #1a2a38;
+}
+
+/* Sidebar Styles */
+.sidebar-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1100;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.sidebar {
+    width: 280px;
+    height: 100%;
+    background-color: #fff;
+    box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+    overflow-y: auto;
+    animation: slideIn 0.3s ease-out;
+}
+
+@keyframes slideIn {
+    from {
+        transform: translateX(-100%);
     }
 
-    .navbar-right {
-      display: flex;
-      align-items: center;
+    to {
+        transform: translateX(0);
+    }
+}
+
+.sidebar-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 20px;
+    border-bottom: 1px solid #eaeaea;
+}
+
+.sidebar-header h3 {
+    margin: 0;
+    color: #2c3e50;
+    font-weight: 600;
+}
+
+.close-button {
+    background: transparent;
+    border: none;
+    color: #666;
+    cursor: pointer;
+    padding: 5px;
+}
+
+.sidebar-content {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    padding: 20px 0;
+}
+
+.sidebar-links {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+}
+
+.sidebar-links li {
+    margin: 0;
+}
+
+.sidebar-links a {
+    display: block;
+    padding: 15px 20px;
+    color: #2c3e50;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    font-weight: 500;
+    border-left: 3px solid transparent;
+}
+
+.sidebar-links a:hover {
+    background-color: #f5f5f5;
+    border-left-color: #4db6ac;
+}
+
+.sidebar-links a.active {
+    background-color: #e6f7f5;
+    color: #4db6ac;
+    border-left-color: #4db6ac;
+}
+
+.sidebar-footer {
+    padding: 20px;
+    border-top: 1px solid #eaeaea;
+    margin-top: auto;
+}
+
+.logout-button-sidebar {
+    width: 100%;
+    background-color: #2c3e50;
+    color: white;
+    border: none;
+    padding: 12px;
+    border-radius: 4px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.logout-button-sidebar:hover {
+    background-color: #1a2a38;
+}
+
+/* Responsive Design */
+@media (max-width: 992px) {
+    .desktop-nav {
+        display: none;
+    }
+
+    .menu-button {
+        display: block;
+    }
+
+    .navbar-center {
+        justify-content: flex-start;
+    }
+}
+
+@media (max-width: 576px) {
+    .navbar {
+        padding: 12px 16px;
+    }
+
+    .navbar-left .logo {
+        font-size: 1.2rem;
+    }
+
+    .sidebar {
+        width: 250px;
     }
 }
