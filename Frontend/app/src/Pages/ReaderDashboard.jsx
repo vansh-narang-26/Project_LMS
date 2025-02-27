@@ -7,6 +7,7 @@ const ReaderDashboard = () => {
     const token = localStorage.getItem("token")
     // console.log(token)
     const [books, setBooks] = useState([]);
+    const [allBook,setallBooks]=useState([])
     const [searchVal, setSearchVal] = useState("");
 
 
@@ -31,7 +32,7 @@ const ReaderDashboard = () => {
             },
         })
         //console.log(res.data.Books)
-        setBooks(res.data.Books)
+        setallBooks(res.data.Books)
         // console.log(books)
     }
 
@@ -45,11 +46,12 @@ const ReaderDashboard = () => {
                 },
             })
             console.log(res.data)
+            toast.success("Book has been requested")
         } catch (error) {
-            toast.error(error.response.data.message)
-            console.log(error.response.data.message)
+            toast.error(error.response.data.Message)
+            console.log(error.response.data.Message)
         }
-      
+
     }
     useEffect(() => {
         getAllBooks()
@@ -61,33 +63,49 @@ const ReaderDashboard = () => {
     //     fontWeight: "700"
     // };
     return (
-        <div className='reader-dashboard'>
-            <h1 className="reader-title">Reader Dashboard</h1>
-            <div className='button-container'>
+        <>
+            <div className='reader-dashboard'>
+                <h1 className="">Reader Dashboard</h1>
+                <div className='button-container'>
 
-                <div className='search-container'>
-                    <input onChange={e => setSearchVal(e.target.value)} placeholder='Search for author, title, publisher'>
-                    </input>
-                    <BsSearch onClick={handleSearchClick} />
-                </div>
+                    <div className='search-container'>
+                        <input onChange={e => setSearchVal(e.target.value)} placeholder='Search for author, title, publisher'>
+                        </input>
+                        <BsSearch onClick={handleSearchClick} />
+                    </div>
 
-                <div className='book-container'>
-                    {books.map((product) => {
-                        return (
-                            <div key={product.isbn} className='book-list-container'>
-                                {product.title} by {product.authors} published by {product.publisher}
-                                <button className='issue-button' onClick={(e) => raiseRequest(e, product)}>Issue</button>
-                            </div>
-                        )
-                    })
-                    }
+                    <div className='book-container'>
+                        {books.map((product) => {
+                            return (
+                                <div key={product.isbn} className='book-list-container'>
+                                    {product.title} by {product.authors} published by {product.publisher} in Lib {product.lib_id}
+                                    <button className='issue-button' onClick={(e) => raiseRequest(e, product)}>Issue</button>
+                                </div>
+                            )
+                        })
+                        }
+                    </div>
                 </div>
             </div>
+            <h1 className='heading'>Recently added books</h1>
+            <ul className="ul-list-book">
+                {allBook.map((book) => (
+                    <li key={book.isbn} className="li-list-book">
+                        <div className="li-list-div-book">
+                            <p>Copies {book.available_copies}</p>
+                            <p>Title {book.title} </p>
+                            <p>Author {book.authors}</p>
+                            <p>Version {book.version}</p>
+                        </div>
+                        <button className='' onClick={(e) => raiseRequest(e, book)}>Request Book</button>
+                    </li>
+                ))}
+            </ul>
             <Toaster
                 position="top-center"
                 reverseOrder={true}
             />
-        </div>
+        </>
     )
 }
 

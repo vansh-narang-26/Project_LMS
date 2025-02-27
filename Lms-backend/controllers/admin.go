@@ -295,7 +295,7 @@ func ApproveRequest(c *gin.Context) {
 	//fmt.Println(bookId)
 
 	var bookexists models.RequestEvent
-	if err := initializers.DB.Where("book_id=? AND req_id=?", bookId,requestId).First(&bookexists).Error; err != nil {
+	if err := initializers.DB.Where("book_id=? AND req_id=?", bookId, requestId).First(&bookexists).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error":   err.Error(),
 			"Message": "Couldnt find the book id with this isbn",
@@ -481,7 +481,14 @@ func GetAllBooks(c *gin.Context) {
 
 	var getBooks []models.BookInventory
 
-	if err := initializers.DB.Where("lib_id=? AND available_copies > ?", user.LibID, 0).Find(&getBooks).Error; err != nil {
+	// if err := initializers.DB.Where("lib_id=? AND available_copies > ?", user.LibID, 0).Find(&getBooks).Error; err != nil {
+	// 	c.JSON(http.StatusNotFound, gin.H{
+	// 		"Error":   err.Error(),
+	// 		"Message": "Unable to fetch all books",
+	// 	})
+	// 	return
+	// }
+	if err := initializers.DB.Where("lib_id=?", user.LibID).Find(&getBooks).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"Error":   err.Error(),
 			"Message": "Unable to fetch all books",

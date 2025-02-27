@@ -1,6 +1,7 @@
 .reader-dashboard {
     width: 100%;
-    align-items: start;
+    margin: 20px auto;
+    align-items: center;
     display: flex;
     flex-direction: column;
 }
@@ -9,6 +10,7 @@
     /* align-items: center; */
     /* background-color: red; */
     display: flex;
+    align-items: center;
     flex-direction: column;
     width: 100%;
 }
@@ -24,7 +26,7 @@
 .book-container {
     align-items: start;
     display: flex;
-    /* flex-direction: column; */
+    flex-direction: column;
 }
 
 .book-list-container {
@@ -37,4 +39,91 @@
 
 .issue-button {
     max-width: 100px;
+}
+
+.ul-list-book{
+    list-style: none;
+    padding: 0;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 1.5rem;
+    margin: 1.5rem;
+}
+
+.li-list-div-book{
+    background-color: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px var(--shadow);
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.li-list-div:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px var(--shadow);
+}
+
+.li-list-div-book {
+    display: flex;
+    flex-direction: column;
+    padding: 1.25rem;
+    flex-grow: 1;
+    gap: 0.5rem;
+}
+
+.li-list-div-book p {
+    margin: 0;
+    display: flex;
+    align-items: center;
+}
+
+.li-list-div-book p:first-child {
+    font-weight: bold;
+    color: var(--primary);
+    font-size: 1.1rem;
+}
+
+.li-list-div-book p::before {
+    content: '';
+    display: inline-block;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: var(--primary);
+    margin-right: 0.5rem;
+}
+
+.li-list-book .action-buttons {
+    display: flex;
+    gap: 0.5rem;
+    padding: 0 1rem 1rem;
+}
+
+.li-list-book button {
+    flex: 1;
+    padding: 0.6rem 0;
+    border-radius: 6px;
+    font-weight: 500;
+}
+
+.li-list-book button:nth-child(1) {
+    background-color: var(--primary);
+}
+
+.li-list-book button:nth-child(1):hover {
+    background-color: var(--primary-hover);
+}
+
+.li-list-book button:nth-child(2) {
+    background-color: var(--danger);
+}
+
+.li-list-book button:nth-child(2):hover {
+    background-color: var(--danger-hover);
+}
+.heading{
+    margin-left: 1.5rem;
 }

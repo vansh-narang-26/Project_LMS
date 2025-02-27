@@ -1,6 +1,7 @@
 package controllers
 
 import (
+	"fmt"
 	"lms/backend/initializers"
 	"lms/backend/models"
 	"net/http"
@@ -11,10 +12,22 @@ import (
 
 func SearchBooks(c *gin.Context) {
 	// var book models.BookInventory
+	adminID, _ := c.Get("id")
+
+	var findUser models.User
+
+	if err := initializers.DB.Where("ID=?", adminID).Find(&findUser).Error; err != nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			"Message": "Couldnt find the user",
+			"Error":   err.Error(),
+		})
+		return
+	}
+	fmt.Println("Library id", findUser.LibID)
 
 	var books []models.BookInventory //will store all the books in the array
 	query := c.Query("q")
-	if err := initializers.DB.Where("title LIKE ? OR authors LIKE ? OR publisher LIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&books).Error; err != nil {
+	if err := initializers.DB.Where("lib_id=? AND (title LIKE ? OR authors LIKE ? OR publisher LIKE ?)", findUser.LibID, "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&books).Error; err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
 			"Error":   err.Error(),
 			"Message": "No book found",
@@ -83,7 +96,7 @@ func RaiseIssueRequest(c *gin.Context) {
 
 	if request.ReaderID == user.ID {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"message": "The book has been already requested by you",
+			"Message": "The book has been already requested by you",
 		})
 		return
 	}
