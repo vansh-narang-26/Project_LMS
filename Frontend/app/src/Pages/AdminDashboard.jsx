@@ -168,10 +168,16 @@ const AdminDashboard = () => {
 
     const rejectRequest = async (id) => {
         try {
-            await axios.post(`/api/requests/${id}/reject`);
+            await axios.put(`http://localhost:8000/api/admin/${id}/reject`,{},{
+                headers: {
+                    "Content-Type": "application/json",
+                    "Authorization": `Bearer ${token}`
+                },
+            });
+            toast.success("Book request rejected")
             fetchRequests();
         } catch (error) {
-            console.error("Error rejecting request:", error);
+            console.error("Error rejecting request:", error.response.data.message);
         }
     };
     const handleSubmission = async (e) => {

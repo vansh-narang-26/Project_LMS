@@ -295,7 +295,7 @@ func ApproveRequest(c *gin.Context) {
 	//fmt.Println(bookId)
 
 	var bookexists models.RequestEvent
-	if err := initializers.DB.Where("book_id=?", bookId).First(&bookexists).Error; err != nil {
+	if err := initializers.DB.Where("book_id=? AND req_id=?", bookId,requestId).First(&bookexists).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error":   err.Error(),
 			"Message": "Couldnt find the book id with this isbn",
@@ -332,7 +332,6 @@ func ApproveRequest(c *gin.Context) {
 
 	// readerID := request.ReaderID
 	// fmt.Println(readerID)
-
 
 	// to do jo request id aai hai 10 usko update kr de requested to issued
 
@@ -393,7 +392,8 @@ func RejectRequest(c *gin.Context) {
 
 	//extract the request id and check its availablity or not
 	requestId := c.Param("id")
-	//fmt.Println(requestId)
+	// fmt.Println("Req")
+	// fmt.Println(requestId)
 	var request models.RequestEvent
 
 	if err := initializers.DB.Where("req_id=?", requestId).Find(&request).Error; err != nil {
@@ -405,10 +405,11 @@ func RejectRequest(c *gin.Context) {
 	}
 	//time to extract bookId from request id
 	bookId := request.BookID
-	//fmt.Println(bookId)
+	// fmt.Println("book")
+	// fmt.Println(bookId)
 
 	var bookexists models.RequestEvent
-	if err := initializers.DB.Where("book_id=?", bookId).Find(&bookexists).Error; err != nil {
+	if err := initializers.DB.Where("book_id=? AND req_id=?", bookId, requestId).Find(&bookexists).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
 			"Error":   err.Error(),
 			"Message": "Couldnt find the book id with this isbn",
