@@ -41,9 +41,7 @@ const ReaderDashboard = () => {
                 "Content-Type": "application/json",
                 "Authorization": `Bearer ${token}`
             },
-        }
-
-        )
+        })
         console.log(res)
     }
     useEffect(() => {

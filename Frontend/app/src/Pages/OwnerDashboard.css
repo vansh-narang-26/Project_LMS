@@ -60,13 +60,13 @@ button {
 
 .create-library,
 .create-admin {
-    background-color: #28a745;
+    background-color: black;
     color: white;
 }
 
 .create-library:hover,
 .create-admin:hover {
-    background-color: #218838;
+    background-color:rgb(28, 28, 28);
     transform: translateY(-2px);
     box-shadow: 0 6px 12px rgba(40, 167, 69, 0.2);
 }
