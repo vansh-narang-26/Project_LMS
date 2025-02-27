@@ -41,7 +41,7 @@ h2 {
     align-items: center;
     gap: 0.5rem;
 }
-
+/* 
 h2::before {
     content: '';
     display: inline-block;
@@ -49,7 +49,7 @@ h2::before {
     height: 1.8rem;
     background-color: var(--primary);
     border-radius: 4px;
-}
+} */
 
 /* Action Button */
 .action-btn {

@@ -100,7 +100,6 @@
     text-decoration: none;
 }
 
-.register-button,
 .register-button {
     background-color: transparent;
     color: #fff;
@@ -118,6 +117,12 @@
     background-color: #4db6ac;
     color: #1a2a38;
 }
+
+.register-button:hover{
+    background-color: #4db6ac;
+    color: #1a2a38;
+}
+
 
 /* Sidebar Styles */
 .sidebar-overlay {
@@ -219,7 +224,7 @@
     margin-top: auto;
 }
 
-.logout-button-sidebar {
+/* .logout-button-sidebar {
     width: 100%;
     background-color: #2c3e50;
     color: white;
@@ -229,11 +234,11 @@
     font-weight: 500;
     cursor: pointer;
     transition: background-color 0.3s ease;
-}
-
+} */
+/* 
 .logout-button-sidebar:hover {
     background-color: #1a2a38;
-}
+} */
 
 /* Responsive Design */
 @media (max-width: 992px) {

@@ -82,11 +82,11 @@ const Navbar = ({ onLogout }) => {
                         </button>
                     ) : (
                         <>
-                            <NavLink className="login-button" to="/login">
-                                Log in
-                            </NavLink>
                             <NavLink className="register-button" to="/register">
                                 Register
+                            </NavLink>
+                            <NavLink className="login-button" to="/login">
+                                Log in
                             </NavLink>
                         </>
                     )}

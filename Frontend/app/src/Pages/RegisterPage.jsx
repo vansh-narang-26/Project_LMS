@@ -13,7 +13,7 @@ const RegisterPage = () => {
         email: "",
         contact_no: "",
         role: "",
-        lib_id: "" || 0,
+        lib_id: "",
     });
 
     const [libraries, setLibraries] = useState([]);
@@ -127,7 +127,7 @@ const RegisterPage = () => {
                     </select>
                 </div>
 
-                {/* Showing Library only if role is "reader" */}
+                {/* Showing Library only if role is reader */}
                 {formData.role === "reader" && (
                     <div className="input-group">
                         <label htmlFor="lib_id">Select Library</label>
