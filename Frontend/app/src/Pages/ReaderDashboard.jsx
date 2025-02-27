@@ -7,11 +7,11 @@ const ReaderDashboard = () => {
     const token = localStorage.getItem("token")
     // console.log(token)
     const [books, setBooks] = useState([]);
-    const [allBook,setallBooks]=useState([])
+    const [allBook, setallBooks] = useState([])
     const [searchVal, setSearchVal] = useState("");
 
 
-    async function getReturnDate(e,book){
+    async function getReturnDate(e, book) {
         console.log(book.isbn)
         try {
             const res = await axios.get(`http://localhost:8000/api/reader/return-date/${book.isbn}`, {
@@ -20,16 +20,22 @@ const ReaderDashboard = () => {
                     "Authorization": `Bearer ${token}`
                 },
             })
-            const expectedDate=new Date(res.data.return_date).toLocaleDateString()
-           // console.log(res.data.return_date)
-            toast.success(expectedDate)
+            const expectedDate = new Date(res.data.return_date).toLocaleDateString()
+            // console.log(res.data.return_date)
+            toast(expectedDate,{
+                duration:4000,
+            });
         } catch (error) {
             console.log(error)
         }
     }
 
     async function handleSearchClick() {
-        if (searchVal === "") { setBooks([]); return; }
+        //couldnt show toast here
+        if (searchVal === "") {
+            setBooks([]);
+            return;
+        }
         const res = await axios.get(`http://localhost:8000/api/reader/search-books?q=${searchVal}`, {
             headers: {
                 "Content-Type": "application/json",
@@ -91,15 +97,26 @@ const ReaderDashboard = () => {
                     </div>
 
                     <div className='book-container'>
-                        {books.map((product) => {
-                            return (
-                                <div key={product.isbn} className='book-list-container'>
-                                    {product.title} by {product.authors} published by {product.publisher} in Lib {product.lib_id}
-                                    <button className='issue-button' onClick={(e) => raiseRequest(e, product)}>Issue</button>
-                                </div>
-                            )
-                        })
-                        }
+                        <ul className='ul-list-book'>
+                            {books.map((book) => (
+                                // <div key={product.isbn} className='book-list-container'>
+                                //     {product.title} by {product.authors} published by {product.publisher} in Lib {product.lib_id}
+                                //     <button className='issue-button' onClick={(e) => raiseRequest(e, product)}>Issue</button>
+                                // </div>
+
+                                <li key={book.isbn} className='li-list-book'>
+                                    <div className='li-list-div-book'>
+                                        <p>Available copies {book.available_copies}</p>
+                                        <p>Title {book.title} </p>
+                                        <p>Author {book.authors}</p>
+                                        <p>Version {book.version}</p>
+                                        {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>) : ""}
+                                        <button className='' onClick={(e) => raiseRequest(e, book)}>Request</button>
+                                    </div>
+                                </li>
+                            ))
+                            }
+                        </ul>
                     </div>
                 </div>
             </div>
@@ -108,12 +125,12 @@ const ReaderDashboard = () => {
                 {allBook.map((book) => (
                     <li key={book.isbn} className="li-list-book">
                         <div className="li-list-div-book">
-                            <p>Copies {book.available_copies}</p>
+                            <p>Available copies {book.available_copies}</p>
                             <p>Title {book.title} </p>
                             <p>Author {book.authors}</p>
                             <p>Version {book.version}</p>
                         </div>
-                        {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>):""}
+                        {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>) : ""}
                         <button className='' onClick={(e) => raiseRequest(e, book)}>Request Book</button>
                     </li>
                 ))}
