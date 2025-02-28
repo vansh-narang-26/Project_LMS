@@ -59,7 +59,6 @@ const Navbar = ({ onLogout }) => {
                                     <li><NavLink to="/admin-dashboard">Dashboard</NavLink></li>
                                     <li><NavLink to="/manage-books">Manage Books</NavLink></li>
                                     <li><NavLink to="/issue-requests">Issue Requests</NavLink></li>
-                                    <li><NavLink to="/reader-management">Readers</NavLink></li>
                                 </>
                             )}
 

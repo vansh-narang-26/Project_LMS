@@ -38,10 +38,21 @@ const RegisterPage = () => {
 
     const handleChange = (e) => {
         const { name, value } = e.target;
-        setFormData({
-            ...formData,
-            [name]: name === 'lib_id' ? parseInt(value) : value
-        });
+        
+        // Handle role change separately
+        if (name === 'role') {
+            setFormData({
+                ...formData,
+                [name]: value,
+                // Set lib_id to 0 when role is owner
+                lib_id: value === 'owner' ? 0 : formData.lib_id
+            });
+        } else {
+            setFormData({
+                ...formData,
+                [name]: name === 'lib_id' ? parseInt(value) : value
+            });
+        }
     };
 
     const handleSubmit = async (e) => {
