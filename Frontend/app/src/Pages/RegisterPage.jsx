@@ -63,12 +63,13 @@ const RegisterPage = () => {
 
         try {
             const response = await axios.post(API_URL, formData);
-            console.log("Registration Success:", response.data);
+            console.log("Registration Success:", response);
             toast.success("Registration Successful");
             setSuccess(true);
             setTimeout(() => navigate("/login"), 2000); // Redirect after 2 sec
         } catch (err) {
-            const errorMessage = err.response?.data?.message || "Registration failed";
+           // console.log(err)
+            const errorMessage = err.response?.data?.Error || "Registration failed";
             setError(errorMessage);
             toast.error(errorMessage);
         } finally {

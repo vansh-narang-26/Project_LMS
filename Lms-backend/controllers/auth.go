@@ -29,7 +29,7 @@ func CreateUser(c *gin.Context) {
 
 	if exisitingUser.ID != 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "already exists with the same email",
+			"Error": "Same email exists",
 		})
 		return
 	}

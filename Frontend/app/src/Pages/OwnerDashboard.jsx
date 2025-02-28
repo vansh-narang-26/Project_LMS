@@ -247,7 +247,7 @@ const OwnerDashboard = () => {
                     <div key={index} className="library-card">
                         <p>Name: {lib.name}</p>
                         <p>ID: {lib.id}</p>
-                        <p>Has {admins.length} admin</p>
+                        <p>Has {admins.length} admin(s)</p>
                         {libraryId && (<button className="create-admin" onClick={handleAdminClick}>Create Admin</button>)}
                     </div>
                 ))}
