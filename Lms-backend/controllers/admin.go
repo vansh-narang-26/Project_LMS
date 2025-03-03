@@ -18,59 +18,14 @@ type AddBooks struct {
 	Version   int
 }
 
-// func AddBook(c *gin.Context) {
-// 	var addBook AddBooks
-// 	var exisitingUser models.BookInventory
-
-// 	if err := c.ShouldBindJSON(&addBook); err != nil {
-// 		c.JSON(http.StatusBadRequest, gin.H{
-// 			"Error": err.Error(),
-// 		})
-// 		return
-// 	}
-// 	//var existingBook models.BookInventory
-
-// 	// if already existed then increase the count
-// 	// res := initializers.DB.Where("title=?", existingBook.Title).Find(&existingBook)
-
-// 	// if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-// 	//record not found
-// 	res := initializers.DB.Where("title=?", addBook.Title).First(&exisitingUser)
-
-// 	// fmt.Println(res)
-// 	if errors.Is(res.Error, gorm.ErrRecordNotFound) {
-// 		// fmt.Println("record not found")
-// 		newBook := models.BookInventory{
-// 			ISBN:            addBook.ISBN,
-// 			LibID:           1,
-// 			Title:           addBook.Title,
-// 			Authors:         addBook.Author,
-// 			Publisher:       addBook.Publisher,
-// 			Version:         addBook.Version,
-// 			TotalCopies:     24,
-// 			AvailableCopies: 12,
-// 		}
-// 		initializers.DB.Create(&newBook)
-// 		c.JSON(http.StatusOK, gin.H{"data": newBook})
-// 	} else {
-// 		fmt.Println("record found")
-// 		// copies := exisitingUser.TotalCopies
-// 		initializers.DB.Model(&models.BookInventory{}).Where("title", addBook.Title).Update("TotalCopies", exisitingUser.TotalCopies+1)
-// 		// initializers.DB.Model(&models.BookInventory{})
-// 	}
-// 	// // fmt.Println("Record not found")
-
-// }
-
-// func RemoveBook(c *gin.Context) {
-
-// }
 func AddBook(c *gin.Context) {
 	//taking email to return to frontend to see which admin made is creating the book
 	email, _ := c.Get("email")
 	adminID, exists := c.Get("id")
+	fmt.Println("Admin ID and email")
+	fmt.Println(adminID, email)
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "Unauthorized"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "token contains an invalid number of segments"})
 		return
 	}
 
@@ -90,7 +45,7 @@ func AddBook(c *gin.Context) {
 	//Checking book exists with the same ISBN or not if exists increase the count by 1
 	var existingBook models.BookInventory
 	if err := initializers.DB.Where("isbn = ? AND lib_id=?", bookInput.ISBN, adminUser.LibID).First(&existingBook).Error; err == nil {
-		// If book exists, increase the total copies count
+		// If book exists increase the total copies count
 		existingBook.TotalCopies += 1
 		existingBook.AvailableCopies += 1
 		if err := initializers.DB.Save(&existingBook).Error; err != nil {

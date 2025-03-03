@@ -30,6 +30,7 @@ func UserRetriveCookie(c *gin.Context) {
 	// nrole = role
 
 	userId, role, email, err := ExtractTokenID(c)
+	// fmt.Println("User id", userId)
 	// fmt.Println(userId, role, email, err)
 	if err != nil {
 		c.JSON(http.StatusUnauthorized, gin.H{"error": err.Error()})

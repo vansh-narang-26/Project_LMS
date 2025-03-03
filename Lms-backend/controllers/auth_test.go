@@ -13,16 +13,16 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func setupTestDB() {
-	initializers.ConnectDatabase()
-	initializers.DB.AutoMigrate(&models.Library{}, &models.User{})
-	initializers.DB.AutoMigrate(&models.BookInventory{})
-	initializers.DB.AutoMigrate(&models.RequestEvent{})
-	initializers.DB.AutoMigrate(&models.IssueRegistry{})
+// func setupTestDB() {
+// 	initializers.ConnectDatabase()
+// 	initializers.DB.AutoMigrate(&models.Library{}, &models.User{})
+// 	initializers.DB.AutoMigrate(&models.BookInventory{})
+// 	initializers.DB.AutoMigrate(&models.RequestEvent{})
+// 	initializers.DB.AutoMigrate(&models.IssueRegistry{})
 
-	//Clearing table before execution
-	initializers.DB.Exec("DELETE FROM users")
-}
+// 	//Clearing table before execution
+// 	initializers.DB.Exec("DELETE FROM users")
+// }
 
 func TestCreateUser(t *testing.T) {
 	setupTestDB()
@@ -31,7 +31,7 @@ func TestCreateUser(t *testing.T) {
 	router := gin.Default()
 	router.POST("/users/register", CreateUser)
 
-	userData := `{"name":"Test User", "email":"test@example.com", "contactNumber":"1234567890", "role":"reader", "libID":1}`
+	userData := `{"name":"Test User", "email":"test@example.com", "contactNumber":"1234567890", "role":"reader", "libID":3}`
 	req, _ := http.NewRequest("POST", "/users/register", bytes.NewBuffer([]byte(userData)))
 	req.Header.Set("Content-Type", "application/json")
 
