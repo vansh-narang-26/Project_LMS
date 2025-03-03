@@ -22,10 +22,10 @@ func AddBook(c *gin.Context) {
 	//taking email to return to frontend to see which admin made is creating the book
 	email, _ := c.Get("email")
 	adminID, exists := c.Get("id")
-	fmt.Println("Admin ID and email")
-	fmt.Println(adminID, email)
+	// fmt.Println("Admin ID and email")
+	// fmt.Println(adminID, email)
 	if !exists {
-		c.JSON(http.StatusUnauthorized, gin.H{"error": "token contains an invalid number of segments"})
+		c.JSON(http.StatusUnauthorized, gin.H{"error": "Only admin has the access to do so"}) //means unauthorised hai
 		return
 	}
 
