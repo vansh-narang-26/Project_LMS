@@ -20,7 +20,7 @@ func setupTestDB() {
 	initializers.DB.AutoMigrate(&models.RequestEvent{})
 	initializers.DB.AutoMigrate(&models.IssueRegistry{})
 
-	// Clear table before tests
+	//Clearing table before execution
 	initializers.DB.Exec("DELETE FROM users")
 }
 
@@ -31,7 +31,6 @@ func TestCreateUser(t *testing.T) {
 	router := gin.Default()
 	router.POST("/users/register", CreateUser)
 
-	// Mock user data
 	userData := `{"name":"Test User", "email":"test@example.com", "contactNumber":"1234567890", "role":"reader", "libID":1}`
 	req, _ := http.NewRequest("POST", "/users/register", bytes.NewBuffer([]byte(userData)))
 	req.Header.Set("Content-Type", "application/json")
@@ -55,7 +54,7 @@ func TestCreateUser(t *testing.T) {
 func TestLoginUser(t *testing.T) {
 	setupTestDB()
 
-	// Cleanup before test
+	// Cleaning again
 	initializers.DB.Where("email = ?", "login@example.com").Delete(&models.User{})
 
 	// Create a test user
@@ -77,10 +76,12 @@ func TestLoginUser(t *testing.T) {
 		name       string
 		payload    string
 		wantStatus int
-		wantKey    string // Checking key instead of hardcoded message
+		wantKey    string
 		wantMsg    string
 	}{
 		{"Valid Login", `{"email":"login@example.com"}`, http.StatusOK, "message", "Logged in successfully"},
+		{"Invalid Email", `{"email":"unknown@example.com"}`, http.StatusBadGateway, "Error", "No user exists"},
+		// {"Empty Request", `{}`, http.StatusBadGateway, "error", "Invalid request body"},
 	}
 
 	for _, tt := range tests {
@@ -96,7 +97,7 @@ func TestLoginUser(t *testing.T) {
 			var response map[string]interface{}
 			json.Unmarshal(w.Body.Bytes(), &response)
 
-			assert.Equal(t, tt.wantMsg, response[tt.wantKey]) // Match expected key and message
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
 		})
 	}
 }

@@ -51,7 +51,8 @@ func LoginUser(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&luser); err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{
-			"Error": err.Error(),
+			"Error":   err.Error(),
+			"error": "Invalid request body",
 		})
 		return
 	}
