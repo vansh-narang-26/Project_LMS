@@ -4,6 +4,7 @@ import (
 	"fmt"
 	"lms/backend/initializers"
 	"lms/backend/models"
+	"log"
 	"net/http"
 	"time"
 
@@ -142,12 +143,15 @@ func UpdateBook(c *gin.Context) {
 
 	// get the email of the admin logged in and check the book which needs to updated is from the same library
 	email, _ := c.Get("email")
+	fmt.Println("Email", email)
 	var user models.User
 
 	if err := initializers.DB.Where("email=?", email).First(&user).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"Error": err.Error(),
 		})
+		// fmt.Println("Message", err.Error())
+		log.Fatal("Message", err.Error())
 		return
 	}
 	userLibID := user.LibID
@@ -158,6 +162,7 @@ func UpdateBook(c *gin.Context) {
 
 	if err := c.ShouldBindJSON(&upBook); err != nil {
 		c.JSON(http.StatusBadGateway, gin.H{"error": err.Error()})
+		log.Fatal("Message", err.Error())
 		return
 	}
 

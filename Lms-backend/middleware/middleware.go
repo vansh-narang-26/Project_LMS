@@ -115,7 +115,7 @@ func ExtractToken(c *gin.Context) string {
 	// 	return token
 	// }
 	bearerToken := c.Request.Header.Get("Authorization")
-	fmt.Println("Bearer", bearerToken)
+	//fmt.Println("Bearer", bearerToken)
 	if len(strings.Split(bearerToken, " ")) == 2 {
 		return strings.Split(bearerToken, " ")[1]
 	}
@@ -125,7 +125,7 @@ func ExtractToken(c *gin.Context) string {
 func ExtractTokenID(c *gin.Context) (int, string, string, error) {
 
 	tokenString := ExtractToken(c)
-	fmt.Println("token", tokenString)
+	//fmt.Println("token", tokenString)
 	token, err := jwt.Parse(tokenString, func(token *jwt.Token) (interface{}, error) {
 		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
 			return nil, fmt.Errorf("Unexpected signing method: %v", token.Header["alg"])
