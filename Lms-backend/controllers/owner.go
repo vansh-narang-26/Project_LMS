@@ -39,7 +39,7 @@ func CreateLibrary(c *gin.Context) {
 	//clib is creation of library
 	var clib models.Library
 	// fmt.Println(clib)
-	if err := c.ShouldBindBodyWithJSON(&clib); err != nil {
+	if err := c.ShouldBindJSON(&clib); err != nil {
 		c.JSON(http.StatusInternalServerError, gin.H{
 			"Error": err.Error(),
 		})
@@ -51,7 +51,8 @@ func CreateLibrary(c *gin.Context) {
 
 	if existingLibrary.ID != 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "Library with this name already exisits",
+			"Error":   "Library with this name already exists",
+			"Message": "Library with this name already exists",
 		})
 		return
 	}
@@ -61,12 +62,12 @@ func CreateLibrary(c *gin.Context) {
 	}
 	initializers.DB.Create(&nlibrary)
 
-	if err := initializers.DB.Model(&models.User{}).Where("email=?", emailId).Update("LibID", nlibrary.ID).Error; err != nil {
-		c.JSON(http.StatusBadRequest, gin.H{
-			"Error":   err.Error(),
-			"Message": "Couldnt update the id",
-		})
-	}
+	// if err := initializers.DB.Model(&models.User{}).Where("email=?", emailId).Update("LibID", nlibrary.ID).Error; err != nil {
+	// 	c.JSON(http.StatusBadRequest, gin.H{
+	// 		"Error":   err.Error(),
+	// 		"Message": "Couldnt update the id",
+	// 	})
+	// }
 	// fmt.Println("user logged in ID", userFound.ID)
 	// fmt.Println("New library ID", nlibrary.ID)
 

@@ -40,17 +40,6 @@ func SearchBooks(c *gin.Context) {
 
 }
 
-// // SearchBooks enables searching by title, authors, or publisher.
-// func SearchBooks(c *gin.Context) {
-//     query := c.Query("q")
-//     var books []models.Book
-//     config.DB.Where("title ILIKE ? OR authors ILIKE ? OR publisher ILIKE ?", "%"+query+"%", "%"+query+"%", "%"+query+"%").Find(&books)
-//     c.JSON(http.StatusOK, books)
-
-// db.Where("name LIKE ?", "%jin%").Find(&users)
-// SELECT * FROM users WHERE name LIKE '%jin%';
-// }
-
 func RaiseIssueRequest(c *gin.Context) {
 	//userId, exists := c.Get("id")
 	// if !exists {
