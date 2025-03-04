@@ -62,12 +62,12 @@ func CreateLibrary(c *gin.Context) {
 	}
 	initializers.DB.Create(&nlibrary)
 
-	// if err := initializers.DB.Model(&models.User{}).Where("email=?", emailId).Update("LibID", nlibrary.ID).Error; err != nil {
-	// 	c.JSON(http.StatusBadRequest, gin.H{
-	// 		"Error":   err.Error(),
-	// 		"Message": "Couldnt update the id",
-	// 	})
-	// }
+	if err := initializers.DB.Model(&models.User{}).Where("email=?", emailId).Update("LibID", nlibrary.ID).Error; err != nil {
+		c.JSON(http.StatusBadRequest, gin.H{
+			"Error":   err.Error(),
+			"Message": "Couldnt update the id",
+		})
+	}
 	// fmt.Println("user logged in ID", userFound.ID)
 	// fmt.Println("New library ID", nlibrary.ID)
 

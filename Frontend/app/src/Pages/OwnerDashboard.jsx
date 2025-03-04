@@ -69,7 +69,8 @@ const OwnerDashboard = () => {
             });
 
             const data = await response.json();
-            if (!response.ok) throw new Error(data.error || "Failed to create library");
+            console.log(data)
+            if (!response.ok) throw new Error(data.Error || "Failed to create library");
 
             // alert("Library created successfully!");
             toast.success("Library created successfully!");
