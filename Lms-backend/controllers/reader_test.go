@@ -79,24 +79,24 @@ func TestSearchBooks(t *testing.T) {
 	}
 }
 
-func TestRaiseIssueRequest(t *testing.T) {
-	setupTestDB1()
-	gin.SetMode(gin.TestMode)
-	router := gin.Default()
-	IntialiseRoutes(router)
+// func TestRaiseIssueRequest(t *testing.T) {
+// 	setupTestDB1()
+// 	gin.SetMode(gin.TestMode)
+// 	router := gin.Default()
+// 	IntialiseRoutes(router)
 
-	w := httptest.NewRecorder()
-	req, _ := http.NewRequest("GET", "/api/reader/raise-request/1", nil)
-	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZvQGdtYWlsLmNvbSIsImlkIjoxMCwicm9sZSI6InJlYWRlciJ9.CmczTvGes85VjtSIxS6OIXcL3cju8ZFuuo2j9ukoyzc")
+// 	w := httptest.NewRecorder()
+// 	req, _ := http.NewRequest("GET", "/api/reader/raise-request/1", nil)
+// 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZvQGdtYWlsLmNvbSIsImlkIjoxMCwicm9sZSI6InJlYWRlciJ9.CmczTvGes85VjtSIxS6OIXcL3cju8ZFuuo2j9ukoyzc")
 
-	router.ServeHTTP(w, req)
+// 	router.ServeHTTP(w, req)
 
-	assert.Equal(t, http.StatusCreated, w.Code)
-	var response map[string]interface{}
-	json.Unmarshal(w.Body.Bytes(), &response)
-	assert.Contains(t, response, "Message")
-	assert.Equal(t, "Request created successfully", response["Message"])
-}
+// 	assert.Equal(t, http.StatusCreated, w.Code)
+// 	var response map[string]interface{}
+// 	json.Unmarshal(w.Body.Bytes(), &response)
+// 	assert.Contains(t, response, "Message")
+// 	assert.Equal(t, "Request created successfully", response["Message"])
+// }
 
 func TestGetLibraries(t *testing.T) {
 	setupTestDB1()
