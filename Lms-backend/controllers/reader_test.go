@@ -112,14 +112,14 @@ func TestRaiseIssueRequest(t *testing.T) {
 		wantKey    string
 		wantMsg    string
 	}{
-		// {
-		// 	name:       "Request created",
-		// 	query:      "qa",
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
-		// 	wantStatus: http.StatusCreated,
-		// 	wantKey:    "Message",
-		// 	wantMsg:    "Request created successfully",
-		// },
+		{
+			name:       "No book available",
+			query:      "qaa",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Message",
+			wantMsg:    "Book not with this isbn",
+		},
 		{
 			name:       "Already requested",
 			query:      "q",

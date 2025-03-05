@@ -60,11 +60,12 @@ func RaiseIssueRequest(c *gin.Context) {
 
 	var book models.BookInventory
 	//Find the book with this above id
-	if err := initializers.DB.Where("isbn=?", isbn).Find(&book).Error; err != nil {
+	if err := initializers.DB.Where("isbn=?", isbn).First(&book).Error; err != nil {
 		c.JSON(http.StatusNotFound, gin.H{
 			"Error":   err.Error(),
 			"Message": "Book not with this isbn",
 		})
+		return
 	}
 
 	//If book not available the request must get rejected
