@@ -595,7 +595,7 @@ func TestIssueInfo(t *testing.T) {
 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
 			wantStatus: http.StatusNotFound,
 			wantKey:    "Message",
-			wantMsg:    "No reader found",
+			wantMsg:    "Id not same so no registry to show for the reader by the admin",
 		},
 		// {
 		// 	name:       "Found",

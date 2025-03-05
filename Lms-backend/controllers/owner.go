@@ -72,6 +72,7 @@ func CreateLibrary(c *gin.Context) {
 	// fmt.Println("New library ID", nlibrary.ID)
 
 	c.JSON(http.StatusOK, gin.H{
+		"Message":"Creation done",
 		"data": nlibrary,
 	})
 
@@ -168,7 +169,7 @@ func GetLib(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
-		"Messsage":"Library found",
+		"Message":"Library Found",
 		"library": library,
 	})
 }

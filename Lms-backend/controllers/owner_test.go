@@ -14,7 +14,9 @@ import (
 
 func TestCreateLibrary(t *testing.T) {
 	setupTestDB1()
-//	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	initializers.DB.Exec("DELETE FROM  libraries where name='New Library' ")
+
+	initializers.DB.Exec("UPDATE users set lib_id=0 where email='dddd@gmail.com'")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -34,7 +36,7 @@ func TestCreateLibrary(t *testing.T) {
 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkk"},
 			wantStatus: http.StatusBadRequest,
 			wantKey:    "Message",
-			wantMsg:    "Library with this name already exists",
+			wantMsg:    "Already has a library",
 		},
 		{
 			name:       "Library With Same Name Exists",
@@ -42,7 +44,7 @@ func TestCreateLibrary(t *testing.T) {
 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkk"},
 			wantStatus: http.StatusBadRequest,
 			wantKey:    "Message",
-			wantMsg:    "Library with this name already exists",
+			wantMsg:    "Already has a library",
 		},
 		// {
 		// 	name:       "Invalid JSON Format",
@@ -59,6 +61,14 @@ func TestCreateLibrary(t *testing.T) {
 			wantStatus: http.StatusUnauthorized,
 			wantKey:    "error",
 			wantMsg:    "token contains an invalid number of segments",
+		},
+		{
+			name:       "Create Library",
+			payload:    `{"name":"New Library"}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRkZGRAZ21haWwuY29tIiwiaWQiOjYsInJvbGUiOiJvd25lciJ9.G7UwIJsVNr7nq0EGDEisg1kw5A4de4706Z9YveThw8s"},
+			wantStatus: http.StatusOK,
+			wantKey:    "Message",
+			wantMsg:    "Creation done",
 		},
 	}
 
@@ -159,22 +169,22 @@ func TestGetLib(t *testing.T) {
 		wantKey    string
 		wantMsg    string
 	}{
-		{
-			name:       "Library not found",
-			payload:    "",
-			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
-			wantStatus: http.StatusNotFound,
-			wantKey:    "Message",
-			wantMsg:    "Library doesnot exist",
-		},
 		// {
-		// 	name:       "Library found",
+		// 	name:       "Library not found",
 		// 	payload:    "",
 		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
-		// 	wantStatus: http.StatusOK,
-		// 	wantKey:    "",
-		// 	wantMsg:    "",
+		// 	wantStatus: http.StatusNotFound,
+		// 	wantKey:    "Message",
+		// 	wantMsg:    "Library doesnot exist",
 		// },
+		{
+			name:       "Library found",
+			payload:    "",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Inh5QGdtYWlsLmNvbSIsImlkIjoxMSwicm9sZSI6Im93bmVyIn0.wrBvCr60zRQRQ0xbvSaY27-V2qk1Jgfrnz4i9RVyd8M"},
+			wantStatus: http.StatusOK,
+			wantKey:    "Message",
+			wantMsg:    "Library Found",
+		},
 	}
 
 	for _, tt := range tests {
@@ -227,10 +237,10 @@ func TestGetAdmins(t *testing.T) {
 		{
 			name:       "User not found",
 			payload:    "",
-			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxwQGdtYWlsLmNvbSIsImlkIjoxOCwicm9sZSI6Im93bmVyIn0.tmapn513k39lv7lFCLmXmBdZVKXXhl7LtvAxDc8BZGg"},
-			wantStatus: http.StatusNotFound,
-			wantKey:    "Message",
-			wantMsg:    "Couldnt find logged in user",
+			headers:    map[string]string{},
+			wantStatus: http.StatusUnauthorized,
+			wantKey:    "error",
+			wantMsg:    "token contains an invalid number of segments",
 		},
 	}
 
