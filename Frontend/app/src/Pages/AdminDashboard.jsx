@@ -127,8 +127,8 @@ const AdminDashboard = () => {
                     },
                 }
             );
-            console.log(response.data.message);
-            setRequests(response.data.message);
+            console.log(response.data.requests);
+            setRequests(response.data.requests);
         } catch (error) {
             console.error("Error fetching requests:", error);
         }

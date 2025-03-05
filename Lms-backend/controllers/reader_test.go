@@ -122,7 +122,7 @@ func TestRaiseIssueRequest(t *testing.T) {
 		},
 		{
 			name:       "Already requested",
-			query:      "q",
+			query:      "11",
 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
 			wantStatus: http.StatusBadRequest,
 			wantKey:    "Message",

@@ -366,71 +366,71 @@ func TestListRequests(t *testing.T) {
 	}
 }
 
-// func TestApproveRequest(t *testing.T) {
-// 	setupTestDB()
+func TestApproveRequest(t *testing.T) {
+	setupTestDB1()
 
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.Default()
-// 	IntialiseRoutes(router)
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
 
-// 	tests := []struct {
-// 		name       string
-// 		requestID  string
-// 		payload    string
-// 		headers    map[string]string
-// 		wantStatus int
-// 		wantKey    string
-// 		wantMsg    string
-// 	}{
-// 		{
-// 			name:       "Unauthorized Access",
-// 			requestID:  "1",
-// 			payload:    `{"request_type":"Issued"}`,
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
-// 			wantStatus: http.StatusForbidden,
-// 			wantKey:    "error",
-// 			wantMsg:    "Admin access required",
-// 		},
-// 		{
-// 			name:       "Request Not Found",
-// 			requestID:  "999",
-// 			payload:    `{"request_type":"Issued"}`,
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-// 			wantStatus: http.StatusBadRequest,
-// 			wantKey:    "Message",
-// 			wantMsg:    "Couldnot find the request with this id",
-// 		},
-// 		{
-// 			name:       "Successfully Approving a Request",
-// 			requestID:  "1",
-// 			payload:    `{"request_type":"Issued"}`,
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-// 			wantStatus: http.StatusAccepted,
-// 			wantKey:    "message",
-// 			wantMsg:    "updation successfully done",
-// 		},
-// 	}
+	tests := []struct {
+		name       string
+		requestID  string
+		payload    string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		{
+			name:       "Unauthorized Access",
+			requestID:  "1",
+			payload:    `{"request_type":"Issued"}`,
+			headers:    map[string]string{},
+			wantStatus: http.StatusUnauthorized,
+			wantKey:    "error",
+			wantMsg:    "token contains an invalid number of segments",
+		},
+		{
+			name:       "Request Not Found",
+			requestID:  "999",
+			payload:    `{"request_type":"Issued"}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "Message",
+			wantMsg:    "Couldnt find the book id with this isbn",
+		},
+		{
+			name:       "Successfully Approving a Request",
+			requestID:  "6",
+			payload:    `{"request_type":"Issued"}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusAccepted,
+			wantKey:    "message",
+			wantMsg:    "updation successfully done",
+		},
+	}
 
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			w := httptest.NewRecorder()
-// 			req, _ := http.NewRequest("PUT", "/api/admin/"+tt.requestID+"/approve", bytes.NewBuffer([]byte(tt.payload)))
-// 			req.Header.Set("Content-Type", "application/json")
-// 			for key, value := range tt.headers {
-// 				req.Header.Set(key, value)
-// 			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("PUT", "/api/admin/"+tt.requestID+"/approve", bytes.NewBuffer([]byte(tt.payload)))
+			req.Header.Set("Content-Type", "application/json")
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
 
-// 			router.ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 
-// 			assert.Equal(t, tt.wantStatus, w.Code)
+			assert.Equal(t, tt.wantStatus, w.Code)
 
-// 			var response map[string]interface{}
-// 			json.Unmarshal(w.Body.Bytes(), &response)
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
 
-// 			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
-// 		})
-// 	}
-// }
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+		})
+	}
+}
 
 // func TestRejectRequest(t *testing.T) {
 // 	setupTestDB()
