@@ -316,56 +316,56 @@ func TestUpdateBook(t *testing.T) {
 	}
 }
 
-// func TestListRequests(t *testing.T) {
-// 	setupTestDB()
+func TestListRequests(t *testing.T) {
+	setupTestDB()
 
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.Default()
-// 	IntialiseRoutes(router)
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
 
-// 	tests := []struct {
-// 		name       string
-// 		headers    map[string]string
-// 		wantStatus int
-// 		wantKey    string
-// 		wantMsg    string
-// 	}{
-// 		{
-// 			name:       "Unauthorized Access",
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
-// 			wantStatus: http.StatusUnauthorized,
-// 			wantKey:    "error",
-// 			wantMsg:    "Only admin has the access to do so",
-// 		},
-// 		{
-// 			name:       "Successfully Listing Requests",
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-// 			wantStatus: http.StatusOK,
-// 			wantKey:    "message",
-// 			wantMsg:    "[]interface{}([]interface{}{})",
-// 		},
-// 	}
+	tests := []struct {
+		name       string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		{
+			name:       "Unauthorized Access",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
+			wantStatus: http.StatusUnauthorized,
+			wantKey:    "error",
+			wantMsg:    "Only admin has the access to do so",
+		},
+		{
+			name:       "Successfully Listing Requests",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusOK,
+			wantKey:    "message",
+			wantMsg:    "listed successfully",
+		},
+	}
 
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			w := httptest.NewRecorder()
-// 			req, _ := http.NewRequest("GET", "/api/admin/list-requests", nil)
-// 			req.Header.Set("Content-Type", "application/json")
-// 			for key, value := range tt.headers {
-// 				req.Header.Set(key, value)
-// 			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/api/admin/list-requests", nil)
+			req.Header.Set("Content-Type", "application/json")
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
 
-// 			router.ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 
-// 			assert.Equal(t, tt.wantStatus, w.Code)
+			assert.Equal(t, tt.wantStatus, w.Code)
 
-// 			var response map[string]interface{}
-// 			json.Unmarshal(w.Body.Bytes(), &response)
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
 
-// 			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
-// 		})
-// 	}
-// }
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+		})
+	}
+}
 
 // func TestApproveRequest(t *testing.T) {
 // 	setupTestDB()
@@ -551,64 +551,64 @@ func TestGetAllBooks(t *testing.T) {
 	}
 }
 
-// func TestIssueInfo(t *testing.T) {
-// 	setupTestDB()
+func TestIssueInfo(t *testing.T) {
+	setupTestDB()
 
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.Default()
-// 	IntialiseRoutes(router)
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
 
-// 	tests := []struct {
-// 		name       string
-// 		readerID   string
-// 		headers    map[string]string
-// 		wantStatus int
-// 		wantKey    string
-// 		wantMsg    string
-// 	}{
-// 		{
-// 			name:       "Unauthorized Access",
-// 			readerID:   "1",
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
-// 			wantStatus: http.StatusUnauthorized,
-// 			wantKey:    "error",
-// 			wantMsg:    "Unauthorized",
-// 		},
-// 		{
-// 			name:       "Reader Not Found",
-// 			readerID:   "999",
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-// 			wantStatus: http.StatusAccepted,
-// 			wantKey:    "Error",
-// 			wantMsg:    "Coulnt find any issue registry",
-// 		},
-// 		{
-// 			name:       "Successfully Getting Issue Info",
-// 			readerID:   "1",
-// 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-// 			wantStatus: http.StatusFound,
-// 			wantKey:    "info",
-// 			wantMsg:    "[]",
-// 		},
-// 	}
+	tests := []struct {
+		name       string
+		readerID   string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		{
+			name:       "Unauthorized Access",
+			readerID:   "1",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
+			wantStatus: http.StatusUnauthorized,
+			wantKey:    "error",
+			wantMsg:    "Only admin has the access to do so",
+		},
+		{
+			name:       "Reader Not Found",
+			readerID:   "999",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Error",
+			wantMsg:    "record not found",
+		},
+		{
+			name:       "Not found",
+			readerID:   "1",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Message",
+			wantMsg:    "No reader found",
+		},
+	}
 
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			w := httptest.NewRecorder()
-// 			req, _ := http.NewRequest("GET", "/api/admin/"+tt.readerID+"issue-info", nil)
-// 			req.Header.Set("Content-Type", "application/json")
-// 			for key, value := range tt.headers {
-// 				req.Header.Set(key, value)
-// 			}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/api/admin/"+tt.readerID+"/issue-info", nil)
+			req.Header.Set("Content-Type", "application/json")
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
 
-// 			router.ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 
-// 			assert.Equal(t, tt.wantStatus, w.Code)
+			assert.Equal(t, tt.wantStatus, w.Code)
 
-// 			var response map[string]interface{}
-// 			json.Unmarshal(w.Body.Bytes(), &response)
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
 
-// 			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
-// 		})
-// 	}
-// }
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+		})
+	}
+}

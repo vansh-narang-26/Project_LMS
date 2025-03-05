@@ -218,7 +218,8 @@ func ListRequests(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
-		"message": requests,
+		"message":  "listed successfully",
+		"requests": requests,
 	})
 }
 
@@ -476,8 +477,9 @@ func IssueInfo(c *gin.Context) {
 
 	var readerDetails models.User
 	if err := initializers.DB.Where("id=?", readerID).First(&readerDetails).Error; err != nil {
-		c.JSON(http.StatusAccepted, gin.H{
+		c.JSON(http.StatusNotFound, gin.H{
 			"Error": err.Error(),
+			"Message":"No reader found",
 		})
 		return
 	}
@@ -495,13 +497,13 @@ func IssueInfo(c *gin.Context) {
 	var info []models.IssueRegistry
 
 	if err := initializers.DB.Where("reader_id=?", readerID).Find(&info).Error; err != nil {
-		c.JSON(http.StatusAccepted, gin.H{
+		c.JSON(http.StatusNotFound, gin.H{
 			"Message": "Coulnt find any issue registry",
 			"Error":   err.Error(),
 		})
 		return
 	}
-	c.JSON(http.StatusFound, gin.H{
+	c.JSON(http.StatusOK, gin.H{
 		"info": info,
 	})
 
