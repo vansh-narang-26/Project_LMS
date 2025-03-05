@@ -114,65 +114,65 @@ func TestGetLibraries(t *testing.T) {
 	assert.Contains(t, response, "libraries")
 }
 
-// func TestGetReturnDate(t *testing.T) {
-// 	setupTestDB1()
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.Default()
-// 	IntialiseRoutes(router)
+func TestGetReturnDate(t *testing.T) {
+	setupTestDB1()
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
 
-// 	tests := []struct {
-// 		name       string
-// 		query      string
-// 		headers    map[string]string
-// 		wantStatus int
-// 		wantKey    string
-// 		wantMsg    string
-// 	}{
-// 		{
-// 			name:       "User not found",
-// 			query:      "",
-// 			headers:    map[string]string{},
-// 			wantStatus: http.StatusNotFound,
-// 			wantKey:    "",
-// 			wantMsg:    "{}",
-// 		},
-// 		// {
-// 		// 	name:       "Return date found",
-// 		// 	query:      "1",
-// 		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAZ21haWwuY29tIiwiaWQiOjE0LCJyb2xlIjoicmVhZGVyIn0.jrIA4JTYaEGhtaCV_vSxBe9vuFwUK4enWMGxHHW3ChA"},
-// 		// 	wantStatus: http.StatusOK,
-// 		// 	wantKey:    "return_date",
-// 		// 	wantMsg:    "",
-// 		// },
-// 		// {
-// 		// 	name:       "Book not found",
-// 		// 	query:      "nonexistent",
-// 		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
-// 		// 	wantStatus: http.StatusNotFound,
-// 		// 	wantKey:    "Message",
-// 		// 	wantMsg:    "Couldnt find book with this isbn",
-// 		// },
-// 	}
+	tests := []struct {
+		name       string
+		query      string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		// {
+		// 	name:       "User not found",
+		// 	query:      "",
+		// 	headers:    map[string]string{},
+		// 	wantStatus: http.StatusNotFound,
+		// 	wantKey:    "",
+		// 	wantMsg:    "",
+		// },
+		{
+			name:       "Return date found",
+			query:      "aa",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAZ21haWwuY29tIiwiaWQiOjE0LCJyb2xlIjoicmVhZGVyIn0.jrIA4JTYaEGhtaCV_vSxBe9vuFwUK4enWMGxHHW3ChA"},
+			wantStatus: http.StatusOK,
+			wantKey:    "return_date",
+			wantMsg:    "",
+		},
+		{
+			name:       "Book not found",
+			query:      "nonexistent",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAZ21haWwuY29tIiwiaWQiOjE0LCJyb2xlIjoicmVhZGVyIn0.jrIA4JTYaEGhtaCV_vSxBe9vuFwUK4enWMGxHHW3ChA"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Message",
+			wantMsg:    "Couldnt find book with this isbn",
+		},
+	}
 
-// 	for _, tt := range tests {
-// 		t.Run(tt.name, func(t *testing.T) {
-// 			w := httptest.NewRecorder()
-// 			req, _ := http.NewRequest("GET", "/api/return-date/"+tt.query, nil)
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/api/reader/return-date/"+tt.query, nil)
 
-// 			for key, value := range tt.headers {
-// 				req.Header.Set(key, value)
-// 			}
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
 
-// 			router.ServeHTTP(w, req)
+			router.ServeHTTP(w, req)
 
-// 			assert.Equal(t, tt.wantStatus, w.Code)
-// 			var response map[string]interface{}
-// 			json.Unmarshal(w.Body.Bytes(), &response)
+			assert.Equal(t, tt.wantStatus, w.Code)
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
 
-// 			assert.Contains(t, response, tt.wantKey)
-// 			if tt.wantMsg != "" {
-// 				assert.Equal(t, tt.wantMsg, response[tt.wantKey])
-// 			}
-// 		})
-// 	}
-// }
+			assert.Contains(t, response, tt.wantKey)
+			if tt.wantMsg != "" {
+				assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+			}
+		})
+	}
+}
