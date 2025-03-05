@@ -20,7 +20,7 @@ type User struct {
 }
 
 type LoginUser struct {
-	Email string `json:"email"`
+	Email string `json:"email" binding:"required"`
 	// Role  string `json:"role" binding:"oneof=admin reader"`
 }
 

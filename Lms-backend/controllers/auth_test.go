@@ -81,7 +81,7 @@ func TestLoginUser(t *testing.T) {
 	}{
 		{"Valid Login", `{"email":"login@example.com"}`, http.StatusOK, "message", "Logged in successfully"},
 		{"Invalid Email", `{"email":"unknown@example.com"}`, http.StatusBadGateway, "Error", "No user exists"},
-		// {"Empty Request", `{}`, http.StatusBadGateway, "error", "Invalid request body"},
+		{"Empty Request", `{"login":""}`, http.StatusBadGateway, "error", "Invalid request body"},
 	}
 
 	for _, tt := range tests {

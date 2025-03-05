@@ -29,8 +29,8 @@ lms/backend/controllers/admin.go:157.2,163.50 4 1
 lms/backend/controllers/admin.go:163.50,167.3 3 0
 lms/backend/controllers/admin.go:169.2,170.83 2 1
 lms/backend/controllers/admin.go:170.83,173.3 2 1
-lms/backend/controllers/admin.go:176.2,176.29 1 1
-lms/backend/controllers/admin.go:176.29,181.3 2 1
+lms/backend/controllers/admin.go:176.2,176.29 1 0
+lms/backend/controllers/admin.go:176.29,181.3 2 0
 lms/backend/controllers/admin.go:183.2,188.29 6 0
 lms/backend/controllers/admin.go:191.35,194.13 2 0
 lms/backend/controllers/admin.go:194.13,197.3 2 0
@@ -85,7 +85,7 @@ lms/backend/controllers/auth.go:24.2,30.27 4 1
 lms/backend/controllers/auth.go:30.27,35.3 2 0
 lms/backend/controllers/auth.go:36.2,46.45 3 1
 lms/backend/controllers/auth.go:49.32,52.49 2 1
-lms/backend/controllers/auth.go:52.49,58.3 2 0
+lms/backend/controllers/auth.go:52.49,58.3 2 1
 lms/backend/controllers/auth.go:59.2,64.23 3 1
 lms/backend/controllers/auth.go:64.23,69.3 2 1
 lms/backend/controllers/auth.go:70.2,84.4 7 1
@@ -97,7 +97,9 @@ lms/backend/controllers/owner.go:40.2,42.48 2 1
 lms/backend/controllers/owner.go:42.48,47.3 2 0
 lms/backend/controllers/owner.go:48.2,52.29 3 1
 lms/backend/controllers/owner.go:52.29,58.3 2 1
-lms/backend/controllers/owner.go:60.2,76.4 3 0
+lms/backend/controllers/owner.go:60.2,65.123 3 0
+lms/backend/controllers/owner.go:65.123,70.3 1 0
+lms/backend/controllers/owner.go:74.2,76.4 1 0
 lms/backend/controllers/owner.go:79.34,87.90 3 0
 lms/backend/controllers/owner.go:87.90,93.3 2 0
 lms/backend/controllers/owner.go:98.2,102.50 2 0
@@ -122,8 +124,8 @@ lms/backend/controllers/reader.go:19.85,25.3 2 0
 lms/backend/controllers/reader.go:26.2,30.195 4 1
 lms/backend/controllers/reader.go:30.195,36.3 2 0
 lms/backend/controllers/reader.go:37.2,39.4 1 1
-lms/backend/controllers/reader.go:43.40,56.108 4 1
-lms/backend/controllers/reader.go:56.108,59.3 2 1
+lms/backend/controllers/reader.go:43.40,56.108 4 0
+lms/backend/controllers/reader.go:56.108,59.3 2 0
 lms/backend/controllers/reader.go:61.2,63.80 2 0
 lms/backend/controllers/reader.go:63.80,68.3 1 0
 lms/backend/controllers/reader.go:71.2,71.31 1 0
