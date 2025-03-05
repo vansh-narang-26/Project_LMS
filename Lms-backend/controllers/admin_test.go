@@ -589,21 +589,21 @@ func TestIssueInfo(t *testing.T) {
 			wantKey:    "Message",
 			wantMsg:    "No reader found",
 		},
-		// {
-		// 	name:       "Different Library",
-		// 	readerID:   "9",
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
-		// 	wantStatus: http.StatusNotFound,
-		// 	wantKey:    "Message",
-		// 	wantMsg:    "Coulnt find any issue registry",
-		// },
+		{
+			name:       "Different Library",
+			readerID:   "9",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Message",
+			wantMsg:    "No reader found",
+		},
 		// {
 		// 	name:       "Found",
-		// 	readerID:   "1",
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+		// 	readerID:   "21",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
 		// 	wantStatus: http.StatusOK,
-		// 	wantKey:    "",
-		// 	wantMsg:    "",
+		// 	wantKey:    "message",
+		// 	wantMsg:    "Found",
 		// },
 	}
 

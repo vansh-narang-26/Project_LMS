@@ -505,6 +505,7 @@ func IssueInfo(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
+		"message":"Found",
 		"info": info,
 	})
 
