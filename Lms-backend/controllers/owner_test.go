@@ -199,3 +199,60 @@ func TestGetLib(t *testing.T) {
 		})
 	}
 }
+
+func TestGetAdmins(t *testing.T) {
+	setupTestDB1()
+
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
+
+	tests := []struct {
+		name       string
+		payload    string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		{
+			name:       "Found the admins",
+			payload:    "",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
+			wantStatus: http.StatusOK,
+			wantKey:    "Message",
+			wantMsg:    "Admins found",
+		},
+		{
+			name:       "User not found",
+			payload:    "",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxwQGdtYWlsLmNvbSIsImlkIjoxOCwicm9sZSI6Im93bmVyIn0.tmapn513k39lv7lFCLmXmBdZVKXXhl7LtvAxDc8BZGg"},
+			wantStatus: http.StatusNotFound,
+			wantKey:    "Message",
+			wantMsg:    "Couldnt find logged in user",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/api/library/getAdmins", bytes.NewBuffer([]byte(tt.payload)))
+			req.Header.Set("Content-Type", "application/json")
+
+			// Add headers dynamically
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
+
+			router.ServeHTTP(w, req)
+
+			assert.Equal(t, tt.wantStatus, w.Code)
+
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
+
+			assert.Contains(t, response, tt.wantKey)
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+		})
+	}
+}

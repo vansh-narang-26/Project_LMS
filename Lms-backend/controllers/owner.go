@@ -168,6 +168,7 @@ func GetLib(c *gin.Context) {
 		return
 	}
 	c.JSON(http.StatusOK, gin.H{
+		"Messsage":"Library found",
 		"library": library,
 	})
 }
@@ -194,6 +195,7 @@ func GetAdmins(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
+		"Message":"Admins found",
 		"admins": admins,
 	})
 }
