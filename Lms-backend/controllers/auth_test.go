@@ -25,14 +25,14 @@ import (
 // }
 
 func TestCreateUser(t *testing.T) {
-	setupTestDB()
-	//	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+		initializers.DB.Exec("DELETE FROM users WHERE email='testery@example.com' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
 	router.POST("/users/register", CreateUser)
 
-	userData := `{"name":"Test User", "email":"test@example.com", "contactNumber":"1234567890", "role":"reader", "libID":3}`
+	userData := `{"name":"Test User", "email":"testery@example.com", "contactNumber":"1234567890", "role":"reader", "lib_id":3}`
 	req, _ := http.NewRequest("POST", "/users/register", bytes.NewBuffer([]byte(userData)))
 	req.Header.Set("Content-Type", "application/json")
 
@@ -49,11 +49,11 @@ func TestCreateUser(t *testing.T) {
 	assert.True(t, ok)
 
 	assert.Equal(t, "Test User", data["name"])
-	assert.Equal(t, "test@example.com", data["email"])
+	assert.Equal(t, "testery@example.com", data["email"])
 }
 
 func TestLoginUser(t *testing.T) {
-	setupTestDB()
+	setupTestDB1()
 	// initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	// Cleaning again

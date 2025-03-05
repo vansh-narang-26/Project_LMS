@@ -20,8 +20,8 @@ lms/backend/controllers/admin.go:102.2,105.83 3 1
 lms/backend/controllers/admin.go:105.83,108.3 2 1
 lms/backend/controllers/admin.go:110.2,110.30 1 1
 lms/backend/controllers/admin.go:110.30,115.3 2 1
-lms/backend/controllers/admin.go:117.2,117.31 1 1
-lms/backend/controllers/admin.go:117.31,120.3 2 1
+lms/backend/controllers/admin.go:117.2,117.31 1 0
+lms/backend/controllers/admin.go:117.31,120.3 2 0
 lms/backend/controllers/admin.go:127.2,131.63 4 0
 lms/backend/controllers/admin.go:142.33,149.83 4 1
 lms/backend/controllers/admin.go:149.83,156.3 3 0

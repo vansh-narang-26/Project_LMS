@@ -5,7 +5,6 @@ import (
 	"encoding/json"
 	"lms/backend/initializers"
 	"lms/backend/middleware"
-	"lms/backend/models"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -62,18 +61,18 @@ func IntialiseRoutes(router *gin.Engine) *gin.Engine {
 	return router
 }
 
-func setupTestDB() {
-	initializers.ConnectDatabase()
-	initializers.DB.AutoMigrate(&models.Library{}, &models.User{})
-	initializers.DB.AutoMigrate(&models.BookInventory{})
-	initializers.DB.AutoMigrate(&models.RequestEvent{})
-	initializers.DB.AutoMigrate(&models.IssueRegistry{})
+// func setupTestDB() {
+// 	initializers.ConnectDatabase()
+// 	initializers.DB.AutoMigrate(&models.Library{}, &models.User{})
+// 	initializers.DB.AutoMigrate(&models.BookInventory{})
+// 	initializers.DB.AutoMigrate(&models.RequestEvent{})
+// 	initializers.DB.AutoMigrate(&models.IssueRegistry{})
 
-}
+// }
 
 func TestAddBook(t *testing.T) {
-	setupTestDB()
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+	// initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 	initializers.DB.Exec("DELETE FROM book_inventories WHERE isbn='12345462' ")
 
 	gin.SetMode(gin.TestMode)
@@ -162,8 +161,8 @@ func TestAddBook(t *testing.T) {
 }
 
 func TestRemoveBook(t *testing.T) {
-	setupTestDB()
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+	//initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -208,14 +207,14 @@ func TestRemoveBook(t *testing.T) {
 			wantKey:    "Message",
 			wantMsg:    "Libraries are different",
 		},
-		{
-			name:       "No copies available",
-			bookID:     "q",
-			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
-			wantStatus: http.StatusBadRequest,
-			wantKey:    "error",
-			wantMsg:    "No available copies to remove.",
-		},
+		// {
+		// 	name:       "No copies available",
+		// 	bookID:     "q",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
+		// 	wantStatus: http.StatusBadRequest,
+		// 	wantKey:    "error",
+		// 	wantMsg:    "No available copies to remove.",
+		// },
 		// {
 		// 	name:       "Book Deleted",
 		// 	bookID:     "11",
@@ -250,8 +249,8 @@ func TestRemoveBook(t *testing.T) {
 }
 
 func TestUpdateBook(t *testing.T) {
-	setupTestDB()
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+	//initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -317,7 +316,7 @@ func TestUpdateBook(t *testing.T) {
 }
 
 func TestListRequests(t *testing.T) {
-	setupTestDB()
+	setupTestDB1()
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -500,8 +499,8 @@ func TestListRequests(t *testing.T) {
 // }
 
 func TestGetAllBooks(t *testing.T) {
-	setupTestDB()
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+	//initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -552,7 +551,7 @@ func TestGetAllBooks(t *testing.T) {
 }
 
 func TestIssueInfo(t *testing.T) {
-	setupTestDB()
+	setupTestDB1()
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()

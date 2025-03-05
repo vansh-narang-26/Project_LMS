@@ -13,8 +13,8 @@ import (
 )
 
 func TestCreateLibrary(t *testing.T) {
-	setupTestDB()
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	setupTestDB1()
+//	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
