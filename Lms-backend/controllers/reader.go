@@ -90,6 +90,13 @@ func RaiseIssueRequest(c *gin.Context) {
 		})
 		return
 	}
+	if err := initializers.DB.Where("book_id=? AND request_type=? AND reader_id=?", book.ISBN, "Issued", user.ID).First(&request).Error; err == nil {
+		c.JSON(http.StatusBadGateway, gin.H{
+			// "Error": err.Error(),
+			"Message":"The book has been already issued to you",
+		})
+		return
+	}
 
 	// t:=time.Now
 	crequest := models.RequestEvent{
