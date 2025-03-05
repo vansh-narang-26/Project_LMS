@@ -458,6 +458,7 @@ func GetAllBooks(c *gin.Context) {
 	}
 
 	c.JSON(http.StatusOK, gin.H{
+		"Message":"Book fetched",
 		"Books": getBooks,
 	})
 }
