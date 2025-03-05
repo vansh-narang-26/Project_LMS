@@ -68,14 +68,12 @@ func setupTestDB() {
 	initializers.DB.AutoMigrate(&models.BookInventory{})
 	initializers.DB.AutoMigrate(&models.RequestEvent{})
 	initializers.DB.AutoMigrate(&models.IssueRegistry{})
-
-	//Clearing table before execution
-	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
-	//initializers.DB.Exec("DELETE FROM book_inventories")
+	
 }
 
 func TestAddBook(t *testing.T) {
 	setupTestDB()
+	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -164,6 +162,7 @@ func TestAddBook(t *testing.T) {
 
 func TestRemoveBook(t *testing.T) {
 	setupTestDB()
+	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -227,6 +226,7 @@ func TestRemoveBook(t *testing.T) {
 
 func TestUpdateBook(t *testing.T) {
 	setupTestDB()
+	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -476,6 +476,7 @@ func TestUpdateBook(t *testing.T) {
 
 func TestGetAllBooks(t *testing.T) {
 	setupTestDB()
+	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()

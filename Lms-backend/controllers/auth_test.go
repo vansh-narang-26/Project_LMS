@@ -26,6 +26,7 @@ import (
 
 func TestCreateUser(t *testing.T) {
 	setupTestDB()
+	//	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -53,6 +54,7 @@ func TestCreateUser(t *testing.T) {
 
 func TestLoginUser(t *testing.T) {
 	setupTestDB()
+	// initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
 
 	// Cleaning again
 	initializers.DB.Where("email = ?", "login@example.com").Delete(&models.User{})

@@ -86,16 +86,16 @@ func TestSearchBooks(t *testing.T) {
 // 	IntialiseRoutes(router)
 
 // 	w := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("GET", "/api/reader/raise-request/1", nil)
-// 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZvQGdtYWlsLmNvbSIsImlkIjoxMCwicm9sZSI6InJlYWRlciJ9.CmczTvGes85VjtSIxS6OIXcL3cju8ZFuuo2j9ukoyzc")
+// 	req, _ := http.NewRequest("GET", "/api/reader/raise-request/aa", nil)
+// 	req.Header.Set("Authorization", "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ")
 
 // 	router.ServeHTTP(w, req)
 
 // 	assert.Equal(t, http.StatusCreated, w.Code)
 // 	var response map[string]interface{}
 // 	json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Contains(t, response, "Message")
-// 	assert.Equal(t, "Request created successfully", response["Message"])
+// 	assert.Contains(t, response, "error")
+// 	assert.Equal(t, "Request created successfully", response["Request created successfully"])
 // }
 
 func TestGetLibraries(t *testing.T) {
@@ -114,18 +114,64 @@ func TestGetLibraries(t *testing.T) {
 	assert.Contains(t, response, "libraries")
 }
 
-// func TestGetReturnDate(t *testing.T) {
-// 	setupTestDB()
-// 	gin.SetMode(gin.TestMode)
-// 	router := gin.Default()
-// 	IntialiseRoutes(router)
+func TestGetReturnDate(t *testing.T) {
+	setupTestDB1()
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
 
-// 	w := httptest.NewRecorder()
-// 	req, _ := http.NewRequest("GET", "/api/books/return-date/12345", nil)
-// 	router.ServeHTTP(w, req)
+	tests := []struct {
+		name       string
+		query      string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		// {
+		// 	name:       "Return date",
+		// 	query:      "1",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InJAZ21haWwuY29tIiwiaWQiOjE0LCJyb2xlIjoicmVhZGVyIn0.jrIA4JTYaEGhtaCV_vSxBe9vuFwUK4enWMGxHHW3ChA"},
+		// 	wantStatus: http.StatusOK,
+		// 	wantKey:    "return_date",
+		// 	wantMsg:    "",
+		// },
+		// {
+		// 	name:       "Return date",
+		// 	query:      "1",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
+		// 	wantStatus: http.StatusNotFound,
+		// 	wantKey:    "Message",
+		// 	wantMsg:    "Couldnt find book with this isbn",
+		// },
+		// {
+		// 	name:       "Return date",
+		// 	query:      "aa",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ"},
+		// 	wantStatus: http.StatusOK,
+		// 	wantKey:    "return_date",
+		// 	wantMsg:    "",
+		// },
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("GET", "/api/return-date/"+tt.query, nil)
 
-// 	assert.Equal(t, http.StatusOK, w.Code)
-// 	var response map[string]interface{}
-// 	json.Unmarshal(w.Body.Bytes(), &response)
-// 	assert.Contains(t, response, "return_date")
-// }
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
+
+			router.ServeHTTP(w, req)
+
+			assert.Equal(t, tt.wantStatus, w.Code)
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
+
+			assert.Contains(t, response, tt.wantKey)
+			if tt.wantMsg != "" {
+				assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+			}
+		})
+	}
+}
