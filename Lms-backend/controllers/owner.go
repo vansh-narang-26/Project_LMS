@@ -147,6 +147,7 @@ func GetLib(c *gin.Context) {
 	//now check for its existence of Libid of this owner
 	if err := initializers.DB.Where("email=?", email).First(&libexist).Error; err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{
+			"Message":"User not found",
 			"Error": err.Error(),
 		})
 	}
