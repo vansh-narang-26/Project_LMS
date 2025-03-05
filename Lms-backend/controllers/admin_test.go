@@ -74,6 +74,7 @@ func setupTestDB() {
 func TestAddBook(t *testing.T) {
 	setupTestDB()
 	initializers.DB.Exec("DELETE FROM users WHERE role!= 'admin' ")
+	initializers.DB.Exec("DELETE FROM book_inventories WHERE isbn='12345462' ")
 
 	gin.SetMode(gin.TestMode)
 	router := gin.Default()
@@ -111,30 +112,30 @@ func TestAddBook(t *testing.T) {
 			wantKey:    "error",
 			wantMsg:    "token contains an invalid number of segments",
 		},
-		// {
-		// 	name:       "Successfully Adding a New Book",
-		// 	payload:    `{"isbn":"1", "title":"New Book", "authors":"New Author", "publisher":"New Publisher", "version":1}`,
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-		// 	wantStatus: http.StatusCreated,
-		// 	wantKey:    "message",
-		// 	wantMsg:    "Book added successfully",
-		// },
+		{
+			name:       "Successfully Adding a New Book",
+			payload:    `{"isbn":"12345462", "title":"New Book", "authors":"New Author", "publisher":"New Publisher", "version":1}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRzYUBnZ21haWwuY29tIiwiaWQiOjEzLCJyb2xlIjoiYWRtaW4ifQ.GYQBsaouI7NafW4PaCZ_KS5QYRQJlGDhctPn_NnYLoc"},
+			wantStatus: http.StatusCreated,
+			wantKey:    "message",
+			wantMsg:    "Book added successfully",
+		},
 		// {
 		// 	name:       "Book Already Exists in Library",
-		// 	payload:    `{"isbn":"1234567890", "title":"Existing Book", "authors":"Existing Author", "publisher":"Existing Publisher", "version":1}`,
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+		// 	payload:    `{"isbn":"12345462", "title":"New Book", "authors":"New Author", "publisher":"New Publisher", "version":1}`,
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImRzYUBnZ21haWwuY29tIiwiaWQiOjEzLCJyb2xlIjoiYWRtaW4ifQ.GYQBsaouI7NafW4PaCZ_KS5QYRQJlGDhctPn_NnYLoc"},
 		// 	wantStatus: http.StatusOK,
 		// 	wantKey:    "message",
 		// 	wantMsg:    "Book copies updated successfully",
 		// },
-		// {
-		// 	name:       "Book with Same ISBN Exists in Different Library",
-		// 	payload:    `{"isbn":"1234567890", "title":"New Book", "authors":"New Author", "publisher":"New Publisher", "version":1}`,
-		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-		// 	wantStatus: http.StatusBadRequest,
-		// 	wantKey:    "Message",
-		// 	wantMsg:    "Same ISBN already exists, cannot add book.",
-		// },
+		{
+			name:       "Book with Same ISBN Exists in Different Library",
+			payload:    `{"isbn":"12345462", "title":"New Book", "authors":"New Author", "publisher":"New Publisher", "version":1}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "Message",
+			wantMsg:    "Same ISBN already exists, cannot add book.",
+		},
 	}
 
 	for _, tt := range tests {
