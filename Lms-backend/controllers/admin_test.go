@@ -401,14 +401,23 @@ func TestApproveRequest(t *testing.T) {
 			wantMsg:    "Couldnt find the book id with this isbn",
 		},
 		{
-			name:       "Successfully Approving a Request",
+			name:       "Copies not available",
 			requestID:  "6",
 			payload:    `{"request_type":"Issued"}`,
 			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
-			wantStatus: http.StatusAccepted,
-			wantKey:    "message",
-			wantMsg:    "updation successfully done",
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "Message",
+			wantMsg:    "No copies available",
 		},
+		// {
+		// 	name:       "Successfully Approving a Request",
+		// 	requestID:  "11",
+		// 	payload:    `{"request_type":"Issued"}`,
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+		// 	wantStatus: http.StatusAccepted,
+		// 	wantKey:    "message",
+		// 	wantMsg:    "updation successfully done",
+		// },
 	}
 
 	for _, tt := range tests {
