@@ -110,7 +110,8 @@ func CreateAdmin(c *gin.Context) {
 
 	if cadmin.ID != 0 {
 		c.JSON(http.StatusBadRequest, gin.H{
-			"Error": "already exists with the same email",
+			"Error":   "already exists with the same email",
+			"Message": "already exists with the same email",
 		})
 		return
 	}
@@ -133,7 +134,8 @@ func CreateAdmin(c *gin.Context) {
 	initializers.DB.Create(&newUser)
 
 	c.JSON(http.StatusOK, gin.H{
-		"Data": newUser,
+		"Message": "Admin created successfully",
+		"Data":    newUser,
 	})
 
 }

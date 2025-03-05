@@ -3,6 +3,7 @@ package controllers
 import (
 	"bytes"
 	"encoding/json"
+	"lms/backend/initializers"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -64,6 +65,64 @@ func TestCreateLibrary(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			w := httptest.NewRecorder()
 			req, _ := http.NewRequest("POST", "/api/library/create", bytes.NewBuffer([]byte(tt.payload)))
+			req.Header.Set("Content-Type", "application/json")
+
+			// Add headers dynamically
+			for key, value := range tt.headers {
+				req.Header.Set(key, value)
+			}
+
+			router.ServeHTTP(w, req)
+
+			assert.Equal(t, tt.wantStatus, w.Code)
+
+			var response map[string]interface{}
+			json.Unmarshal(w.Body.Bytes(), &response)
+
+			assert.Contains(t, response, tt.wantKey)
+			assert.Equal(t, tt.wantMsg, response[tt.wantKey])
+		})
+	}
+}
+
+func TestCreateAdmin(t *testing.T) {
+	setupTestDB1()
+	initializers.DB.Exec("DELETE FROM users WHERE email='vannii@gmail.com'")
+
+	gin.SetMode(gin.TestMode)
+	router := gin.Default()
+	IntialiseRoutes(router)
+
+	tests := []struct {
+		name       string
+		payload    string
+		headers    map[string]string
+		wantStatus int
+		wantKey    string
+		wantMsg    string
+	}{
+		{
+			name:       "Email already exists",
+			payload:    `{"email":"o@gmail.com"}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "Error",
+			wantMsg:    "already exists with the same email",
+		},
+		{
+			name:       "Create admin",
+			payload:    `{"name":"vansh","email":"vannii@gmail.com","contact_no":"9466"}`,
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"},
+			wantStatus: http.StatusOK,
+			wantKey:    "Message",
+			wantMsg:    "Admin created successfully",
+		},
+	}
+
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+			w := httptest.NewRecorder()
+			req, _ := http.NewRequest("POST", "/api/library/create-admin", bytes.NewBuffer([]byte(tt.payload)))
 			req.Header.Set("Content-Type", "application/json")
 
 			// Add headers dynamically
