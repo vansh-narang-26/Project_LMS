@@ -68,7 +68,7 @@ func setupTestDB() {
 	initializers.DB.AutoMigrate(&models.BookInventory{})
 	initializers.DB.AutoMigrate(&models.RequestEvent{})
 	initializers.DB.AutoMigrate(&models.IssueRegistry{})
-	
+
 }
 
 func TestAddBook(t *testing.T) {
@@ -200,6 +200,30 @@ func TestRemoveBook(t *testing.T) {
 			wantKey:    "error",
 			wantMsg:    "Book not found.",
 		},
+		{
+			name:       "Book with diff libraries",
+			bookID:     "1",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9hQGdtYWlsLmNvbSIsImlkIjozLCJyb2xlIjoiYWRtaW4ifQ.ru4Pd-PbrERi4kA3HsAnjc-qgyx22SU0QcK_a_mydHM"},
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "Message",
+			wantMsg:    "Libraries are different",
+		},
+		{
+			name:       "No copies available",
+			bookID:     "q",
+			headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
+			wantStatus: http.StatusBadRequest,
+			wantKey:    "error",
+			wantMsg:    "No available copies to remove.",
+		},
+		// {
+		// 	name:       "Book Deleted",
+		// 	bookID:     "11",
+		// 	headers:    map[string]string{"Authorization": "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImFkbWluQGdtYWlsLmNvbSIsImlkIjoyMCwicm9sZSI6ImFkbWluIn0.E7e-u4CNIYR_F4dIsxGAOUacgxaQHFkR35PlwMUDMbw"},
+		// 	wantStatus: http.StatusNotFound,
+		// 	wantKey:    "Message",
+		// 	wantMsg:    "Book deleted Successfully",
+		// },
 	}
 
 	for _, tt := range tests {
