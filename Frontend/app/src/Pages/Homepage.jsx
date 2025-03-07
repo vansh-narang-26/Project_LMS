@@ -1,5 +1,5 @@
-// import { Link } from "react-router-dom";
 import "./HomePage.css"; 
+import React from "react";
 function HomePage() {
     return (
         <div className="home-container">
