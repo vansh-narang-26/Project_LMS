@@ -91,13 +91,13 @@ const ReaderDashboard = () => {
                 <div className='button-container'>
 
                     <div className='search-container'>
-                        <input onChange={e => setSearchVal(e.target.value)} placeholder='Search for author, title, publisher'>
+                        <input onChange={e => setSearchVal(e.target.value)} placeholder='Search for author, title, publisher' role='search'>
                         </input>
                         <BsSearch onClick={handleSearchClick} />
                     </div>
 
                     <div className='book-container'>
-                        <ul className='ul-list-book'>
+                        <ul className='ul-list-book' role='available'>
                             {books.map((book) => (
                                 // <div key={product.isbn} className='book-list-container'>
                                 //     {product.title} by {product.authors} published by {product.publisher} in Lib {product.lib_id}
