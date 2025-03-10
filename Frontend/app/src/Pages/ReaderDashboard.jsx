@@ -54,7 +54,7 @@ const ReaderDashboard = () => {
             },
         })
         //console.log(res.data.Books)
-        setallBooks(res.data.Books)
+        res.data?.Books && setallBooks(res.data.Books)
         // console.log(books)
     }
 

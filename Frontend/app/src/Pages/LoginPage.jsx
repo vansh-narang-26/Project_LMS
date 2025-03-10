@@ -59,7 +59,7 @@ const Login = () => {
             setTimeout(() => redirectBasedOnRole(response.data.role), 1000);
 
         } catch (error) {
-            console.error("Login error:", error);
+    //        console.error("Login error:", error);
 
             if (error.response?.data?.Error) {
                 setError(error.response.data.Error);

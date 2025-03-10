@@ -110,10 +110,11 @@ const AdminDashboard = () => {
                     }
                 }
             );
-            setBooks(response.data.Books);
-            console.log(response.data.Books)
+            response.data?.Books && setBooks(response.data.Books);
+          //  console.log(response.data)
+          //  console.log(response.data?.Books)
         } catch (error) {
-            console.error("Error fetching books:", error);
+            console.log("Error fetching books:", error);
         }
     };
 
@@ -127,10 +128,10 @@ const AdminDashboard = () => {
                     },
                 }
             );
-            console.log(response.data.requests);
-            setRequests(response.data.requests);
+            // console.log(response.data.requests);
+            response.data?.requests && setRequests(response.data.requests);
         } catch (error) {
-            console.error("Error fetching requests:", error);
+            console.log("Error fetching requests:", error);
         }
     };
     const removeBook = async (id) => {
@@ -244,10 +245,10 @@ const AdminDashboard = () => {
               <h2>Manage Requests</h2>
             <ul>
                 {requests.map((req, index) => (
-                    <li key={index}>
+                    <li key={index} data-testid="request">
                         {req.reader_id} requested {req.book_id}
-                        <button onClick={() => approveRequest(req.req_id)}>Approve</button>
-                        <button onClick={() => rejectRequest(req.req_id)}>Reject</button>
+                        <button onClick={() => approveRequest(req.req_id)} data-testid="approve">Approve</button>
+                        <button onClick={() => rejectRequest(req.req_id)} data-testid="reject">Reject</button>
                     </li>
                 ))}
             </ul>

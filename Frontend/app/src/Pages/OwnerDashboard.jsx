@@ -134,9 +134,9 @@ const OwnerDashboard = () => {
 
 
         // console.log(response.data.library[0].id)
-        setLibraryData([response.data.library])
-        console.log([response.data.library])
-        setLibraryId(response.data.library)
+        setLibraryData([response.data?.library])
+        console.log(response.data.library)
+        setLibraryId(response.data?.library)
         // console.log(libraryData)
         // const res=await fetch("http://localhost:8000/api/library/getlib",
         //     {
@@ -255,7 +255,7 @@ const OwnerDashboard = () => {
             </div>
             <h1 className="dashboard-title">Library Admins</h1>
             <div className="admin-container1">
-                {admins.map((admin, index) => (
+                {admins.length > 0 && admins.map((admin, index) => (
                     <div key={index} className="admin-card">
                         <p>Name: {admin.name}</p>
                         <p>Email: {admin.email}</p>
