@@ -150,7 +150,7 @@ const RegisterPage = () => {
                             onChange={handleChange}
                             required
                         >
-                            <option value="" disabled>Select a library</option>
+                            <option value="">Select a library</option>
                             {libraries.map((library) => (
                                 <option key={library.id} value={library.id}>
                                     {library.name}

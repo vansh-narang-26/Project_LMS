@@ -1,349 +1,248 @@
-// import { render, screen, waitFor, fireEvent } from "@testing-library/react";
-// import Login from "../Pages/LoginPage";
-// import React from "react";
-// import { MemoryRouter as Router } from "react-router-dom";
-// import "@testing-library/jest-dom";
-// import toast, { Toaster } from "react-hot-toast";
-// import axios from "axios";
-
-// function handleSubmit(callback, message) {
-//   if (message !== "Logged in successfully") {
-//     callback(message);
-//   }
-// }
-
-// jest.mock("axios");
-// describe("Login Page", () => {
-//   beforeEach(() => {
-//     localStorage.clear();
-//   });
-//   beforeAll(() => {
-//     Object.defineProperty(window, 'matchMedia', {
-//       writable: true,
-//       value: jest.fn().mockImplementation((query) => ({
-//         matches: false,
-//         media: query,
-//         onchange: null,
-//         addListener: jest.fn(), // Deprecated
-//         removeListener: jest.fn(), // Deprecated
-//         addEventListener: jest.fn(),
-//         removeEventListener: jest.fn(),
-//         dispatchEvent: jest.fn(),
-//       })),
-//     });
-//   });
-
-//   test("renders loginPage", () => {
-//     render(
-//       <Router>
-//         <Login />
-//       </Router>,
-//     );
-//     expect(screen.getByPlaceholderText("Enter your email")).toBeInTheDocument();
-//     expect(screen.getByRole("button")).not.toBeDisabled();
-//     //   expect(await screen.findByText('toast')).toBeInTheDocument('Logged in successfully')
-//   });
-
-//   jest.mock("react-hot-toast", () => ({
-//     success: jest.fn(),
-//     error: jest.fn(),
-//   }));
-
-//   // test("handles form submission", async () => {
-//   //   const handler = jest.fn();
-//   //   handleSubmit(success, "Logged in successfully");
-
-//   //   axios.post.mockResolvedValue({
-//   //     data: {
-//   //       token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ",
-//   //       role: "reader",
-//   //     },
-//   //   });
-
-//   //   render(
-//   //     <Router>
-//   //       <Login />
-//   //     </Router>,
-//   //   );
-//   //   jest.mock("react-hot-toast", () => ({
-//   //     success: jest.fn(),
-//   //     error: jest.fn(),
-//   //   }));
-
-//   //   fireEvent.change(screen.getByPlaceholderText("Enter your email"), {
-//   //     target: { value: "test@example.com" },
-//   //   });
-
-//   //   fireEvent.click(screen.getByRole("button", { name: "Login" }));
-
-//   //   await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-//   //   expect(toast.success).toHaveBeenCalledWith(handleSubmit());
-//   //   expect(localStorage.getItem("token")).toBe("fake-token");
-//   //   expect(localStorage.getItem("role")).toBe("reader");
-//   // });
-
-//   test("redirects based on user role", async () => {
-//     axios.post.mockResolvedValue({
-//       data: {
-//         token: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InIyQGdtYWlsLmNvbSIsImlkIjoyMiwicm9sZSI6InJlYWRlciJ9.J3-92_iRT7sAJUBV3fxkHi_4kz3bCxNz6kDPBTSLeJQ",
-//         role: "reader",
-//       },
-//     });
-
-//     render(
-//       <Router>
-//         <Login />
-//       </Router>,
-//     );
-
-//     fireEvent.change(screen.getByPlaceholderText("Enter your email"), {
-//       target: { value: "r2@example.com" },
-//     });
-
-//     fireEvent.click(screen.getByRole("button", { name: "Login" }));
-
-//     await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-//     expect(localStorage.getItem("role")).toBe("reader");
-//   });
-
-//   // test('handles login failure', async () => {
-//   //     axios.post.mockRejectedValue({
-//   //         response: {
-//   //             data: {
-//   //                 Error: 'Invalid credentials'
-//   //             }
-//   //         }
-//   //     });
-
-//   //     render(
-//   //         <Router>
-//   //             <Login />
-//   //         </Router>
-//   //     );
-
-//   //     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
-//   //         target: { value: 'test@example.com' }
-//   //     });
-
-//   //     fireEvent.click(screen.getByRole("button", { name: "Login" }));
-
-//   //     await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(2));
-//   //     expect(toast.error).toHaveBeenCalledWith(handleSubmit());
-//   //     expect(screen.getByRole('alert')).toHaveTextContent('Invalid credentials');
-//   // });
-// });
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
+import { MemoryRouter } from "react-router-dom";
+import axios from "axios";
+import Login from "../Pages/LoginPage";
+import React from "react";
+import "@testing-library/jest-dom";
 
 
-
-
-
-
-
-// import React from 'react';
-// import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-// // import '@testing-library/jest-dom/extend-expect';
-// import axios from 'axios';
-// import { MemoryRouter as Router } from "react-router-dom";
-// import "@testing-library/jest-dom"
-// import Login from "../Pages/LoginPage";
-// import toast from 'react-hot-toast';
-
-// jest.mock('axios');
-// jest.mock('react-hot-toast', () => ({
-//     success: jest.fn(),
-//     error: jest.fn()
-// }));
-// // test("renders loginPage", () => {
-// //   render(
-// //     <Router>
-// //       <Login />
-// //     </Router>
-// //   );
-// //   expect(screen.getByPlaceholderText("Enter your email")).toBeInTheDocument();
-// //   expect(screen.getByRole('button')).not.toBeDisabled()
-// // //   expect(await screen.findByText('toast')).toBeInTheDocument('Logged in successfully')
-// // });
-// describe('Login Page', () => {
-//     beforeEach(() => {
-//         localStorage.clear();
-//     });
-
-//     test('renders Login component', () => {
-//         render(
-//             <Router>
-//                 <Login />
-//             </Router>
-//         );
-//         expect(screen.getByText('Login')).toBeInTheDocument();
-//     });
-
-//     // test('handles form submission', async () => {
-//     //     axios.post.mockResolvedValue({
-//     //         data: {
-//     //             token: 'fake-token',
-//     //             role: 'reader'
-//     //         }
-//     //     });
-
-//     //     render(
-//     //         <Router>
-//     //             <Login />
-//     //         </Router>
-//     //     );
-
-//     //     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
-//     //         target: { value: 'test@example.com' }
-//     //     });
-
-//     //     fireEvent.click(screen.getByText('Login'));
-
-//     //     await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-//     //     expect(toast.success).toHaveBeenCalledWith('Logged in successfully');
-//     //     expect(localStorage.getItem('token')).toBe('fake-token');
-//     //     expect(localStorage.getItem('role')).toBe('reader');
-//     // });
-
-//     // test('handles login failure', async () => {
-//     //     axios.post.mockRejectedValue({
-//     //         response: {
-//     //             data: {
-//     //                 Error: 'Invalid credentials'
-//     //             }
-//     //         }
-//     //     });
-
-//     //     render(
-//     //         <Router>
-//     //             <Login />
-//     //         </Router>
-//     //     );
-
-//     //     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
-//     //         target: { value: 'test@example.com' }
-//     //     });
-
-//     //     fireEvent.click(screen.getByText('Login'));
-
-//     //     await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-//     //     expect(toast.error).toHaveBeenCalledWith('Login failed');
-//     //     expect(screen.getByRole('alert')).toHaveTextContent('Invalid credentials');
-//     // });
-
-//     // test('redirects based on user role', async () => {
-//     //     axios.post.mockResolvedValue({
-//     //         data: {
-//     //             token: 'fake-token',
-//     //             role: 'admin'
-//     //         }
-//     //     });
-
-//     //     render(
-//     //         <Router>
-//     //             <Login />
-//     //         </Router>
-//     //     );
-
-//     //     fireEvent.change(screen.getByPlaceholderText('Enter your email'), {
-//     //         target: { value: 'admin@example.com' }
-//     //     });
-
-//     //     fireEvent.click(screen.getByText('Login'));
-
-//     //     await waitFor(() => expect(axios.post).toHaveBeenCalledTimes(1));
-//     //     expect(localStorage.getItem('role')).toBe('admin');
-//     // });
-// });
-
-import React from 'react';
-import { render, screen, fireEvent, waitFor } from '@testing-library/react';
-import '@testing-library/jest-dom';
-import axios from 'axios';
-import { BrowserRouter as Router } from 'react-router-dom';
-import Login from '../Pages/LoginPage';
-
-
-
-jest.mock('axios');
-jest.mock('react-router-dom', () => ({
-    ...jest.requireActual('react-router-dom'),
-    useNavigate: () => jest.fn(),
+jest.mock("axios");
+jest.mock("react-router-dom", () => ({
+    ...jest.requireActual("react-router-dom"),
+    useNavigate: () => mockNavigate
+}));
+jest.mock("react-hot-toast", () => ({
+    __esModule: true,
+    default: {
+        success: jest.fn(),
+        error: jest.fn()
+    },
+    Toaster: () => <div data-testid="toast-container" />
 }));
 
-describe('Login Page', () => {
-    test('renders login form', () => {
-        render(
-            <Router>
-                <Login />
-            </Router>
-        );
+// Mock local storage
+const mockLocalStorage = (() => {
+    let store = {};
+    return {
+        getItem: jest.fn(key => store[key] || null),
+        setItem: jest.fn((key, value) => {
+            store[key] = value;
+        }),
+        clear: jest.fn(() => {
+            store = {};
+        }),
+        removeItem: jest.fn(key => {
+            delete store[key];
+        })
+    };
+})();
 
-        expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
-        expect(screen.getByRole('button', { name: /login/i })).toBeInTheDocument();
+Object.defineProperty(window, "localStorage", {
+    value: mockLocalStorage,
+    writable: true
+});
+
+//Mock function for navigation
+const mockNavigate = jest.fn();
+
+describe("Login Component", () => {
+    beforeEach(() => {
+        jest.clearAllMocks();
+        mockLocalStorage.clear();
     });
 
-    test('handles form submission and redirects based on role', async () => {
-        const mockNavigate = jest.fn();
-        jest.spyOn(require('react-router-dom'), 'useNavigate').mockImplementation(() => mockNavigate);
+    test("renders login form correctly", () => {
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
 
-        axios.post.mockResolvedValue({
-            data: {
-                token: 'fake-token',
-                role: 'admin',
-            },
+        // Check for main elements
+        expect(screen.getByRole("heading", { name: /login/i })).toBeInTheDocument();
+        expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
+        expect(screen.getByPlaceholderText(/enter your email/i)).toBeInTheDocument();
+        expect(screen.getByRole("button", { name: /login/i })).toBeInTheDocument();
+        // expect(screen.getByText(/Don't have an account\?/i)).toBeInTheDocument();
+        expect(screen.getByRole("link", { name: /register/i })).toBeInTheDocument();
+    });
+
+    test("redirects to appropriate dashboard if user is already logged in (admin)", () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+            if (key === "token") return "fake-token";
+            if (key === "role") return "admin";
+            return null;
         });
 
         render(
-            <Router>
+            <MemoryRouter>
                 <Login />
-            </Router>
+            </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByRole('button', { name: /login/i }));
-
-        await waitFor(() => expect(mockNavigate).toHaveBeenCalledWith('/admin-dashboard'));
+        expect(mockNavigate).toHaveBeenCalledWith("/admin-dashboard");
     });
 
-    test('handles login error', async () => {
-        axios.post.mockRejectedValue({
+    test("redirects to appropriate dashboard if user is already logged in (owner)", () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+            if (key === "token") return "fake-token";
+            if (key === "role") return "owner";
+            return null;
+        });
+
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        expect(mockNavigate).toHaveBeenCalledWith("/owner-dashboard");
+    });
+
+    test("redirects to reader dashboard for default role", () => {
+        mockLocalStorage.getItem.mockImplementation((key) => {
+            if (key === "token") return "fake-token";
+            if (key === "role") return "reader";
+            return null;
+        });
+
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        expect(mockNavigate).toHaveBeenCalledWith("/reader-dashboard");
+    });
+
+    test("allows user to input email", async () => {
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        const emailInput = screen.getByLabelText(/email/i);
+        await userEvent.type(emailInput, "test@example.com");
+        expect(emailInput.value).toBe("test@example.com");
+    });
+
+    test("shows loading state when form is submitted", async () => {
+        // Mock axios to delay response
+        axios.post.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
+
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        const emailInput = screen.getByLabelText(/email/i);
+        await userEvent.type(emailInput, "test@example.com");
+
+        const submitButton = screen.getByRole("button", { name: /login/i });
+        fireEvent.click(submitButton);
+
+        expect(screen.getByRole("button", { name: /logging in\.\.\./i })).toBeInTheDocument();
+        expect(screen.getByRole("button")).toBeDisabled();
+    });
+
+    test("handles successful login", async () => {
+        // Mock successful API response
+        const mockResponse = {
+            data: {
+                token: "fake-token-123",
+                role: "admin"
+            }
+        };
+        axios.post.mockResolvedValueOnce(mockResponse);
+
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        const emailInput = screen.getByLabelText(/email/i);
+        await userEvent.type(emailInput, "admin@example.com");
+
+        const submitButton = screen.getByRole("button", { name: /login/i });
+        fireEvent.click(submitButton);
+
+        // Wait for the API call to resolve
+        await waitFor(() => {
+            expect(axios.post).toHaveBeenCalledWith(
+                "http://localhost:8000/api/users/login",
+                { email: "admin@example.com" },
+                { headers: { "Content-Type": "application/json" } }
+            );
+            expect(mockLocalStorage.setItem).toHaveBeenCalledWith("token", "fake-token-123");
+            expect(mockLocalStorage.setItem).toHaveBeenCalledWith("role", "admin");
+        });
+    });
+
+    test("displays error message on failed login", async () => {
+        // Mock API error response
+        const errorMessage = "Invalid email address";
+        axios.post.mockRejectedValueOnce({
             response: {
                 data: {
-                    Error: 'Invalid credentials',
-                },
-            },
+                    Error: errorMessage
+                }
+            }
         });
 
         render(
-            <Router>
+            <MemoryRouter>
                 <Login />
-            </Router>
+            </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByRole('button', { name: /login/i }));
+        const emailInput = screen.getByLabelText(/email/i);
+        await userEvent.type(emailInput, "invalid@example.com");
 
-        await waitFor(() => expect(screen.getByRole('alert')).toHaveTextContent('Invalid credentials'));
+        const submitButton = screen.getByRole("button", { name: /login/i });
+        fireEvent.click(submitButton);
+
+        // Wait for the error message to appear
+        await waitFor(() => {
+            expect(screen.getByRole("alert")).toHaveTextContent(errorMessage);
+        });
     });
 
-    test('displays loading state during form submission', async () => {
-        axios.post.mockResolvedValue({
-            data: {
-                token: 'fake-token',
-                role: 'admin',
-            },
-        });
+    test("handles server connection error", async () => {
+        // Mock network error
+        axios.post.mockRejectedValueOnce(new Error("Network Error"));
 
         render(
-            <Router>
+            <MemoryRouter>
                 <Login />
-            </Router>
+            </MemoryRouter>
         );
 
-        fireEvent.change(screen.getByLabelText(/email/i), { target: { value: 'test@example.com' } });
-        fireEvent.click(screen.getByRole('button', { name: /login/i }));
+        const emailInput = screen.getByLabelText(/email/i);
+        await userEvent.type(emailInput, "test@example.com");
 
-        expect(screen.getByRole('button', { name: /logging in.../i })).toBeDisabled();
+        const submitButton = screen.getByRole("button", { name: /login/i });
+        fireEvent.click(submitButton);
 
-        await waitFor(() => expect(screen.getByRole('button', { name: /login/i })).not.toBeDisabled());
+        // Wait for the generic error message to appear
+        await waitFor(() => {
+            expect(screen.getByRole("alert")).toHaveTextContent(
+                "Unable to connect to the server. Please try again later."
+            );
+        });
+    });
+
+    test("redirects to register page when register link is clicked", () => {
+        render(
+            <MemoryRouter>
+                <Login />
+            </MemoryRouter>
+        );
+
+        const registerLink = screen.getByRole("link", { name: /register/i });
+        expect(registerLink).toHaveAttribute("href", "/register");
     });
 });

@@ -92,10 +92,10 @@ const Login = () => {
                         aria-required="true"
                     />
                 </div>
-
-                <div className="links">
+                <p>Don't have an account ? <Link to={"/register"}>Register</Link></p>
+                {/* <div className="links">
                     <p><Link to="/register">Register</Link></p>
-                </div>
+                </div> */}
 
                 <button
                     type="submit"
