@@ -57,17 +57,17 @@ const Navbar = ({ onLogout }) => {
                             {userRole === "admin" && (
                                 <>
                                     <li><NavLink to="/admin-dashboard">Dashboard</NavLink></li>
-                                    <li><NavLink to="/manage-books">Manage Books</NavLink></li>
-                                    <li><NavLink to="/issue-requests">Issue Requests</NavLink></li>
+                                    {/* <li><NavLink to="/manage-books">Manage Books</NavLink></li>
+                                    <li><NavLink to="/issue-requests">Issue Requests</NavLink></li> */}
                                 </>
                             )}
 
                             {userRole === "reader" && (
                                 <>
                                     <li><NavLink to="/reader-dashboard">Dashboard</NavLink></li>
-                                    <li><NavLink to="/search-books">Find Books</NavLink></li>
+                                    {/* <li><NavLink to="/search-books">Find Books</NavLink></li>
                                     <li><NavLink to="/my-books">My Books</NavLink></li>
-                                    <li><NavLink to="/issue-history">Issue History</NavLink></li>
+                                    <li><NavLink to="/issue-history">Issue History</NavLink></li> */}
                                 </>
                             )}
                         </ul>
@@ -110,26 +110,26 @@ const Navbar = ({ onLogout }) => {
                             {userRole === "owner" && (
                                 <ul className="sidebar-links">
                                     <li><NavLink to="/owner-dashboard" onClick={toggleSidebar}>Dashboard</NavLink></li>
-                                    <li><NavLink to="/manage-libraries" onClick={toggleSidebar}>My Libraries</NavLink></li>
-                                    <li><NavLink to="/manage-admins" onClick={toggleSidebar}>Manage Admins</NavLink></li>
+                                    {/* <li><NavLink to="/manage-libraries" onClick={toggleSidebar}>My Libraries</NavLink></li>
+                                    <li><NavLink to="/manage-admins" onClick={toggleSidebar}>Manage Admins</NavLink></li> */}
                                 </ul>
                             )}
 
                             {userRole === "admin" && (
                                 <ul className="sidebar-links">
                                     <li><NavLink to="/admin-dashboard" onClick={toggleSidebar}>Dashboard</NavLink></li>
-                                    <li><NavLink to="/manage-books" onClick={toggleSidebar}>Manage Books</NavLink></li>
+                                    {/* <li><NavLink to="/manage-books" onClick={toggleSidebar}>Manage Books</NavLink></li>
                                     <li><NavLink to="/issue-requests" onClick={toggleSidebar}>Issue Requests</NavLink></li>
-                                    <li><NavLink to="/reader-management" onClick={toggleSidebar}>Manage Readers</NavLink></li>
+                                    <li><NavLink to="/reader-management" onClick={toggleSidebar}>Manage Readers</NavLink></li> */}
                                 </ul>
                             )}
 
                             {userRole === "reader" && (
                                 <ul className="sidebar-links">
                                     <li><NavLink to="/reader-dashboard" onClick={toggleSidebar}>Dashboard</NavLink></li>
-                                    <li><NavLink to="/search-books" onClick={toggleSidebar}>Find Books</NavLink></li>
+                                    {/* <li><NavLink to="/search-books" onClick={toggleSidebar}>Find Books</NavLink></li>
                                     <li><NavLink to="/my-books" onClick={toggleSidebar}>My Books</NavLink></li>
-                                    <li><NavLink to="/issue-history" onClick={toggleSidebar}>Issue History</NavLink></li>
+                                    <li><NavLink to="/issue-history" onClick={toggleSidebar}>Issue History</NavLink></li> */}
                                 </ul>
                             )}
 

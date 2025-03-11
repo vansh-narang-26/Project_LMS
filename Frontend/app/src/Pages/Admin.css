@@ -18,7 +18,7 @@
 
 /* General Layout */
 .admin-container {
-    max-width: 1200px;
+    max-width: 100vw;
     margin: 0 auto;
     padding: 2rem;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -195,11 +195,12 @@ input[type="number"] {
     background-color: var(--danger-hover);
 }
 .div-list-book{
+    max-width: 500px;
     gap: 20px;
     display: flex;
     flex-direction: row;
     align-items: center;
-    /* justify-content: center; */
+    justify-content: space-between; 
 }
 .div-list-book button{
     width: 200px;
@@ -341,6 +342,12 @@ input[type="number"] {
     top: 1rem;
     right: 1rem;
     z-index: 1100;
+}
+.btn-req{
+    margin-top: 10px;
+    display: flex;
+    max-width: 200px;
+    gap: 20px;
 }
 
 @media (max-width: 768px) {

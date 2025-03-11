@@ -242,15 +242,17 @@ const AdminDashboard = () => {
                 <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
                 <button type="submit">Add Book</button>
             </form> */}
-              <h2>Manage Requests</h2>
+              <h2>Requests</h2>
             <ul>
-                {requests.map((req, index) => (
+                {requests.length>0 ?(requests.map((req, index) => (
                     <li key={index} data-testid="request">
-                        {req.reader_id} requested {req.book_id}
+                        Reader Id : {req.reader_id} requested book with ISBN : {req.book_id}
+                        <div className="btn-req">
                         <button onClick={() => approveRequest(req.req_id)} data-testid="approve">Approve</button>
                         <button onClick={() => rejectRequest(req.req_id)} data-testid="reject">Reject</button>
+                        </div>
                     </li>
-                ))}
+                ))):(<div>No requests in the queue</div>)}
             </ul>
             <div className="div-list-book">
             <h2>List Books</h2>
@@ -301,10 +303,12 @@ const AdminDashboard = () => {
                 {books.map((book) => (
                     <li key={book.isbn} className="li-list">
                         <div className="li-list-div">
-                            <p>Copies {book.available_copies}</p>
-                            <p>Title {book.title} </p>
-                            <p>Author {book.authors}</p>
-                            <p>Version {book.version}</p>
+                            <p>Available copies : {book.available_copies}</p>
+                            <p>ISBN : {book.isbn}</p>
+                            <p>Total Copies : {book.total_copies}</p>
+                            <p>Title : {book.title} </p>
+                            <p>Author : {book.authors}</p>
+                            <p>Version : {book.version}</p>
                         </div>
                         <button onClick={() => handleUpdateBook(book.isbn)}>Update</button>
                         <button onClick={() => removeBook(book.isbn)}>Remove</button>

@@ -16,7 +16,8 @@
 }
 
 .search-container {
-    max-width: 800px;
+    /* max-width: 800px; */
+    width: 900px;
     display: flex;
     flex-direction: row;
     align-items: center;
@@ -28,7 +29,13 @@
     display: flex;
     flex-direction: column;
 }
-
+.read-books-container{
+    /* align-items: center; */
+    justify-content: center;
+    margin: 0px 20px;
+    display: flex;
+    flex-direction: column;
+}
 .book-list-container {
     gap: 10px;
     justify-content: start;

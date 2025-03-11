@@ -22,11 +22,12 @@ const ReaderDashboard = () => {
             })
             const expectedDate = new Date(res.data.return_date).toLocaleDateString()
             // console.log(res.data.return_date)
-            toast(expectedDate,{
-                duration:4000,
+            toast(expectedDate, {
+                duration: 4000,
             });
         } catch (error) {
             console.log(error)
+            toast.error(error.response.data.Message)
         }
     }
 
@@ -87,7 +88,7 @@ const ReaderDashboard = () => {
     return (
         <>
             <div className='reader-dashboard'>
-                <h1 className="">Reader Dashboard</h1>
+                <h1 className="">Dashboard</h1>
                 <div className='button-container'>
 
                     <div className='search-container'>
@@ -120,21 +121,23 @@ const ReaderDashboard = () => {
                     </div>
                 </div>
             </div>
-            <h1 className='heading'>Recently added books</h1>
-            <ul className="ul-list-book">
-                {allBook.map((book) => (
-                    <li key={book.isbn} className="li-list-book">
-                        <div className="li-list-div-book">
-                            <p>Available copies {book.available_copies}</p>
-                            <p>Title {book.title} </p>
-                            <p>Author {book.authors}</p>
-                            <p>Version {book.version}</p>
-                        </div>
-                        {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>) : ""}
-                        <button className='' onClick={(e) => raiseRequest(e, book)}>Request Book</button>
-                    </li>
-                ))}
-            </ul>
+            <div className='read-books-container'>
+                <h1 className='heading'>Recently added books</h1>
+                <ul className="ul-list-book">
+                    {allBook.map((book) => (
+                        <li key={book.isbn} className="li-list-book">
+                            <div className="li-list-div-book">
+                                <p>Available copies {book.available_copies}</p>
+                                <p>Title {book.title} </p>
+                                <p>Author {book.authors}</p>
+                                <p>Version {book.version}</p>
+                            </div>
+                            {book.available_copies < 1 ? (<button onClick={(e) => getReturnDate(e, book)}>Expected Date</button>) : ""}
+                            {book.available_copies > 0 ? (<button className='' onClick={(e) => raiseRequest(e, book)}>Request Book</button>) : ""}
+                        </li>
+                    ))}
+                </ul>
+            </div>
             <Toaster
                 position="top-center"
                 reverseOrder={true}
