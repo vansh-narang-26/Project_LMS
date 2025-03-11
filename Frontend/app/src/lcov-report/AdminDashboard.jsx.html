@@ -30,9 +30,9 @@
         
             
             <div class='fl pad1y space-right2'>
-                <span class="strong">25% </span>
+                <span class="strong">27.27% </span>
                 <span class="quiet">Branches</span>
-                <span class='fraction'>5/20</span>
+                <span class='fraction'>6/22</span>
             </div>
         
             
@@ -386,7 +386,11 @@
 <a name='L321'></a><a href='#L321'>321</a>
 <a name='L322'></a><a href='#L322'>322</a>
 <a name='L323'></a><a href='#L323'>323</a>
-<a name='L324'></a><a href='#L324'>324</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L324'></a><a href='#L324'>324</a>
+<a name='L325'></a><a href='#L325'>325</a>
+<a name='L326'></a><a href='#L326'>326</a>
+<a name='L327'></a><a href='#L327'>327</a>
+<a name='L328'></a><a href='#L328'>328</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -635,8 +639,10 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
 <span class="cline-any cline-no">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -688,6 +694,8 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-yes">1x</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -953,15 +961,17 @@ const AdminDashboard = () =&gt; {
                 &lt;input type="number" name="version" placeholder="Version" onChange={handleChange} required /&gt;
                 &lt;button type="submit"&gt;Add Book&lt;/button&gt;
             &lt;/form&gt; */}
-              &lt;h2&gt;Manage Requests&lt;/h2&gt;
+              &lt;h2&gt;Requests&lt;/h2&gt;
             &lt;ul&gt;
-                {requests.map(<span class="fstat-no" title="function not covered" >(r</span>eq, index) =&gt; (
+                {requests.length&gt;0 ?(<span class="branch-0 cbranch-no" title="branch not covered" >requests.map(<span class="fstat-no" title="function not covered" >(r</span>eq, index) =&gt; (</span>
 <span class="cstat-no" title="statement not covered" >                    &lt;li key={index} data-testid="request"&gt;</span>
-                        {req.reader_id} requested {req.book_id}
+                        Reader Id : {req.reader_id} requested book with ISBN : {req.book_id}
+                        &lt;div className="btn-req"&gt;
                         &lt;button onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >approveRequest(req.req_id)}</span> data-testid="approve"&gt;Approve&lt;/button&gt;
                         &lt;button onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >rejectRequest(req.req_id)}</span> data-testid="reject"&gt;Reject&lt;/button&gt;
+                        &lt;/div&gt;
                     &lt;/li&gt;
-                ))}
+                ))):(&lt;div&gt;No requests in the queue&lt;/div&gt;)}
             &lt;/ul&gt;
             &lt;div className="div-list-book"&gt;
             &lt;h2&gt;List Books&lt;/h2&gt;
@@ -1012,10 +1022,12 @@ const AdminDashboard = () =&gt; {
                 {books.map((book) =&gt; (
                     &lt;li key={book.isbn} className="li-list"&gt;
                         &lt;div className="li-list-div"&gt;
-                            &lt;p&gt;Copies {book.available_copies}&lt;/p&gt;
-                            &lt;p&gt;Title {book.title} &lt;/p&gt;
-                            &lt;p&gt;Author {book.authors}&lt;/p&gt;
-                            &lt;p&gt;Version {book.version}&lt;/p&gt;
+                            &lt;p&gt;Available copies : {book.available_copies}&lt;/p&gt;
+                            &lt;p&gt;ISBN : {book.isbn}&lt;/p&gt;
+                            &lt;p&gt;Total Copies : {book.total_copies}&lt;/p&gt;
+                            &lt;p&gt;Title : {book.title} &lt;/p&gt;
+                            &lt;p&gt;Author : {book.authors}&lt;/p&gt;
+                            &lt;p&gt;Version : {book.version}&lt;/p&gt;
                         &lt;/div&gt;
                         &lt;button onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >handleUpdateBook(book.isbn)}</span>&gt;Update&lt;/button&gt;
                         &lt;button onClick={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >removeBook(book.isbn)}</span>&gt;Remove&lt;/button&gt;
@@ -1039,7 +1051,7 @@ export default AdminDashboard;</pre></td></tr></table></pre>
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank" rel="noopener noreferrer">istanbul</a>
-                at 2025-03-11T15:21:33.433Z
+                at 2025-03-11T17:05:28.173Z
             </div>
         <script src="prettify.js"></script>
         <script>

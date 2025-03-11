@@ -77,7 +77,7 @@ describe("AdminDashboard Component", () => {
 
     expect(screen.getByText("Welcome Admin")).toBeInTheDocument();
     expect(screen.getByText("List Books")).toBeInTheDocument();
-    expect(screen.getByText("Manage Requests")).toBeInTheDocument();
+    expect(screen.getByText("Requests")).toBeInTheDocument();
   });
 
   test("fetches and displays books", async () => {

@@ -57,7 +57,7 @@ describe("ReaderDashboard Component", () => {
             </MemoryRouter>
         );
 
-        expect(screen.getByText("Reader Dashboard")).toBeInTheDocument();
+        expect(screen.getByText("Dashboard")).toBeInTheDocument();
         expect(screen.getByText("Recently added books")).toBeInTheDocument();
     });
 
