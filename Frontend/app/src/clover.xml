@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1741712728186" clover="3.2.0">
-  <project timestamp="1741712728186" name="All files">
+<coverage generated="1741896422531" clover="3.2.0">
+  <project timestamp="1741896422531" name="All files">
     <metrics statements="174" coveredstatements="83" conditionals="45" coveredconditionals="23" methods="44" coveredmethods="15" elements="263" coveredelements="121" complexity="0" loc="174" ncloc="174" packages="1" files="4" classes="4"/>
     <file name="AdminDashboard.jsx" path="/home/xs522-vannar/Project/Frontend/app/src/Pages/AdminDashboard.jsx">
       <metrics statements="102" coveredstatements="37" conditionals="22" coveredconditionals="6" methods="24" coveredmethods="5"/>
