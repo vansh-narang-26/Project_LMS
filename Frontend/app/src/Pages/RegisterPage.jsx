@@ -26,7 +26,7 @@ const RegisterPage = () => {
         const fetchLibraries = async () => {
             try {
                 const response = await axios.get(LIBRARIES_API);
-                setLibraries(response.data.libraries);
+                response.data?.libraries && setLibraries(response.data?.libraries);
             } catch (err) {
                 console.error("Error fetching libraries:", err);
                 toast.error("Could not fetch libraries");

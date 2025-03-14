@@ -1,4 +1,4 @@
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor,act } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { BrowserRouter, MemoryRouter } from "react-router-dom";
 import axios from "axios";
@@ -7,11 +7,11 @@ import React from "react";
 import "@testing-library/jest-dom";
 import toast from "react-hot-toast";
 
-// Mock dependencies
+
 jest.mock("axios");
-beforeEach(() => {
-    jest.clearAllMocks(); // Reset mock before each test
-});
+// beforeEach(() => {
+//     jest.clearAllMocks(); 
+// });
 jest.mock("react-hot-toast", () => ({
     __esModule: true,
     default: jest.fn((message) => message),
@@ -20,7 +20,7 @@ jest.mock("react-hot-toast", () => ({
     Toaster: () => <div data-testid="toast-container" />
 }));
 
-// Mock useNavigate
+
 const mockNavigate = jest.fn();
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -36,7 +36,6 @@ describe("RegisterPage Component", () => {
 
     beforeEach(() => {
         jest.clearAllMocks();
-        // Mock libraries API response
         axios.get.mockResolvedValue({
             data: { libraries: mockLibraries }
         });
@@ -55,7 +54,6 @@ describe("RegisterPage Component", () => {
         expect(screen.getByLabelText("Contact Number")).toBeInTheDocument();
         expect(screen.getByLabelText("Select Role")).toBeInTheDocument();
 
-        // Check for login link
         expect(screen.getByText("Already have an account?")).toBeInTheDocument();
         expect(screen.getByText("Sign in")).toBeInTheDocument();
         expect(screen.getByText("Sign in").closest('a')).toHaveAttribute('href', '/login');
@@ -70,64 +68,73 @@ describe("RegisterPage Component", () => {
         expect(axios.get).toHaveBeenCalledWith("http://localhost:8000/api/getLib");
     });
 
-    // test("shows library selection only when 'reader' role is selected", async () => {
-    //     render(
-    //         <MemoryRouter>
-    //             <RegisterPage />
-    //         </MemoryRouter>
-    //     );
-    //     await expect(screen.findByLabelText("Select Library")).resolves.toBeInTheDocument();
+    test("shows library selection only when reader role is selected", async () => {
+        render(
+            <MemoryRouter>
+                <RegisterPage />
+            </MemoryRouter>
+        );
 
-    //     const roleSelect = screen.getByLabelText("Select Role");
-    //     await userEvent.selectOptions(roleSelect, "reader");
+        const roleSelect = screen.getByLabelText("Select Role");
+        await userEvent.selectOptions(roleSelect, "reader");
 
-    //     await expect(screen.findByLabelText("Select Library")).resolves.toBeInTheDocument();
-
+        await expect(screen.findByLabelText("Select Library")).resolves.toBeInTheDocument();
 
 
-    //     await waitFor(() => {
-    //         const libraryOptions = screen.getAllByRole("option");
 
-    //         expect(libraryOptions.length).toBe(3);
-    //         expect(screen.getByText("d")).toBeInTheDocument();
-    //         expect(screen.getByText("dd")).toBeInTheDocument();
+        await waitFor(() => {
+            const libraryOptions = screen.getAllByRole("option");
+
+            expect(libraryOptions.length).toBe(6);
+            expect(screen.getByText("d")).toBeInTheDocument();
+            expect(screen.getByText("dd")).toBeInTheDocument();
+        });
+        await userEvent.selectOptions(roleSelect, "owner");
+        expect(screen.queryByLabelText("Select Library")).not.toBeInTheDocument();
+    });
+
+    // test("automatically sets lib_id to 0 when selecting role of owner", async () => {
+
+    //     axios.post.mockRejectedValueOnce({
+    //         response: {
+    //             data: {
+    //                 Error: "Couldnt Register"
+    //             }
+    //         }
     //     });
-    //     await userEvent.selectOptions(roleSelect, "owner");
-    //     expect(screen.queryByLabelText("Select Library")).not.toBeInTheDocument();
-    // });
 
-    // test("automatically sets lib_id to 0 when selecting 'owner' role", async () => {
-    //     render(
+    //     act(()=> render(
     //         <MemoryRouter>
     //             <RegisterPage />
     //         </MemoryRouter>
-    //     );
+    //     ));
 
-    //     // Select 'reader' role first
-    //     const roleSelect = screen.getByLabelText("Select Role");
-    //     await userEvent.selectOptions(roleSelect, "reader");
+    
+    //     // const roleSelect = screen.getByLabelText("Select Role");
+    //     // await userEvent.selectOptions(roleSelect, "Reader");
 
-    //     // Select a library
-    //     const librarySelect = screen.getByLabelText("Select Library");
-    //     await userEvent.selectOptions(librarySelect, "1");
-
-    //     // Change to 'owner' role
-    //     await userEvent.selectOptions(screen.getByLabelText("Select Role"), "owner");
+    //     // const librarySelect = screen.getByLabelText("Select Library");
+    //     // await userEvent.selectOptions(librarySelect, "1");
+    //     await userEvent.selectOptions(screen.getByLabelText("Select Role"), "Owner");
 
 
-    //     // Submit the form
     //     const submitButton = screen.getByRole("button", { name: "Register" });
+    //  //   console.log(submitButton)
     //     fireEvent.click(submitButton);
 
-    //     // Verify that lib_id was set to 0 in the form data
     //     await waitFor(() => {
     //         expect(axios.post).toHaveBeenCalledWith(
     //             "http://localhost:8000/api/users/register",
     //             expect.objectContaining({
+    //                 contact_no: "3233",
+    //                 email: "vas@gmail.com",
+    //                 id: 40,
+    //                 lib_id: 0,
+    //                 name: "vasn",
     //                 role: "owner",
-    //                 lib_id: 0
     //             })
     //         );
+    //         expect(toast.success).toHaveBeenCalledWith("Registration successful");
     //     });
     // });
 
@@ -155,13 +162,12 @@ describe("RegisterPage Component", () => {
     //     const submitButton = screen.getByRole("button", { name: "Register" });
     //     fireEvent.click(submitButton);
 
-    //     // Verify that lib_id is an integer (not a string)
     //     await waitFor(() => {
     //         expect(axios.post).toHaveBeenCalledWith(
     //             "http://localhost:8000/api/users/register",
     //             expect.objectContaining({
     //                 role: "reader",
-    //                 lib_id: 2  // This should be a number, not "2"
+    //                 lib_id: 2 
     //             })
     //         );
     //     });

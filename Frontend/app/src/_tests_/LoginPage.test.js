@@ -21,7 +21,6 @@ jest.mock("react-hot-toast", () => ({
     Toaster: () => <div data-testid="toast-container" />
 }));
 
-// Mock local storage
 const mockLocalStorage = (() => {
     let store = {};
     return {
@@ -129,7 +128,7 @@ describe("Login Component", () => {
     });
 
     test("shows loading state when form is submitted", async () => {
-        // Mock axios to delay response
+        //Delaying response 
         axios.post.mockImplementation(() => new Promise(resolve => setTimeout(resolve, 100)));
 
         render(
@@ -149,7 +148,6 @@ describe("Login Component", () => {
     });
 
     test("handles successful login", async () => {
-        // Mock successful API response
         const mockResponse = {
             data: {
                 token: "fake-token-123",
@@ -170,7 +168,7 @@ describe("Login Component", () => {
         const submitButton = screen.getByRole("button", { name: /login/i });
         fireEvent.click(submitButton);
 
-        // Wait for the API call to resolve
+
         await waitFor(() => {
             expect(axios.post).toHaveBeenCalledWith(
                 "http://localhost:8000/api/users/login",
@@ -183,7 +181,6 @@ describe("Login Component", () => {
     });
 
     test("displays error message on failed login", async () => {
-        // Mock API error response
         const errorMessage = "Invalid email address";
         axios.post.mockRejectedValueOnce({
             response: {
@@ -205,14 +202,12 @@ describe("Login Component", () => {
         const submitButton = screen.getByRole("button", { name: /login/i });
         fireEvent.click(submitButton);
 
-        // Wait for the error message to appear
         await waitFor(() => {
             expect(screen.getByRole("alert")).toHaveTextContent(errorMessage);
         });
     });
 
     test("handles server connection error", async () => {
-        // Mock network error
         axios.post.mockRejectedValueOnce(new Error("Network Error"));
 
         render(
@@ -227,7 +222,6 @@ describe("Login Component", () => {
         const submitButton = screen.getByRole("button", { name: /login/i });
         fireEvent.click(submitButton);
 
-        // Wait for the generic error message to appear
         await waitFor(() => {
             expect(screen.getByRole("alert")).toHaveTextContent(
                 "Unable to connect to the server. Please try again later."

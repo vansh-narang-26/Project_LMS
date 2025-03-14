@@ -7,7 +7,7 @@ import React, { act } from "react";
 import "@testing-library/jest-dom";
 import toast from "react-hot-toast";
 
-// Mock dependencies
+
 jest.mock("axios");
 jest.mock("react-hot-toast", () => ({
   __esModule: true,
@@ -18,7 +18,6 @@ jest.mock("react-hot-toast", () => ({
   Toaster: () => <div data-testid="toast-container" />,
 }));
 
-// Mock localStorage
 const mockLocalStorage = (() => {
   let store = {};
   return {
@@ -50,7 +49,6 @@ describe("AdminDashboard Component", () => {
   });
 
   test("renders admin dashboard with correct title", () => {
-    // Mock API responses
     axios.get.mockImplementation((url) => {
       if (url === "http://localhost:8000/api/admin/getBooks") {
         return Promise.resolve({
@@ -117,13 +115,13 @@ describe("AdminDashboard Component", () => {
   });
 
   test("fetches and displays requests", async () => {
-    const mockRequests = [
-      {
-        req_id: "1",
-        reader_id: "33",
-        book_id: "111",
-      },
-    ];
+    // const mockRequests = [
+    //   {
+    //     req_id: "1",
+    //     reader_id: "33",
+    //     book_id: "111",
+    //   },
+    // ];
 
     axios.get.mockImplementation((url) => {
       if (url === "http://localhost:8000/api/admin/getBooks") {
@@ -442,7 +440,7 @@ describe("AdminDashboard Component", () => {
       return Promise.reject(new Error("Not found"));
     });
 
-    // Mock fetch instead of axios for update
+
     global.fetch = jest.fn(() =>
       Promise.resolve({
         ok: true,

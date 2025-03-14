@@ -7,7 +7,7 @@ import React from "react";
 import "@testing-library/jest-dom";
 import toast from "react-hot-toast";
 
-// Mock dependencies
+
 jest.mock("axios");
 jest.mock("react-router-dom", () => ({
     ...jest.requireActual("react-router-dom"),
@@ -22,7 +22,6 @@ jest.mock("react-hot-toast", () => ({
     Toaster: () => <div data-testid="toast-container" />
 }));
 
-// Mock localStorage
 const mockLocalStorage = (() => {
     let store = {};
     return {
@@ -41,7 +40,6 @@ Object.defineProperty(window, "localStorage", {
     writable: true
 });
 
-// Mock fetch
 global.fetch = jest.fn();
 
 describe("OwnerDashboard Component", () => {
@@ -55,7 +53,6 @@ describe("OwnerDashboard Component", () => {
     });
 
     test("renders owner dashboard with correct titles", async () => {
-        // Mock API responses
         axios.get.mockImplementation((url) => {
             if (url === "http://localhost:8000/api/library/getlib") {
                 return Promise.resolve({ data: { library: { id: 7, name: "oo" } } });
@@ -81,7 +78,6 @@ describe("OwnerDashboard Component", () => {
     });
 
     test("fetches and displays library data", async () => {
-        // Mock API responses for library data
         axios.get.mockImplementation((url) => {
             if (url === "http://localhost:8000/api/library/getlib") {
                 return Promise.resolve({
@@ -113,7 +109,6 @@ describe("OwnerDashboard Component", () => {
     });
 
     test("fetches and displays admin data", async () => {
-        // Mock API responses for admin data
         const mockAdmins = [
             {
                 id: "admin1",

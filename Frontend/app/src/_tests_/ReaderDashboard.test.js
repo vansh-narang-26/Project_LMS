@@ -1,3 +1,4 @@
+import { act } from 'react';
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import { MemoryRouter } from "react-router-dom";
@@ -7,7 +8,6 @@ import React from "react";
 import "@testing-library/jest-dom";
 import toast from "react-hot-toast";
 
-// Mock dependencies
 jest.mock("axios");
 jest.mock("react-hot-toast", () => ({
     __esModule: true,
@@ -17,7 +17,6 @@ jest.mock("react-hot-toast", () => ({
     Toaster: () => <div data-testid="toast-container" />
 }));
 
-// Mock localStorage
 const mockLocalStorage = (() => {
     let store = {};
     return {
@@ -36,7 +35,6 @@ Object.defineProperty(window, "localStorage", {
     writable: true
 });
 
-// Mock react-icons
 jest.mock("react-icons/bs", () => ({
     BsSearch: () => <div data-testid="search-icon" />
 }));
@@ -51,11 +49,11 @@ describe("ReaderDashboard Component", () => {
         
         axios.get.mockResolvedValueOnce({ data: { Books: [] } });
 
-        render(
+        act(()=> render(
             <MemoryRouter>
                 <ReaderDashboard />
             </MemoryRouter>
-        );
+        ));
 
         expect(screen.getByText("Dashboard")).toBeInTheDocument();
         expect(screen.getByText("Recently added books")).toBeInTheDocument();
@@ -74,11 +72,11 @@ describe("ReaderDashboard Component", () => {
 
         axios.get.mockResolvedValueOnce({ data: { Books: mockBooks } });
 
-        render(
+        act(()=> render(
             <MemoryRouter>
                 <ReaderDashboard />
             </MemoryRouter>
-        );
+        ));
 
         await waitFor(() => {
             expect(screen.getByText("Title Test Book")).toBeInTheDocument();
@@ -87,7 +85,6 @@ describe("ReaderDashboard Component", () => {
             expect(screen.getByText("Available copies 5")).toBeInTheDocument();
         });
 
-        // Verify API was called correctly
         expect(axios.get).toHaveBeenCalledWith(
             "http://localhost:8000/api/reader/getBooks",
             {
@@ -149,24 +146,22 @@ describe("ReaderDashboard Component", () => {
     // });
 
     test("handles empty search input", async () => {
-        // Mock initial books load
         axios.get.mockResolvedValueOnce({ data: { Books: [] } });
 
-        render(
+        act(()=> render(
             <MemoryRouter>
                 <ReaderDashboard />
             </MemoryRouter>
-        );
+        ));
 
-        // Don't enter any search value
+        //Empty krdo search 
         const searchInput = screen.getByPlaceholderText("Search for author, title, publisher");
         await userEvent.clear(searchInput);
 
-        // Click search button
+        //Clicking button
         const searchButton = screen.getByTestId("search-icon");
         fireEvent.click(searchButton);
-
-        // Verify search API was not called
+        
         expect(axios.get).not.toHaveBeenCalledWith(
             expect.stringContaining("search-books"),
             expect.any(Object)
