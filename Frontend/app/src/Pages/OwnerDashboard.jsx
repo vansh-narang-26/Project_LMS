@@ -231,7 +231,9 @@ const OwnerDashboard = () => {
                             />
                             <label>Contact Number:</label>
                             <input
-                                type="text"
+                                type="tel"
+                                minlength="10"
+                                maxlength="10"
                                 placeholder="Enter contact number"
                                 value={adminContact}
                                 onChange={(e) => setAdminContact(e.target.value)}

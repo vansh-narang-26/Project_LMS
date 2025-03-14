@@ -8,6 +8,7 @@ import OwnerDashboard from "./Pages/OwnerDashboard";
 import AdminDashboard from "./Pages/AdminDashboard";
 import ReaderDashboard from './Pages/ReaderDashboard';
 import HomePage from "./Pages/Homepage";
+import Footer from "./Components/Footer";
 
 
 // import ManageLibraries from "./Pages/Owner/ManageLibraries";
@@ -150,6 +151,7 @@ function App() {
         {/* Fallback route */}
         <Route path="*" element={<AuthRedirect />} />
       </Routes>
+      <Footer/>
     </BrowserRouter>
   );
 }

@@ -40,6 +40,12 @@ const RegisterPage = () => {
         const { name, value } = e.target;
         
         // Handle role change separately
+        // if (name === 'contact_no'){
+        //     if(e.target.value <10  || e.target.value > 10){
+        //         toast.error("The phone number length must be exactly 10")
+        //     }
+        // }
+
         if (name === 'role') {
             setFormData({
                 ...formData,
@@ -113,9 +119,11 @@ const RegisterPage = () => {
 
                 <div className="input-group">
                     <label htmlFor="contact_no">Contact Number</label>
-                    <input
+                    <input  
                         id="contact_no"
-                        type="text"
+                        type="tel"
+                        minlength="10"
+                        maxlength="10"
                         name="contact_no"
                         placeholder="Enter your contact number"
                         value={formData.contact_no}

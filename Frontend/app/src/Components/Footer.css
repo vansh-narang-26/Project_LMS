@@ -1,0 +1,12 @@
+.footer-container {
+    color: white;
+    background: linear-gradient(90deg, #2c3e50, #1a2a38);
+    width: 100vw;
+    display: flex;
+    text-align: center;
+    flex-direction: column; 
+    justify-content: center;
+    height: 50px;
+    position: fixed;
+    bottom: 0;
+}

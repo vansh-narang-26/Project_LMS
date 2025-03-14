@@ -60,6 +60,7 @@ button {
 
 .create-library,
 .create-admin {
+    max-width: 200px;
     background-color: black;
     color: white;
 }
