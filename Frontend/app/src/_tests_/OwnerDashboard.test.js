@@ -26,7 +26,7 @@ jest.mock("react-hot-toast", () => ({
 const mockLocalStorage = (() => {
     let store = {};
     return {
-        getItem: jest.fn(key => store[key] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZuQGdtYWlsLmNvbSIsImlkIjozMSwicm9sZSI6Im93bmVyIn0.dGdVQqDIHJPdv3I5_2JtgP5suwK88bJOagR3_nHr9yw"),
+        getItem: jest.fn(key => store[key] || "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"),
         setItem: jest.fn((key, value) => {
             store[key] = value;
         }),
@@ -47,135 +47,121 @@ global.fetch = jest.fn();
 describe("OwnerDashboard Component", () => {
     beforeEach(() => {
         jest.clearAllMocks();
-        mockLocalStorage.getItem.mockReturnValue("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6InZuQGdtYWlsLmNvbSIsImlkIjozMSwicm9sZSI6Im93bmVyIn0.dGdVQqDIHJPdv3I5_2JtgP5suwK88bJOagR3_nHr9yw");
+        mockLocalStorage.getItem.mockReturnValue("eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY");
     });
 
     afterEach(() => {
         global.fetch.mockClear();
     });
 
-    // test("renders owner dashboard with correct titles", async () => {
-    //     // Mock API responses
-    //     axios.get.mockImplementation((url) => {
-    //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({ data: { library: { id: 12, name: "Test Library" } } });
-    //         }
-    //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
-    //         }
-    //         return Promise.reject(new Error("Not found"));
-    //     });
+    test("renders owner dashboard with correct titles", async () => {
+        // Mock API responses
+        axios.get.mockImplementation((url) => {
+            if (url === "http://localhost:8000/api/library/getlib") {
+                return Promise.resolve({ data: { library: { id: 7, name: "oo" } } });
+            }
+            if (url === "http://localhost:8000/api/library/getAdmins") {
+                return Promise.resolve({ data: { admins: [] } });
+            }
+            return Promise.reject(new Error("Not found"));
+        });
 
-    //     render(
-    //         <MemoryRouter>
-    //             <OwnerDashboard />
-    //         </MemoryRouter>
-    //     );
+        render(
+            <MemoryRouter>
+                <OwnerDashboard />
+            </MemoryRouter>
+        );
 
-    //     expect(screen.getByText("Welcome Owner")).toBeInTheDocument();
-    //     expect(screen.getByText("Your Libraries")).toBeInTheDocument();
+        expect(screen.getByText("Welcome Owner")).toBeInTheDocument();
+        expect(screen.getByText("Your Libraries")).toBeInTheDocument();
 
-    //     await waitFor(() => {
-    //         expect(screen.getByText("Library Admins")).toBeInTheDocument();
-    //     });
-    // });
+        await waitFor(() => {
+            expect(screen.getByText("Library Admins")).toBeInTheDocument();
+        });
+    });
 
-    // test("fetches and displays library data", async () => {
-    //     // Mock API responses for library data
-    //     axios.get.mockImplementation((url) => {
-    //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
-    //                 }
-    //             });
-    //         }
-    //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
-    //         }
-    //         return Promise.reject(new Error("Not found"));
-    //     });
+    test("fetches and displays library data", async () => {
+        // Mock API responses for library data
+        axios.get.mockImplementation((url) => {
+            if (url === "http://localhost:8000/api/library/getlib") {
+                return Promise.resolve({
+                    data: {
+                        library: {
+                            id: 1,
+                            name: "Test Library"
+                        }
+                    }
+                });
+            }
+            if (url === "http://localhost:8000/api/library/getAdmins") {
+                return Promise.resolve({ data: { admins: [] } });
+            }
+            return Promise.reject(new Error("Not found"));
+        });
 
-    //     render(
-    //         <MemoryRouter>
-    //             <OwnerDashboard />
-    //         </MemoryRouter>
-    //     );
+        render(
+            <MemoryRouter>
+                <OwnerDashboard />
+            </MemoryRouter>
+        );
 
-    //     await waitFor(() => {
-    //         expect(screen.getByText("Name: Test Library")).toBeInTheDocument();
-    //         expect(screen.getByText("ID: 1")).toBeInTheDocument();
-    //         expect(screen.getByText("Has 0 admin(s)")).toBeInTheDocument();
-    //     });
-    // });
+        await waitFor(() => {
+            expect(screen.getByText("Name: Test Library")).toBeInTheDocument();
+            expect(screen.getByText("ID: 1")).toBeInTheDocument();
+            expect(screen.getByText("Has 0 admin(s)")).toBeInTheDocument();
+        });
+    });
 
-    // test("fetches and displays admin data", async () => {
-    //     // Mock API responses for admin data
-    //     const mockAdmins = [
-    //         {
-    //             id: "admin1",
-    //             name: "Admin User",
-    //             email: "admin@example.com",
-    //             contact_no: "1234567890"
-    //         }
-    //     ];
+    test("fetches and displays admin data", async () => {
+        // Mock API responses for admin data
+        const mockAdmins = [
+            {
+                id: "admin1",
+                name: "Admin User",
+                email: "admin@example.com",
+                contact_no: "1234567890"
+            }
+        ];
 
-    //     axios.get.mockImplementation((url) => {
-    //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({
-    //                 data: {
-    //                     library: {
-    //                         id: 1,
-    //                         name: "Test Library"
-    //                     }
-    //                 }
-    //             });
-    //         }
-    //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({ data: { admins: mockAdmins } });
-    //         }
-    //         return Promise.reject(new Error("Not found"));
-    //     });
+        axios.get.mockImplementation((url) => {
+            if (url === "http://localhost:8000/api/library/getlib") {
+                return Promise.resolve({
+                    data: {
+                        library: {
+                            id: 7,
+                            name: "oo"
+                        }
+                    }
+                });
+            }
+            if (url === "http://localhost:8000/api/library/getAdmins") {
+                return Promise.resolve({ data: { admins: mockAdmins } });
+            }
+            return Promise.reject(new Error("Not found"));
+        });
 
-    //     render(
-    //         <MemoryRouter>
-    //             <OwnerDashboard />
-    //         </MemoryRouter>
-    //     );
+        render(
+            <MemoryRouter>
+                <OwnerDashboard />
+            </MemoryRouter>
+        );
 
-    //     await waitFor(() => {
-    //         expect(screen.getByText("Name: Admin User")).toBeInTheDocument();
-    //         expect(screen.getByText("Email: admin@example.com")).toBeInTheDocument();
-    //         expect(screen.getByText("Contact: 1234567890")).toBeInTheDocument();
-    //         expect(screen.getByText("Has 1 admin(s)")).toBeInTheDocument();
-    //     });
-    // });
+        await waitFor(() => {
+            expect(screen.getByText("Name: Admin User")).toBeInTheDocument();
+            expect(screen.getByText("Email: admin@example.com")).toBeInTheDocument();
+            expect(screen.getByText("Contact: 1234567890")).toBeInTheDocument();
+            expect(screen.getByText("Has 1 admin(s)")).toBeInTheDocument();
+        });
+    });
 
     // test("shows library creation modal when Create Library button is clicked", async () => {
     //     // Mock API responses for no library
     //     axios.get.mockImplementation((url) => {
     //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
-    //                 }
-    //             });
+    //             return Promise.resolve({ data: { library: null } });
     //         }
     //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
+    //             return Promise.resolve({ data: { admins: [] } });
     //         }
     //         return Promise.reject(new Error("Not found"));
     //     });
@@ -205,18 +191,16 @@ describe("OwnerDashboard Component", () => {
     //     axios.get.mockImplementation((url) => {
     //         if (url === "http://localhost:8000/api/library/getlib") {
     //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
+    //                 data: {
+    //                     library: {
+    //                         id: 1,
+    //                         name: "Test Library"
+    //                     }
     //                 }
     //             });
     //         }
     //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
+    //             return Promise.resolve({ data: { admins: [] } });
     //         }
     //         return Promise.reject(new Error("Not found"));
     //     });
@@ -234,8 +218,8 @@ describe("OwnerDashboard Component", () => {
     //     fireEvent.click(screen.getByText("Create Admin"));
 
     //     expect(screen.getByText("Create Admin", { selector: "h2" })).toBeInTheDocument();
-    //     expect(screen.getByLabelText("Name:")).toBeInTheDocument();
-    //     expect(screen.getByLabelText("Email:")).toBeInTheDocument();
+    //     // expect(screen.getByLabelText("Name:")).toBeInTheDocument();
+    //     // expect(screen.getByLabelText("Email:")).toBeInTheDocument();
     //     expect(screen.getByLabelText("Contact Number:")).toBeInTheDocument();
     // });
 
@@ -243,19 +227,10 @@ describe("OwnerDashboard Component", () => {
     //     // Mock API responses
     //     axios.get.mockImplementation((url) => {
     //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
-    //                 }
-    //             });
+    //             return Promise.resolve({ data: { library: null } });
     //         }
     //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
+    //             return Promise.resolve({ data: { admins: [] } });
     //         }
     //         return Promise.reject(new Error("Not found"));
     //     });
@@ -295,7 +270,7 @@ describe("OwnerDashboard Component", () => {
     //             expect.objectContaining({
     //                 method: "POST",
     //                 headers: expect.objectContaining({
-    //                     Authorization: "Bearer mock-token"
+    //                     Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"
     //                 }),
     //                 body: JSON.stringify({ name: "New Test Library" })
     //             })
@@ -309,18 +284,16 @@ describe("OwnerDashboard Component", () => {
     //     axios.get.mockImplementation((url) => {
     //         if (url === "http://localhost:8000/api/library/getlib") {
     //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
+    //                 data: {
+    //                     library: {
+    //                         id: 1,
+    //                         name: "Test Library"
+    //                     }
     //                 }
     //             });
     //         }
     //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
+    //             return Promise.resolve({ data: { admins: [] } });
     //         }
     //         return Promise.reject(new Error("Not found"));
     //     });
@@ -363,7 +336,7 @@ describe("OwnerDashboard Component", () => {
     //             expect.objectContaining({
     //                 method: "POST",
     //                 headers: expect.objectContaining({
-    //                     Authorization: "Bearer mock-token"
+    //                     Authorization: "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6ImxAZ21haWwuY29tIiwiaWQiOjksInJvbGUiOiJvd25lciJ9.eRndaP1GVyZ4rWEU8TO3-RvDk6IKHTp7SBEWBEFWEkeyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJlbWFpbCI6Im9AZ21haWwuY29tIiwiaWQiOjcsInJvbGUiOiJvd25lciJ9.qdKesVazsIAgF8cKLv2PKNPlSkxH-o31HbVyMm4iQNY"
     //                 }),
     //                 body: JSON.stringify({
     //                     name: "New Admin",
@@ -380,19 +353,10 @@ describe("OwnerDashboard Component", () => {
     //     // Mock API responses
     //     axios.get.mockImplementation((url) => {
     //         if (url === "http://localhost:8000/api/library/getlib") {
-    //             return Promise.resolve({
-    //                 "Message": "Library Found",
-    //                 "library": {
-    //                     "id": 12,
-    //                     "name": "Test Library"
-    //                 }
-    //             });
+    //             return Promise.resolve({ data: { library: null } });
     //         }
     //         if (url === "http://localhost:8000/api/library/getAdmins") {
-    //             return Promise.resolve({
-    //                 "Message": "Admins found",
-    //                 "admins": []
-    //             });
+    //             return Promise.resolve({ data: { admins: [] } });
     //         }
     //         return Promise.reject(new Error("Not found"));
     //     });

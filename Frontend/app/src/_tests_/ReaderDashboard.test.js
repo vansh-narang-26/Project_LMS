@@ -48,7 +48,7 @@ describe("ReaderDashboard Component", () => {
     });
 
     test("renders reader dashboard with correct title", () => {
-        // Mock API response
+        
         axios.get.mockResolvedValueOnce({ data: { Books: [] } });
 
         render(
@@ -80,7 +80,6 @@ describe("ReaderDashboard Component", () => {
             </MemoryRouter>
         );
 
-        // Wait for the books to be displayed
         await waitFor(() => {
             expect(screen.getByText("Title Test Book")).toBeInTheDocument();
             expect(screen.getByText("Author Test Author")).toBeInTheDocument();

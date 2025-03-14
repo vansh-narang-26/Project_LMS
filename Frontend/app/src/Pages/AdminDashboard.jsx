@@ -111,8 +111,8 @@ const AdminDashboard = () => {
                 }
             );
             response.data?.Books && setBooks(response.data.Books);
-          //  console.log(response.data)
-          //  console.log(response.data?.Books)
+            //  console.log(response.data)
+            //  console.log(response.data?.Books)
         } catch (error) {
             console.log("Error fetching books:", error);
         }
@@ -128,8 +128,8 @@ const AdminDashboard = () => {
                     },
                 }
             );
-            // console.log(response.data.requests);
-            response.data?.requests && setRequests(response.data.requests);
+            console.log(response.data.message);
+            response.data?.message && setRequests(response.data.message);
         } catch (error) {
             console.log("Error fetching requests:", error);
         }
@@ -169,7 +169,7 @@ const AdminDashboard = () => {
 
     const rejectRequest = async (id) => {
         try {
-            await axios.put(`http://localhost:8000/api/admin/${id}/reject`,{},{
+            await axios.put(`http://localhost:8000/api/admin/${id}/reject`, {}, {
                 headers: {
                     "Content-Type": "application/json",
                     "Authorization": `Bearer ${token}`
@@ -226,7 +226,7 @@ const AdminDashboard = () => {
                             <input type="text" name="authors" placeholder="Authors" onChange={handleChange} required />
                             <input type="text" name="publisher" placeholder="Publisher" onChange={handleChange} required />
                             <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
-                            <button type="submit">Add Book</button>
+                            <button type="submit" data-testid="add-book-btn">Add Book</button>
                             <button type="button" onClick={closeAddBookModal}>Close</button>
                         </form>
                     </div>
@@ -242,21 +242,21 @@ const AdminDashboard = () => {
                 <input type="number" name="version" placeholder="Version" onChange={handleChange} required />
                 <button type="submit">Add Book</button>
             </form> */}
-              <h2>Requests</h2>
+            <h2>Requests</h2>
             <ul>
-                {requests.length>0 ?(requests.map((req, index) => (
+                {requests.length > 0 ? (requests.map((req, index) => (
                     <li key={index} data-testid="request">
                         Reader Id : {req.reader_id} requested book with ISBN : {req.book_id}
                         <div className="btn-req">
-                        <button onClick={() => approveRequest(req.req_id)} data-testid="approve">Approve</button>
-                        <button onClick={() => rejectRequest(req.req_id)} data-testid="reject">Reject</button>
+                            <button onClick={() => approveRequest(req.req_id)} data-testid="approve">Approve</button>
+                            <button onClick={() => rejectRequest(req.req_id)} data-testid="reject">Reject</button>
                         </div>
                     </li>
-                ))):(<div>No requests in the queue</div>)}
+                ))) : (<div>No requests in the queue</div>)}
             </ul>
             <div className="div-list-book">
-            <h2>List Books</h2>
-            <button className="" onClick={handleAddBookModal}>Add Book</button>
+                <h2>List Books</h2>
+                <button className="" onClick={handleAddBookModal}>Add Book</button>
             </div>
             {showUpdatedModal && (
                 <div className="modal">
@@ -316,7 +316,7 @@ const AdminDashboard = () => {
                 ))}
             </ul>
 
-          
+
             <Toaster
                 position="top-center"
                 reverseOrder={true}
